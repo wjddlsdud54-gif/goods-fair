@@ -1,0 +1,17 @@
+{
+  "name": "굿즈행사 캘린더",
+  "short_name": "굿즈행사",
+  "description": "일러스트·만화·캐릭터 굿즈 행사 일정을 한눈에",
+  "lang": "ko",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff8fb",
+  "theme_color": "#ffd6e7",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

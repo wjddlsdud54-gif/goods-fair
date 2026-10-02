@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- 문자 인코딩: 한글이 깨지지 않도록 UTF-8로 지정 -->
+  <meta charset="UTF-8" />
+  <!-- 모바일 화면 폭에 맞추기 (이게 없으면 폰에서 글씨가 아주 작게 보여요) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>굿즈행사 캘린더</title>
+  <meta name="description" content="일러스트레이션 페어, 일러스트 코리아, 코믹월드 등 굿즈·서브컬처 행사 일정을 한눈에" />
+
+  <!-- ===== PWA(홈 화면 설치) 관련 설정 ===== -->
+  <link rel="manifest" href="manifest.json" />
+  <!-- 폰 상단 상태바 색 (라이트/다크 각각) -->
+  <meta name="theme-color" content="#ffd6e7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1c1a24" media="(prefers-color-scheme: dark)" />
+  <!-- 아이폰(사파리)용 설정 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="굿즈행사" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+
+  <!-- ===== 폰트: Pretendard (무료 한글 폰트) ===== -->
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+
+  <!-- ===== 지도 라이브러리: Leaflet (API 키 필요 없음) ===== -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- 우리가 만든 디자인 파일 -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ================= 상단 영역 (제목 + 검색 + 필터) ================= -->
+  <header class="top">
+    <div class="top-inner">
+      <h1 class="logo">🎨 굿즈행사 캘린더</h1>
+      <p class="subtitle">일러스트·애니·게임·코스프레 행사 일정을 한눈에</p>
+
+      <!-- 검색창: 행사명·장소·주소로 검색 -->
+      <label class="search">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input id="searchInput" type="search" placeholder="행사명이나 장소로 검색" autocomplete="off" />
+      </label>
+
+      <!-- 분야 필터: data-category 값이 events.json의 categories 글자와 같아야 해요 -->
+      <div class="chips chips-category" id="categoryChips" role="group" aria-label="분야 필터">
+        <button class="chip is-active" data-category="all">✨ 전체 분야</button>
+        <button class="chip" data-category="일러스트">🎨 일러스트</button>
+        <button class="chip" data-category="애니·만화">📺 애니·만화</button>
+        <button class="chip" data-category="게임">🎮 게임</button>
+        <button class="chip" data-category="동인·코스프레">👘 동인·코스프레</button>
+        <button class="chip" data-category="캐릭터·굿즈">🧸 캐릭터·굿즈</button>
+      </div>
+
+      <!-- 날짜·지역 필터: data-filter 값으로 어떤 필터인지 구분해요 -->
+      <div class="chips" id="filterChips" role="group" aria-label="지역 필터">
+        <button class="chip is-active" data-filter="all">전체</button>
+        <button class="chip" data-filter="month">이번 달</button>
+        <button class="chip" data-filter="서울">서울</button>
+        <button class="chip" data-filter="경기">경기</button>
+        <button class="chip" data-filter="부산">부산</button>
+        <button class="chip" data-filter="etc">기타 지역</button>
+        <!-- '종료 제외'는 다른 필터와 같이 켤 수 있는 on/off 버튼 -->
+        <button class="chip chip-toggle" id="hideEndedBtn" aria-pressed="false">종료 제외</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 안내 띠: 예시 데이터가 있으면 경고, 아니면 마지막 업데이트 날짜를 보여줘요 -->
+  <div class="sample-banner" id="sampleBanner" hidden></div>
+
+  <!-- ================= 본문: 탭 3개 ================= -->
+  <main>
+    <!-- ① 목록 탭 -->
+    <section id="view-list" class="view is-active" aria-label="행사 목록">
+      <div id="listGrid" class="grid"></div>
+      <p id="listEmpty" class="empty" hidden>조건에 맞는 행사가 없어요 🥲</p>
+    </section>
+
+    <!-- ② 지도 탭 -->
+    <section id="view-map" class="view" aria-label="행사 지도">
+      <div id="allMap" class="all-map"></div>
+    </section>
+
+    <!-- ③ 즐겨찾기 탭 -->
+    <section id="view-fav" class="view" aria-label="즐겨찾기">
+      <div id="favGrid" class="grid"></div>
+      <p id="favEmpty" class="empty" hidden>아직 즐겨찾기한 행사가 없어요.<br />행사 상세에서 ☆ 를 눌러보세요!</p>
+    </section>
+  </main>
+
+  <!-- ================= 상세 화면 (카드를 누르면 아래에서 올라와요) ================= -->
+  <div class="detail-backdrop" id="detailBackdrop" hidden></div>
+  <article class="detail" id="detail" hidden aria-modal="true" role="dialog" aria-labelledby="detailTitle">
+    <!-- 내용은 app.js가 채워 넣어요 -->
+  </article>
+
+  <!-- ================= 하단 탭 메뉴 ================= -->
+  <nav class="tabbar" aria-label="메뉴">
+    <button class="tab is-active" data-tab="list"><span class="tab-ico">📋</span>목록</button>
+    <button class="tab" data-tab="map"><span class="tab-ico">🗺️</span>지도</button>
+    <button class="tab" data-tab="fav"><span class="tab-ico">⭐</span>즐겨찾기</button>
+  </nav>
+
+  <!-- 스크립트: Leaflet 먼저, 그다음 우리 코드 -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
