@@ -1,0 +1,13 @@
+# Netlify 설정 파일
+# events.json과 service-worker.js는 항상 최신 버전을 받도록 캐시를 끄기
+# (자동 업데이트한 행사 정보가 폰에 바로 보이게 하려고 넣었어요)
+
+[[headers]]
+  for = "/events.json"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/service-worker.js"
+  [headers.values]
+    Cache-Control = "no-cache"
