@@ -1,6 +1,6 @@
 {
   "_안내": "행사 정보는 공식 사이트·보도자료·행사 캘린더에서 모은 것입니다. 시간·가격이 비어 있는 행사는 아직 발표되지 않은 것이에요. 방문 전에 꼭 공식 공지를 확인하세요.",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-10-08",
   "events": [
     {
       "id": "hoyoland-2026",
@@ -234,7 +234,7 @@
       "description": "일러스트 작가와 브랜드의 작품·굿즈를 보고 사는 일러스트 전시 행사.",
       "image": "",
       "source": "https://comicw.net/c/409",
-      "links": { "homepage": "https://illustrationkorea.co.kr/incheon/", "instagram": "", "x": "", "ticket": "" }
+      "links": { "homepage": "https://illustrationkorea.co.kr/incheon/", "instagram": "https://www.instagram.com/illustrationkorea/", "x": "", "ticket": "" }
     },
     {
       "id": "bif-v7",
@@ -361,6 +361,24 @@
       "image": "",
       "source": "https://www.agfkorea.com/event?idx=1",
       "links": { "homepage": "https://www.agfkorea.com/", "instagram": "", "x": "https://x.com/AGF_Korea", "ticket": "https://www.agfkorea.com/ticket" }
+    },
+    {
+      "id": "illustkorea-suwon-2026",
+      "name": "2026 수원 일러스트코리아",
+      "categories": ["일러스트"],
+      "startDate": "2026-12-11",
+      "endDate": "2026-12-13",
+      "hours": "",
+      "venue": "수원메쎄",
+      "address": "경기 수원시 권선구 세화로134번길 37",
+      "lat": 37.2652,
+      "lng": 126.9997,
+      "region": "경기",
+      "price": "",
+      "description": "일러스트·디자인·아트 작가와 브랜드의 작품·굿즈를 보고 사는 일러스트 전시 행사.\n홈페이지에서 사전 등록할 수 있어요.",
+      "image": "",
+      "source": "https://illustrationkorea.co.kr/suwon/",
+      "links": { "homepage": "https://illustrationkorea.co.kr/suwon/", "instagram": "https://www.instagram.com/illustrationkorea/", "x": "", "ticket": "" }
     },
     {
       "id": "comicworld-winter-2026",
