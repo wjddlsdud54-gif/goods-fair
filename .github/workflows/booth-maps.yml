@@ -1,0 +1,42 @@
+# 부스 배치도 그림 자동 저장
+# events.json이 바뀔 때마다(그리고 매일 한 번) 실행돼서
+# boothMap.imageUrl 에 적힌 공식 배치도 그림을 maps/ 폴더에 저장해요.
+name: 부스 배치도 그림 저장
+
+on:
+  push:
+    branches: [main]
+    paths: [events.json]
+  schedule:
+    - cron: "40 15 * * *"   # 한국 시간 매일 00:40 (자정 업데이트 뒤)
+  workflow_dispatch: {}      # GitHub 화면에서 직접 실행도 가능
+
+permissions:
+  contents: write
+
+concurrency:
+  group: booth-maps
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 배치도 그림 내려받기
+        run: python scripts/fetch_booth_maps.py
+      - name: 바뀐 게 있으면 저장
+        run: |
+          if [ -n "$(git status --porcelain events.json maps)" ]; then
+            git config user.name "booth-map-bot"
+            git config user.email "booth-map-bot@users.noreply.github.com"
+            git add events.json maps
+            git commit -m "부스 배치도 그림 저장 (자동)"
+            git pull --rebase origin main
+            git push
+          else
+            echo "새로 저장할 그림이 없어요"
+          fi
