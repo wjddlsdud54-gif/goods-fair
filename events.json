@@ -1,6 +1,6 @@
 {
   "_안내": "행사 정보는 공식 사이트·보도자료·행사 캘린더에서 모은 것입니다. 시간·가격이 비어 있는 행사는 아직 발표되지 않은 것이에요. 방문 전에 꼭 공식 공지를 확인하세요.",
-  "updatedAt": "2026-10-08",
+  "updatedAt": "2026-10-10",
   "events": [
     {
       "id": "hoyoland-2026",
@@ -356,10 +356,10 @@
       "lat": 37.6688,
       "lng": 126.7453,
       "region": "경기",
-      "price": "",
+      "price": "1일권 29,000원 / 3일권 65,000원 (얼리버드 1일권 24,000원·3일권 55,000원, 10월 14일부터 판매 / 일반 티켓 11월 12일부터 판매)",
       "description": "국내 최대 애니메이션·게임 서브컬처 축제. 전시, 팝업스토어, 아티스트 공연, 콜라보 카페, 코스프레까지.\n서울역에서 GTX-A로 약 20분.",
       "image": "",
-      "source": "https://www.agfkorea.com/event?idx=1",
+      "source": "https://www.pennmike.com/news/articleView.html?idxno=127786",
       "links": { "homepage": "https://www.agfkorea.com/", "instagram": "", "x": "https://x.com/AGF_Korea", "ticket": "https://www.agfkorea.com/ticket" }
     },
     {
