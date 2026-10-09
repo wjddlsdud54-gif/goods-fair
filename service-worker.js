@@ -7,7 +7,7 @@
      아래 CACHE_VERSION 숫자를 하나 올려주세요 (v1 → v2).
      그래야 사용자 폰에 새 버전이 적용돼요.
    ========================================================= */
-const CACHE_VERSION = 'v5';
+const CACHE_VERSION = 'v6';
 const CACHE_NAME = 'goodsfair-' + CACHE_VERSION;
 
 // 처음 설치할 때 저장해둘 파일 목록

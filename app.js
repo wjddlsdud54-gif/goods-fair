@@ -567,9 +567,9 @@ function boothHTML(ev) {
       <summary><i class="gdot"></i>${esc(g.name)} <span class="gcount">${(g.booths || []).length}</span></summary>
       <ul class="booth-list">
         ${(g.booths || []).map((b) => `
-          <li class="booth${b.pos ? ' has-pos' : ''}" ${b.pos ? `tabindex="0" role="button" data-pos="${esc(b.pos.join(','))}" aria-label="${esc(b.code + ' ' + b.name)} 배치도에서 위치 보기"` : ''} data-code="${esc(String(b.code).toLowerCase().replace(/\s/g, ''))}" data-search="${esc((b.code + ' ' + b.name).toLowerCase().replace(/\s/g, ''))}">
+          <li class="booth${b.pos ? ' has-pos' : ''}" ${b.pos ? `tabindex="0" role="button" data-pos="${esc(b.pos.join(','))}" aria-label="${esc(b.code + ' ' + b.name)} 배치도에서 위치 보기"` : ''} data-code="${esc(String(b.code).toLowerCase().replace(/\s/g, ''))}" data-search="${esc((b.code + ' ' + (b.name || g.name)).toLowerCase().replace(/\s/g, ''))}">
             <b class="booth-code">${esc(b.code)}</b>
-            <span class="booth-name">${esc(b.name)}</span>
+            <span class="booth-name${b.name ? '' : ' is-blank'}">${esc(b.name || g.name)}</span>
             <span class="booth-size">${esc(b.size || '')}${b.pos ? '<svg class="pin-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>' : ''}</span>
           </li>`).join('')}
       </ul>

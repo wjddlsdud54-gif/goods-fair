@@ -469,6 +469,7 @@ body.no-scroll { overflow: hidden; }
   background: var(--gcolor); color: #fff; white-space: nowrap;
 }
 .booth-name { font-weight: 600; word-break: keep-all; }
+.booth-name.is-blank { font-weight: 500; color: var(--muted); }
 .booth-size { color: var(--muted); font-size: 0.74rem; white-space: nowrap; }
 
 /* 배치도 크게 보기 화면 */
