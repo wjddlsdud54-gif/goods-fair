@@ -132,6 +132,30 @@ function cats(ev) {
   if (Array.isArray(ev.categories)) return ev.categories;
   return ev.category ? [ev.category] : [];
 }
+// 분야별 티켓 색 (style.css의 .tone-… 와 짝이에요)
+const CATEGORY_TONE = {
+  '일러스트': 'illust', '애니·만화': 'anime', '게임': 'game',
+  '동인·코스프레': 'cos', '캐릭터·굿즈': 'goods', '문화': 'culture'
+};
+function toneFor(ev) {
+  return 'tone-' + (CATEGORY_TONE[cats(ev)[0]] || 'illust');
+}
+// 짧은 날짜: 10.10 토
+function fmtShort(str) {
+  const d = parseDate(str);
+  return `${d.getMonth() + 1}.${String(d.getDate()).padStart(2, '0')} ${WEEK[d.getDay()]}`;
+}
+function fmtShortRange(ev) {
+  return ev.startDate === ev.endDate ? fmtShort(ev.startDate) : `${fmtShort(ev.startDate)} – ${fmtShort(ev.endDate)}`;
+}
+// 티켓 오른쪽(떼는 부분)에 크게 들어갈 글자
+function stubText(ev) {
+  const status = getStatus(ev);
+  if (status === 'ongoing') return '오늘';
+  if (status === 'ended') return '종료';
+  return getDday(ev);
+}
+
 function emojiFor(ev) {
   return CATEGORY_EMOJI[cats(ev)[0]] || EMOJIS[pickIndex(ev.id)];
 }
@@ -174,7 +198,7 @@ async function loadEvents() {
     banner.innerHTML = '⚠️ 일부 날짜·장소는 <b>예시값</b>이에요. <code>events.json</code>에서 실제 정보로 바꿔주세요.';
     banner.hidden = false;
   } else if (state.updatedAt) {
-    banner.innerHTML = `🔄 <b>${esc(state.updatedAt)}</b> 기준 정보예요. 방문 전에 공식 공지를 꼭 확인하세요!`;
+    banner.innerHTML = `${esc(state.updatedAt.replace(/-/g, '.'))} 기준 정보예요. 방문 전에 공식 공지를 꼭 확인하세요.`;
     banner.classList.add('is-info');
     banner.hidden = false;
   }
@@ -239,23 +263,24 @@ function matchesFilter(ev) {
 // ---------------------------------------------------------
 function cardHTML(ev) {
   const status = getStatus(ev);
-  const dday = getDday(ev);
   const isFav = state.favorites.has(ev.id);
+  // 티켓 모양: 왼쪽(본권) + 점선 + 오른쪽(떼는 부분)
   return `
-    <button class="card ${status === 'ended' ? 'is-ended' : ''}" data-id="${esc(ev.id)}"
-            aria-label="${esc(ev.name)} 상세 보기">
-      <div class="card-cover" style="${coverStyle(ev)}">
-        ${coverEmoji(ev)}
-        <div class="badges">
-          ${dday ? `<span class="badge badge-dday">${dday}</span>` : ''}
-          <span class="badge badge-${status}">${STATUS_LABEL[status]}</span>
-        </div>
-      </div>
-      <div class="card-body">
+    <button class="ticket ${toneFor(ev)} is-${status}" data-id="${esc(ev.id)}"
+            aria-label="${esc(ev.name)}, ${fmtShortRange(ev)}, ${STATUS_LABEL[status]} — 상세 보기">
+      <div class="ticket-main">
         ${catTags(ev)}
-        <h2 class="card-title">${esc(ev.name)}</h2>
-        <p class="card-meta">📅 ${fmtRange(ev)}</p>
-        <p class="card-meta">📍 ${esc(ev.venue)}${isFav ? '<span class="fav-mark" aria-label="즐겨찾기">⭐</span>' : ''}</p>
+        <h2 class="ticket-name">${esc(ev.name)}</h2>
+        <dl class="ticket-fields">
+          <div><dt>날짜</dt><dd>${fmtShortRange(ev)}</dd></div>
+          <div><dt>장소</dt><dd>${esc(ev.venue)}</dd></div>
+        </dl>
+        ${status === 'ended' ? '<span class="stamp" aria-hidden="true">입장 마감</span>' : '<span class="barcode" aria-hidden="true"></span>'}
+      </div>
+      <div class="ticket-stub">
+        ${isFav ? '<span class="stub-fav" aria-label="찜한 행사">★</span>' : ''}
+        <strong class="stub-big">${stubText(ev)}</strong>
+        <span class="stub-small">${status === 'upcoming' ? fmtShort(ev.startDate) : status === 'ongoing' ? '진행 중' : '~' + fmtShort(ev.endDate)}</span>
       </div>
     </button>`;
 }
@@ -264,7 +289,7 @@ function cardHTML(ev) {
 function catTags(ev) {
   const list = cats(ev);
   if (!list.length) return '';
-  return `<div class="cat-tags">${list.map((c) => `<span class="cat-tag">#${esc(c)}</span>`).join('')}</div>`;
+  return `<p class="cat-tags">${list.map((c) => `<span>#${esc(c)}</span>`).join(' ')}</p>`;
 }
 
 // 목록 탭 그리기
@@ -273,6 +298,19 @@ function renderList() {
   const list = sortEvents(state.events.filter(matchesFilter));
   $('#listGrid').innerHTML = list.map(cardHTML).join('');
   $('#listEmpty').hidden = list.length > 0;
+  renderHero();
+}
+
+// 상단 큰 제목: 오늘 열리는 행사 수, 없으면 다음 행사까지 남은 날
+function renderHero() {
+  const ongoing = state.events.filter((ev) => getStatus(ev) === 'ongoing');
+  const next = sortEvents(state.events.filter((ev) => getStatus(ev) === 'upcoming'))[0];
+  let title = '굿즈행사 캘린더';
+  if (ongoing.length) title = `오늘 열리는<br>행사 ${ongoing.length}곳`;
+  else if (next) title = `다음 행사까지<br>${getDday(next)}`;
+  $('#heroTitle').innerHTML = title;
+  const upcomingCount = state.events.filter((ev) => getStatus(ev) !== 'ended').length;
+  $('#heroSub').textContent = `다가오는 일러스트·애니·게임·코스프레 행사 ${upcomingCount}개`;
 }
 
 // 즐겨찾기 탭 그리기
@@ -299,10 +337,10 @@ function makePin(ev) {
   const status = getStatus(ev);
   return L.divIcon({
     className: '',
-    html: `<div class="pin is-${status}"><span>${emojiFor(ev)}</span></div>`,
-    iconSize: [34, 34],
-    iconAnchor: [17, 34],   // 핀의 뾰족한 끝이 위치를 가리키도록
-    popupAnchor: [0, -32]
+    html: `<div class="pin ${toneFor(ev)} is-${status}"><span>${status === 'ongoing' ? '오늘' : (getDday(ev) || '종료')}</span></div>`,
+    iconSize: [54, 30],
+    iconAnchor: [27, 38],   // 꼬리 끝이 위치를 가리키도록
+    popupAnchor: [0, -36]
   });
 }
 
@@ -342,13 +380,13 @@ function renderAllMap() {
     const main = sorted[0];
     const popup = sorted.map((ev) => {
       const status = getStatus(ev);
-      return `<div class="popup-card">
-          <span class="badge badge-${status}">${STATUS_LABEL[status]}</span>
+      return `<div class="popup-card ${toneFor(ev)}">
+          <span class="popup-status">${stubText(ev)}</span>
           <h3>${esc(ev.name)}</h3>
-          <p>📅 ${fmtRange(ev)}<br>📍 ${esc(ev.venue)}</p>
-          <button data-open="${esc(ev.id)}">자세히 보기</button>
+          <p>${fmtShortRange(ev)}<br>${esc(ev.venue)}</p>
+          <button data-open="${esc(ev.id)}">티켓 보기</button>
         </div>`;
-    }).join('<hr style="border:0;border-top:1px solid #eee;margin:10px 0">');
+    }).join('<hr class="popup-sep">');
     L.marker([main.lat, main.lng], { icon: makePin(main) }).bindPopup(popup).addTo(allMapLayer);
     bounds.push([main.lat, main.lng]);
   });
@@ -435,10 +473,10 @@ function detailHTML(ev) {
 
   // 관련 링크: 값이 있는 것만 버튼으로 만들기
   const linkDefs = [
-    ['homepage', '🏠 공식 홈페이지'],
-    ['instagram', '📸 인스타그램'],
-    ['x', '𝕏 X(트위터)'],
-    ['ticket', '🎟️ 예매하기']
+    ['ticket', '예매하기'],
+    ['homepage', '공식 홈페이지'],
+    ['instagram', '인스타그램'],
+    ['x', 'X(트위터)']
   ];
   const linkBtns = linkDefs
     .filter(([key]) => links[key])
@@ -448,50 +486,48 @@ function detailHTML(ev) {
 
   // 정보 표: 값이 있는 줄만 보여주기
   const rows = [
-    ['기간', ev.startDate === ev.endDate ? fmtDate(ev.startDate) : `${fmtDate(ev.startDate)} ~ ${fmtDate(ev.endDate)}`],
-    ['운영 시간', ev.hours],
+    ['날짜', ev.startDate === ev.endDate ? fmtDate(ev.startDate) : `${fmtDate(ev.startDate)} ~ ${fmtDate(ev.endDate)}`],
+    ['시간', ev.hours],
     ['장소', ev.venue],
     ['주소', ev.address],
     ['입장료', ev.price]
-  ].filter(([, v]) => v).map(([k, v]) => `<div class="info-row"><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('');
+  ].filter(([, v]) => v).map(([k, v]) => `<div class="field${k === '주소' || k === '날짜' ? ' wide' : ''}"><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('');
 
   return `
-    <div class="detail-cover" style="${coverStyle(ev)}">
-      ${coverEmoji(ev)}
-      <button class="detail-close" id="detailClose" aria-label="닫기">✕</button>
-    </div>
-    <div class="detail-content">
-      <div class="badges">
-        ${dday ? `<span class="badge badge-dday">${dday}</span>` : ''}
-        <span class="badge badge-${status}">${STATUS_LABEL[status]}</span>
-        ${ev.isSample ? '<span class="badge badge-ended">예시 데이터</span>' : ''}
-      </div>
-      ${catTags(ev)}
-      <div class="detail-head">
+    <div class="sheet-ticket ${toneFor(ev)} is-${status}">
+      <header class="sheet-stub">
+        <button class="detail-close" id="detailClose" aria-label="닫기">✕</button>
+        <strong class="sheet-big">${stubText(ev)}</strong>
+        <span class="sheet-status">${STATUS_LABEL[status]}${ev.isSample ? ' · 예시 데이터' : ''}</span>
+      </header>
+      <div class="sheet-main">
+        ${catTags(ev)}
         <h2 class="detail-title" id="detailTitle">${esc(ev.name)}</h2>
-        <button class="fav-btn" id="favBtn" aria-pressed="${isFav}">${isFav ? '★ 저장됨' : '☆ 즐겨찾기'}</button>
+        <dl class="sheet-fields">${rows}</dl>
+        <button class="fav-btn" id="favBtn" aria-pressed="${isFav}">${isFav ? '★ 찜한 행사' : '☆ 찜하기'}</button>
+        ${status === 'ended' ? '<span class="stamp stamp-lg" aria-hidden="true">입장 마감</span>' : '<span class="barcode barcode-lg" aria-hidden="true"></span>'}
       </div>
+    </div>
 
-      <dl class="info">${rows}</dl>
-
+    <div class="detail-content">
       ${ev.description ? `<p class="desc">${esc(ev.description)}</p>` : ''}
 
-      <h3 class="section-title">📅 일정 저장</h3>
+      <h3 class="section-title">일정 저장</h3>
       <div class="btn-row">
-        <button class="btn" id="icsBtn">📥 캘린더 파일(.ics)</button>
-        <a class="btn" href="${googleCalendarURL(ev)}" target="_blank" rel="noopener">📆 구글 캘린더</a>
+        <button class="btn" id="icsBtn">캘린더 파일 받기</button>
+        <a class="btn" href="${googleCalendarURL(ev)}" target="_blank" rel="noopener">구글 캘린더에 추가</a>
       </div>
 
-      <h3 class="section-title">📍 오시는 길</h3>
+      <h3 class="section-title">오시는 길</h3>
       ${hasCoords(ev) ? '<div class="detail-map" id="detailMap"></div>' : ''}
       <div class="btn-row">
         <a class="btn btn-kakao" href="${kakaoURL(ev)}" target="_blank" rel="noopener">카카오맵 길찾기</a>
         <a class="btn btn-naver" href="${naverURL(ev)}" target="_blank" rel="noopener">네이버지도 길찾기</a>
       </div>
 
-      ${linkBtns ? `<h3 class="section-title">🔗 관련 링크</h3><div class="btn-row">${linkBtns}</div>` : ''}
+      ${linkBtns ? `<h3 class="section-title">관련 링크</h3><div class="btn-row">${linkBtns}</div>` : ''}
 
-      ${ev.source ? `<p class="source">📰 <a href="${esc(ev.source)}" target="_blank" rel="noopener">정보 출처 보기</a> · 일정은 바뀔 수 있으니 공식 공지를 확인하세요</p>` : ''}
+      ${ev.source ? `<p class="source"><a href="${esc(ev.source)}" target="_blank" rel="noopener">정보 출처 보기</a> — 일정은 바뀔 수 있으니 공식 공지를 확인하세요.</p>` : ''}
     </div>`;
 }
 
@@ -567,7 +603,7 @@ function toggleFavorite(id) {
   const on = state.favorites.has(id);
   if (btn) {
     btn.setAttribute('aria-pressed', on);
-    btn.textContent = on ? '★ 저장됨' : '☆ 즐겨찾기';
+    btn.textContent = on ? '★ 찜한 행사' : '☆ 찜하기';
   }
   renderList();
   renderFavorites();
@@ -627,7 +663,7 @@ function bindEvents() {
 
   // 카드 클릭 (목록·즐겨찾기 모두) — 부모에 한 번만 걸어두는 방식
   document.addEventListener('click', (e) => {
-    const card = e.target.closest('.card[data-id]');
+    const card = e.target.closest('.ticket[data-id]');
     if (card) return goToEvent(card.dataset.id);
     const openBtn = e.target.closest('[data-open]'); // 지도 팝업의 '자세히 보기'
     if (openBtn) return goToEvent(openBtn.dataset.open);

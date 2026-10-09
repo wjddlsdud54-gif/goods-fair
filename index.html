@@ -11,8 +11,8 @@
   <!-- ===== PWA(홈 화면 설치) 관련 설정 ===== -->
   <link rel="manifest" href="manifest.json" />
   <!-- 폰 상단 상태바 색 (라이트/다크 각각) -->
-  <meta name="theme-color" content="#ffd6e7" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#1c1a24" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#DFF5EE" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#12201D" media="(prefers-color-scheme: dark)" />
   <!-- 아이폰(사파리)용 설정 -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="굿즈행사" />
@@ -31,31 +31,33 @@
 </head>
 <body>
 
-  <!-- ================= 상단 영역 (제목 + 검색 + 필터) ================= -->
+  <!-- ================= 상단 영역 (큰 제목 + 검색 + 필터) ================= -->
   <header class="top">
     <div class="top-inner">
-      <h1 class="logo">🎨 굿즈행사 캘린더</h1>
-      <p class="subtitle">일러스트·애니·게임·코스프레 행사 일정을 한눈에</p>
+      <p class="brand">굿즈행사 캘린더</p>
+      <!-- 큰 제목: app.js가 "오늘 열리는 행사 N곳"처럼 바꿔 넣어요 -->
+      <h1 class="hero" id="heroTitle">굿즈행사 캘린더</h1>
+      <p class="hero-sub" id="heroSub">일러스트·애니·게임·코스프레 행사 일정을 한눈에</p>
 
       <!-- 검색창: 행사명·장소·주소로 검색 -->
       <label class="search">
-        <span class="search-icon" aria-hidden="true">🔍</span>
-        <input id="searchInput" type="search" placeholder="행사명이나 장소로 검색" autocomplete="off" />
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input id="searchInput" type="search" placeholder="행사명이나 장소로 검색" autocomplete="off" aria-label="행사 검색" />
       </label>
 
       <!-- 분야 필터: data-category 값이 events.json의 categories 글자와 같아야 해요 -->
       <div class="chips chips-category" id="categoryChips" role="group" aria-label="분야 필터">
-        <button class="chip is-active" data-category="all">✨ 전체 분야</button>
-        <button class="chip" data-category="일러스트">🎨 일러스트</button>
-        <button class="chip" data-category="애니·만화">📺 애니·만화</button>
-        <button class="chip" data-category="게임">🎮 게임</button>
-        <button class="chip" data-category="동인·코스프레">👘 동인·코스프레</button>
-        <button class="chip" data-category="캐릭터·굿즈">🧸 캐릭터·굿즈</button>
+        <button class="chip is-active" data-category="all">전체 분야</button>
+        <button class="chip" data-category="일러스트"><i class="dot tone-illust"></i>일러스트</button>
+        <button class="chip" data-category="애니·만화"><i class="dot tone-anime"></i>애니·만화</button>
+        <button class="chip" data-category="게임"><i class="dot tone-game"></i>게임</button>
+        <button class="chip" data-category="동인·코스프레"><i class="dot tone-cos"></i>동인·코스프레</button>
+        <button class="chip" data-category="캐릭터·굿즈"><i class="dot tone-goods"></i>캐릭터·굿즈</button>
       </div>
 
       <!-- 날짜·지역 필터: data-filter 값으로 어떤 필터인지 구분해요 -->
-      <div class="chips" id="filterChips" role="group" aria-label="지역 필터">
-        <button class="chip is-active" data-filter="all">전체</button>
+      <div class="chips chips-region" id="filterChips" role="group" aria-label="지역 필터">
+        <button class="chip is-active" data-filter="all">전국</button>
         <button class="chip" data-filter="month">이번 달</button>
         <button class="chip" data-filter="서울">서울</button>
         <button class="chip" data-filter="경기">경기</button>
@@ -67,15 +69,15 @@
     </div>
   </header>
 
-  <!-- 안내 띠: 예시 데이터가 있으면 경고, 아니면 마지막 업데이트 날짜를 보여줘요 -->
-  <div class="sample-banner" id="sampleBanner" hidden></div>
+  <!-- 안내 줄: 예시 데이터가 있으면 경고, 아니면 마지막 업데이트 날짜를 보여줘요 -->
+  <p class="sample-banner" id="sampleBanner" hidden></p>
 
   <!-- ================= 본문: 탭 3개 ================= -->
   <main>
     <!-- ① 목록 탭 -->
     <section id="view-list" class="view is-active" aria-label="행사 목록">
       <div id="listGrid" class="grid"></div>
-      <p id="listEmpty" class="empty" hidden>조건에 맞는 행사가 없어요 🥲</p>
+      <p id="listEmpty" class="empty" hidden>조건에 맞는 행사가 없어요.<br />필터를 바꾸거나 검색어를 지워보세요.</p>
     </section>
 
     <!-- ② 지도 탭 -->
@@ -84,9 +86,9 @@
     </section>
 
     <!-- ③ 즐겨찾기 탭 -->
-    <section id="view-fav" class="view" aria-label="즐겨찾기">
+    <section id="view-fav" class="view" aria-label="찜한 행사">
       <div id="favGrid" class="grid"></div>
-      <p id="favEmpty" class="empty" hidden>아직 즐겨찾기한 행사가 없어요.<br />행사 상세에서 ☆ 를 눌러보세요!</p>
+      <p id="favEmpty" class="empty" hidden>아직 찜한 행사가 없어요.<br />티켓을 열고 ☆ 찜하기를 눌러보세요.</p>
     </section>
   </main>
 
@@ -98,9 +100,12 @@
 
   <!-- ================= 하단 탭 메뉴 ================= -->
   <nav class="tabbar" aria-label="메뉴">
-    <button class="tab is-active" data-tab="list"><span class="tab-ico">📋</span>목록</button>
-    <button class="tab" data-tab="map"><span class="tab-ico">🗺️</span>지도</button>
-    <button class="tab" data-tab="fav"><span class="tab-ico">⭐</span>즐겨찾기</button>
+    <button class="tab is-active" data-tab="list">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z"/><path d="M15 5v12" stroke-dasharray="2 2"/></svg>티켓</button>
+    <button class="tab" data-tab="map">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>지도</button>
+    <button class="tab" data-tab="fav">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>찜한 행사</button>
   </nav>
 
   <!-- 스크립트: Leaflet 먼저, 그다음 우리 코드 -->

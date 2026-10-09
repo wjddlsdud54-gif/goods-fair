@@ -1,246 +1,385 @@
 /* =========================================================
-   style.css — 앱의 모든 디자인(색, 크기, 배치)을 담당해요
+   style.css — "입장권 × 다꾸 모눈종이" 디자인
+   행사 하나 = 입장 티켓 한 장. 모눈종이 다이어리에 마스킹테이프로 붙인 느낌.
+   왼쪽은 본권(행사 정보), 점선 너머 오른쪽은 떼는 부분(D-day).
+
    색을 바꾸고 싶으면 아래 :root 안의 값만 고치면 앱 전체가 바뀌어요.
    ========================================================= */
 
-/* ----- 1. 색상 변수 (라이트 모드) ----- */
+/* ----- 1. 색상·크기 변수 (라이트 모드) ----- */
 :root {
-  --bg: #fff8fb;            /* 전체 배경 (아주 연한 분홍) */
-  --surface: #ffffff;       /* 카드 배경 */
-  --text: #2d2a35;          /* 기본 글자색 */
-  --muted: #7c7689;         /* 흐린 글자색 */
-  --line: #f0e6ee;          /* 테두리 선 */
-  --primary: #ff7eb3;       /* 포인트 색 (핑크) */
-  --primary-soft: #ffe3ef;  /* 연한 포인트 색 */
-  --mint: #c9f2e3;          /* 진행 중 배지 */
-  --mint-text: #16795a;
-  --sky: #dcecff;           /* 예정 배지 */
-  --sky-text: #2f5fa8;
-  --gray: #ececf1;          /* 종료 배지 */
-  --gray-text: #6d6d7a;
-  --shadow: 0 6px 20px rgba(255, 126, 179, 0.13), 0 2px 6px rgba(45, 42, 53, 0.05);
-  --radius: 22px;           /* 카드 모서리 둥글기 */
-  --tabbar-h: 64px;         /* 하단 탭 높이 */
+  --bg: #DFF5EE;        /* 바탕: 민트 모눈종이 */
+  --grid: rgba(27, 35, 64, 0.07); /* 모눈 선 */
+  --paper: #FFFFFF;     /* 티켓 종이 */
+  --ink: #1B2340;       /* 글자·테두리 (남색 잉크) */
+  --muted: #5D6785;     /* 흐린 글자 */
+  --line: #C9D1DE;      /* 점선·구분선 */
+  --lift: rgba(20, 80, 70, 0.16); /* 티켓 아래 그림자(두께감) */
+  --hero-sub: #3D6B63;  /* 큰 제목 아래 글자 */
+  --accent: #FF5FA2;    /* 선택된 버튼·탭 (형광펜 핑크) */
+  --marker: #FFE27A;    /* 형광펜 노랑 */
+  --tabbar: #FFFFFF;
+  /* 마스킹테이프 3종 */
+  --tape-1: repeating-linear-gradient(45deg, #FFB3CF 0 6px, #FFD3E2 6px 12px);
+  --tape-2: repeating-linear-gradient(90deg, #9FD8FF 0 5px, #CDEBFF 5px 10px);
+  --tape-3: repeating-linear-gradient(45deg, #FFE27A 0 6px, #FFF1B8 6px 12px);
+
+  /* 분야별 티켓 색 — 떼는 부분·지도 핀·필터 점에 쓰여요 */
+  --illust: #FF5FA2;    /* 일러스트: 핑크 */
+  --anime: #3D6BFF;     /* 애니·만화: 파랑 */
+  --game: #FFC93C;      /* 게임: 노랑 */
+  --cos: #8B5CF6;       /* 동인·코스프레: 보라 */
+  --goods: #FF8A3D;     /* 캐릭터·굿즈: 주황 */
+  --culture: #12A5A5;   /* 문화: 청록 */
+  --ended: #AEB6C7;     /* 종료: 회색 */
+
+  --radius: 12px;
+  --tabbar-h: 62px;
   color-scheme: light;
 }
 
-/* ----- 2. 다크 모드 색상 (폰이 다크모드면 자동 적용) ----- */
+/* ----- 2. 다크 모드 (폰이 다크모드면 자동 적용) ----- */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #17151d;
-    --surface: #221f2b;
-    --text: #f1eef6;
-    --muted: #a39fb0;
-    --line: #34303f;
-    --primary: #ff8fbf;
-    --primary-soft: #3d2533;
-    --mint: #1f4238;
-    --mint-text: #8fe6c4;
-    --sky: #1f2f4a;
-    --sky-text: #a9c8ff;
-    --gray: #2e2b36;
-    --gray-text: #a09cab;
-    --shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    --bg: #12201D;
+    --grid: rgba(255, 255, 255, 0.05);
+    --paper: #1E2B30;
+    --hero-sub: #8FC2B6;
+    --accent: #FF6FAE;
+    --marker: #8C7A2E;
+    --tabbar: #172623;
+    --tape-1: repeating-linear-gradient(45deg, #B9658A 0 6px, #94506F 6px 12px);
+    --tape-2: repeating-linear-gradient(90deg, #4E86A8 0 5px, #3D6C88 5px 10px);
+    --tape-3: repeating-linear-gradient(45deg, #A8923A 0 6px, #8A782F 6px 12px);
+    --ink: #E8ECF6;
+    --muted: #9AA3BF;
+    --line: #3A4260;
+    --lift: rgba(0, 0, 0, 0.45);
+    --illust: #F2559A;
+    --anime: #5B83FF;
+    --game: #F2BE38;
+    --cos: #9A72F7;
+    --goods: #F5843D;
+    --culture: #1DB3B3;
+    --ended: #59617A;
     color-scheme: dark;
   }
 }
+
+/* 분야 색을 하나의 변수(--tone)로 바꿔주는 클래스 */
+.tone-illust  { --tone: var(--illust);  --on-tone: #fff; }
+.tone-anime   { --tone: var(--anime);   --on-tone: #fff; }
+.tone-game    { --tone: var(--game);    --on-tone: #1B2340; }
+.tone-cos     { --tone: var(--cos);     --on-tone: #fff; }
+.tone-goods   { --tone: var(--goods);   --on-tone: #fff; }
+.tone-culture { --tone: var(--culture); --on-tone: #fff; }
+.is-ended     { --tone: var(--ended);   --on-tone: #fff; }
 
 /* ----- 3. 기본 설정 ----- */
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body {
   font-family: "Pretendard Variable", Pretendard, "Noto Sans KR", -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  /* 모눈종이: 가로줄 + 세로줄 20px 간격 */
+  background:
+    linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 20px 20px,
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 20px 20px,
+    var(--bg);
+  color: var(--ink);
   line-height: 1.5;
-  /* 하단 탭에 내용이 가려지지 않도록 아래 여백 */
-  padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 16px);
+  font-feature-settings: "tnum"; /* 숫자 폭을 같게 → 날짜·D-day가 가지런해요 */
+  padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 20px);
   -webkit-tap-highlight-color: transparent;
 }
 button { font: inherit; color: inherit; cursor: pointer; }
 a { color: inherit; }
+:focus-visible { outline: 3px solid var(--anime); outline-offset: 2px; }
 
 /* ----- 4. 상단 영역 ----- */
-.top {
-  background: linear-gradient(160deg, #ffd6e7 0%, #e5dcff 55%, #d4f1ff 100%);
-  padding: calc(18px + env(safe-area-inset-top)) 16px 14px;
-  border-radius: 0 0 28px 28px;
-}
-@media (prefers-color-scheme: dark) {
-  .top { background: linear-gradient(160deg, #3a2434 0%, #2c2640 55%, #1f2d3a 100%); }
-}
+.top { padding: calc(22px + env(safe-area-inset-top)) 16px 4px; }
 .top-inner { max-width: 1100px; margin: 0 auto; }
-.logo { margin: 0; font-size: 1.45rem; font-weight: 800; letter-spacing: -0.02em; }
-.subtitle { margin: 2px 0 14px; color: var(--muted); font-size: 0.9rem; }
+.brand {
+  display: inline-block; margin: 0 0 14px; padding: 1px 9px;
+  font-size: 0.82rem; font-weight: 800; color: var(--ink);
+  background: var(--marker); transform: rotate(-2deg);
+}
+.hero {
+  margin: 0; font-size: clamp(1.9rem, 8vw, 2.6rem); font-weight: 900;
+  line-height: 1.12; letter-spacing: -0.035em;
+}
+.hero-sub { margin: 8px 0 18px; color: var(--hero-sub); font-size: 0.9rem; }
 
-/* 검색창 */
+/* 검색창 — 테두리만 있는 네모 칸 */
 .search {
-  display: flex; align-items: center; gap: 8px;
-  background: var(--surface); border-radius: 999px;
-  padding: 0 16px; height: 46px; box-shadow: var(--shadow);
+  display: flex; align-items: center; gap: 10px;
+  height: 48px; padding: 0 14px;
+  background: var(--paper); border: 2px solid var(--ink); border-radius: 10px;
 }
+.search-icon { width: 20px; height: 20px; fill: none; stroke: var(--muted); stroke-width: 2.2; stroke-linecap: round; flex: none; }
 .search input {
-  flex: 1; border: 0; outline: 0; background: transparent;
-  font: inherit; font-size: 1rem; color: var(--text); min-width: 0;
+  flex: 1; min-width: 0; border: 0; outline: 0; background: transparent;
+  font: inherit; font-size: 1rem; color: var(--ink);
 }
+.search:focus-within { box-shadow: 0 0 0 3px color-mix(in srgb, var(--anime) 35%, transparent); }
 
-/* 필터 버튼 (칩) — 옆으로 스크롤 가능 */
+/* 필터 칩 — 옆으로 스크롤 */
 .chips {
-  display: flex; gap: 8px; overflow-x: auto; padding: 12px 2px 4px;
+  display: flex; gap: 6px; overflow-x: auto;
+  margin: 0 -16px; padding: 12px 16px 2px;
   scrollbar-width: none;
 }
 .chips::-webkit-scrollbar { display: none; }
+.chips-region { padding-top: 6px; }
 .chip {
-  flex: none; border: 1.5px solid transparent; border-radius: 999px;
-  background: rgba(255, 255, 255, 0.7); padding: 7px 14px; font-size: 0.88rem; font-weight: 600;
-  transition: background .15s, transform .1s;
+  flex: none; display: inline-flex; align-items: center; gap: 6px;
+  border: 1.5px solid var(--ink); border-radius: 6px; background: var(--paper);
+  padding: 6px 11px; font-size: 0.86rem; font-weight: 700;
 }
-@media (prefers-color-scheme: dark) { .chip { background: rgba(255, 255, 255, 0.08); } }
-.chip:active { transform: scale(0.95); }
-.chip.is-active { background: var(--primary); color: #fff; }
-.chip-toggle { border-color: var(--primary); }
-.chip-toggle[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+.chips-region .chip { border-color: var(--line); font-weight: 600; color: var(--muted); background: color-mix(in srgb, var(--paper) 60%, transparent); }
+.chip.is-active,
+.chips-region .chip.is-active { background: var(--accent); color: #fff; border-color: var(--ink); }
+.chip-toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--tone); display: inline-block; }
+.chip.is-active .dot { box-shadow: 0 0 0 2px #fff; }
 
-/* 예시 데이터 안내 띠 */
+/* 안내 줄 (업데이트 날짜) */
 .sample-banner {
-  max-width: 1100px; margin: 12px auto 0; padding: 10px 14px;
-  background: #fff4c7; color: #6b5300; border-radius: 14px; font-size: 0.85rem;
-  width: calc(100% - 32px);
+  max-width: 1132px; margin: 14px auto 0; padding: 0 16px;
+  font-size: 0.8rem; color: var(--muted);
 }
-@media (prefers-color-scheme: dark) { .sample-banner { background: #3b3317; color: #f3dd8a; } }
-.sample-banner code { background: rgba(0,0,0,.07); padding: 1px 5px; border-radius: 5px; }
 
 /* ----- 5. 본문 / 탭 화면 ----- */
-main { max-width: 1132px; margin: 0 auto; padding: 16px; }
-.view { display: none; }          /* 기본은 숨김 */
-.view.is-active { display: block; } /* 선택된 탭만 보이기 */
+main { max-width: 1132px; margin: 0 auto; padding: 14px 16px; }
+.view { display: none; }
+.view.is-active { display: block; }
 
-/* 카드 격자: 모바일 1열 → 태블릿 2열 → PC 3열 */
-.grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-@media (min-width: 640px)  { .grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1000px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+/* 티켓 목록: 모바일 1열 → 태블릿 2열 → PC 3열 */
+.grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 680px)  { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1040px) { .grid { grid-template-columns: repeat(3, 1fr); } }
 
-.empty { text-align: center; color: var(--muted); padding: 48px 0; }
+.empty { text-align: center; color: var(--muted); padding: 56px 0; }
 
-/* ----- 6. 행사 카드 ----- */
-.card {
-  display: flex; flex-direction: column; text-align: left; width: 100%;
-  background: var(--surface); border: 0; padding: 0;
-  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
-  transition: transform .15s ease, box-shadow .15s ease;
+/* ----- 6. 티켓 카드 ----- */
+.ticket {
+  --stub-w: 92px;
+  position: relative; display: grid; grid-template-columns: 1fr var(--stub-w);
+  width: 100%; padding: 0; border: 0; text-align: left;
+  background: transparent; border-radius: var(--radius);
+  filter: drop-shadow(0 3px 0 var(--lift));
 }
-.card:hover { transform: translateY(-3px); }
-.card:active { transform: scale(0.98); }
-.card.is-ended { opacity: 0.5; filter: grayscale(0.4); } /* 종료된 행사는 흐리게 */
-
-/* 카드 윗부분 이미지 (이미지가 없으면 그라데이션) */
-.card-cover {
-  position: relative; height: 130px; background-size: cover; background-position: center;
-  display: flex; align-items: flex-end; padding: 12px;
+/* 점선 위·아래의 반원 홈: 종이를 실제로 동그랗게 오려내요 (어떤 바탕 위에서도 자연스럽게) */
+.ticket-main {
+  -webkit-mask: radial-gradient(circle 9px at 100% 0, #0000 98%, #000) top / 100% 51% no-repeat,
+                radial-gradient(circle 9px at 100% 100%, #0000 98%, #000) bottom / 100% 51% no-repeat;
+          mask: radial-gradient(circle 9px at 100% 0, #0000 98%, #000) top / 100% 51% no-repeat,
+                radial-gradient(circle 9px at 100% 100%, #0000 98%, #000) bottom / 100% 51% no-repeat;
 }
-.card-cover .cover-emoji { position: absolute; right: 14px; top: 10px; font-size: 2.4rem; opacity: .9; }
-.card-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 4px; }
-.card-title { margin: 0; font-size: 1.08rem; font-weight: 800; letter-spacing: -0.01em; }
-.card-meta { margin: 0; color: var(--muted); font-size: 0.88rem; display: flex; gap: 6px; }
-
-/* 배지 (D-day, 상태) */
-.badges { display: flex; gap: 6px; flex-wrap: wrap; }
-.badge {
-  display: inline-block; padding: 4px 10px; border-radius: 999px;
-  font-size: 0.78rem; font-weight: 700; background: var(--surface); color: var(--text);
+.ticket-stub {
+  -webkit-mask: radial-gradient(circle 9px at 0 0, #0000 98%, #000) top / 100% 51% no-repeat,
+                radial-gradient(circle 9px at 0 100%, #0000 98%, #000) bottom / 100% 51% no-repeat;
+          mask: radial-gradient(circle 9px at 0 0, #0000 98%, #000) top / 100% 51% no-repeat,
+                radial-gradient(circle 9px at 0 100%, #0000 98%, #000) bottom / 100% 51% no-repeat;
 }
-.badge-dday { background: var(--primary); color: #fff; }
-.badge-ongoing { background: var(--mint); color: var(--mint-text); }
-.badge-upcoming { background: var(--sky); color: var(--sky-text); }
-.badge-ended { background: var(--gray); color: var(--gray-text); }
-.fav-mark { margin-left: auto; font-size: 1.1rem; }
+.ticket:active { transform: translateY(2px); filter: drop-shadow(0 1px 0 var(--lift)); }
 
-/* ----- 7. 전체 지도 탭 ----- */
+/* 마스킹테이프: 티켓마다 색·각도·위치가 조금씩 달라요 */
+.ticket::after {
+  content: ""; position: absolute; z-index: 2; top: -8px; left: 22px;
+  width: 64px; height: 18px; opacity: 0.88;
+  background: var(--tape-1); transform: rotate(-4deg);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+.ticket:nth-child(3n + 2)::after { background: var(--tape-2); transform: rotate(3deg); left: auto; right: 118px; }
+.ticket:nth-child(3n)::after { background: var(--tape-3); transform: rotate(-2deg); left: 40%; }
+
+.ticket-main {
+  position: relative; min-width: 0; background: var(--paper);
+  border-radius: var(--radius) 0 0 var(--radius);
+  padding: 15px 16px 14px; border-right: 2px dashed var(--line);
+}
+.cat-tags { margin: 0; font-size: 0.72rem; font-weight: 700; color: var(--muted); }
+.ticket-name {
+  margin: 3px 0 10px; font-size: 1.12rem; font-weight: 900;
+  letter-spacing: -0.02em; line-height: 1.3; word-break: keep-all;
+}
+.ticket-fields { display: flex; gap: 18px; margin: 0; font-size: 0.8rem; }
+.ticket-fields div { min-width: 0; }
+.ticket-fields dt { font-size: 0.66rem; color: var(--muted); }
+.ticket-fields dd { margin: 0; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ticket-fields div:last-child { flex: 1; }
+
+/* 바코드 장식 */
+.barcode {
+  display: block; margin-top: 11px; height: 13px; width: 112px; opacity: 0.55;
+  background: repeating-linear-gradient(90deg,
+    var(--ink) 0 2px, transparent 2px 4px, var(--ink) 4px 5px, transparent 5px 8px,
+    var(--ink) 8px 11px, transparent 11px 12px);
+}
+
+/* 끝난 행사: "입장 마감" 도장 */
+.stamp {
+  display: inline-block; margin-top: 10px;
+  padding: 2px 8px; border: 2px solid var(--illust); border-radius: 5px;
+  color: var(--illust); font-size: 0.78rem; font-weight: 900;
+  transform: rotate(-9deg); opacity: 0.85;
+}
+.ticket.is-ended { opacity: 0.72; }
+
+/* 떼는 부분 (D-day) */
+.ticket-stub {
+  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 10px 4px; border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--tone); color: var(--on-tone);
+}
+.stub-big { font-size: 1.55rem; font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
+.stub-small { margin-top: 6px; font-size: 0.7rem; font-weight: 700; opacity: 0.9; }
+.stub-fav { position: absolute; top: 7px; right: 9px; font-size: 0.85rem; }
+
+/* ----- 7. 지도 ----- */
 .all-map {
-  height: calc(100vh - 260px); min-height: 360px;
-  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+  height: calc(100vh - 300px); min-height: 380px;
+  border: 2px solid var(--ink); border-radius: var(--radius); overflow: hidden;
 }
-/* 지도 핀을 눌렀을 때 뜨는 요약 카드 */
-.popup-card { font-family: inherit; min-width: 190px; }
-.popup-card h3 { margin: 4px 0 2px; font-size: 1rem; }
-.popup-card p { margin: 0 0 8px; color: #666; font-size: 0.82rem; }
-.popup-card button {
-  width: 100%; border: 0; border-radius: 10px; padding: 8px;
-  background: #ff7eb3; color: #fff; font-weight: 700;
-}
-.leaflet-popup-content-wrapper { border-radius: 16px; }
-
-/* 귀여운 핀 모양 (Leaflet 기본 핀 대신 사용) */
+/* 핀: 작은 티켓 모양 말풍선에 D-day */
 .pin {
-  width: 34px; height: 34px; border-radius: 50% 50% 50% 0;
-  transform: rotate(-45deg); display: grid; place-items: center;
-  background: #ff7eb3; border: 3px solid #fff; box-shadow: 0 3px 8px rgba(0,0,0,.3);
+  position: relative; width: 54px; height: 30px; border-radius: 7px;
+  display: grid; place-items: center;
+  background: var(--tone); color: var(--on-tone);
+  border: 2px solid #1B2340; font: 900 12px/1 "Pretendard Variable", Pretendard, sans-serif;
+  box-shadow: 0 2px 0 rgba(27, 35, 64, 0.35);
 }
-.pin span { transform: rotate(45deg); font-size: 15px; }
-.pin.is-ended { background: #b5b3bd; }
-.pin.is-ongoing { background: #34c79a; }
+.pin::after {
+  content: ""; position: absolute; left: 50%; bottom: -9px; margin-left: -6px;
+  border: 6px solid transparent; border-top: 7px solid #1B2340; border-bottom: 0;
+}
+.pin.is-ended { opacity: 0.8; }
 
-/* ----- 8. 상세 화면 (바텀 시트) ----- */
+.leaflet-popup-content-wrapper { border-radius: 10px; border: 2px solid #1B2340; box-shadow: 0 3px 0 rgba(27,35,64,.25); }
+.leaflet-popup-content { margin: 12px 14px; }
+.popup-card { font-family: "Pretendard Variable", Pretendard, sans-serif; min-width: 190px; color: #1B2340; }
+.popup-status {
+  display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 900;
+  background: var(--tone); color: var(--on-tone);
+}
+.popup-card h3 { margin: 6px 0 2px; font-size: 15px; font-weight: 900; }
+.popup-card p { margin: 0 0 10px; color: #5D6785; font-size: 12px; }
+.popup-card button {
+  width: 100%; border: 0; border-radius: 6px; padding: 8px;
+  background: #1B2340; color: #fff; font-weight: 800;
+}
+.popup-sep { border: 0; border-top: 2px dashed #C9D1DE; margin: 12px 0; }
+
+/* ----- 8. 상세 화면 (아래에서 올라오는 큰 티켓) ----- */
 .detail-backdrop {
-  position: fixed; inset: 0; background: rgba(20, 15, 30, 0.45); z-index: 1000;
-  animation: fade .2s ease;
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(18, 23, 38, 0.55);
+  animation: fade 0.2s ease;
 }
 .detail {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 1001;
   max-height: 92vh; overflow-y: auto; overscroll-behavior: contain;
-  background: var(--bg); border-radius: 28px 28px 0 0;
-  padding-bottom: calc(24px + env(safe-area-inset-bottom));
-  animation: slideUp .25s ease;
+  background:
+    linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 20px 20px,
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 20px 20px,
+    var(--bg);
+  border-radius: 22px 22px 0 0;
+  padding: 24px 16px calc(28px + env(safe-area-inset-bottom));
+  animation: slideUp 0.28s cubic-bezier(.2, .8, .2, 1);
 }
-/* PC에서는 가운데 팝업 창처럼 */
 @media (min-width: 760px) {
   .detail {
-    left: 50%; top: 50%; bottom: auto; width: 640px; max-height: 88vh;
-    transform: translate(-50%, -50%); border-radius: 28px; animation: pop .2s ease;
+    left: 50%; top: 50%; bottom: auto; width: 600px; max-height: 88vh;
+    transform: translate(-50%, -50%); border-radius: 22px; animation: pop 0.2s ease;
   }
 }
-@keyframes slideUp { from { transform: translateY(40px); opacity: 0; } }
+@keyframes slideUp { from { transform: translateY(48px); opacity: 0; } }
 @keyframes fade { from { opacity: 0; } }
 @keyframes pop { from { opacity: 0; transform: translate(-50%, -46%); } }
+@media (prefers-reduced-motion: reduce) {
+  .detail, .detail-backdrop { animation: none; }
+}
 
-.detail-cover { height: 170px; background-size: cover; background-position: center; position: relative; }
-.detail-cover .cover-emoji { position: absolute; right: 22px; bottom: 16px; font-size: 3.4rem; }
+/* 큰 티켓: 위쪽 색 띠(떼는 부분) + 점선 + 아래 본권 */
+.sheet-ticket {
+  position: relative; border-radius: 14px;
+  filter: drop-shadow(0 3px 0 var(--lift));
+}
+/* 큰 티켓 위에도 마스킹테이프 두 장 */
+.sheet-ticket::before, .sheet-ticket::after {
+  content: ""; position: absolute; z-index: 2; top: -9px;
+  width: 74px; height: 20px; opacity: 0.9; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+.sheet-ticket::before { left: 26px; background: var(--tape-1); transform: rotate(-5deg); }
+.sheet-ticket::after { right: 70px; background: var(--tape-3); transform: rotate(4deg); }
+.sheet-stub {
+  position: relative; display: flex; align-items: baseline; gap: 10px;
+  padding: 18px 18px 16px; border-radius: 14px 14px 0 0;
+  background: var(--tone); color: var(--on-tone);
+  border-bottom: 2px dashed color-mix(in srgb, var(--on-tone) 45%, transparent);
+}
+/* 점선 양끝의 반원 홈 (실제로 오려내기) */
+.sheet-stub {
+  -webkit-mask: radial-gradient(circle 10px at 0 100%, #0000 98%, #000) left / 51% 100% no-repeat,
+                radial-gradient(circle 10px at 100% 100%, #0000 98%, #000) right / 51% 100% no-repeat;
+          mask: radial-gradient(circle 10px at 0 100%, #0000 98%, #000) left / 51% 100% no-repeat,
+                radial-gradient(circle 10px at 100% 100%, #0000 98%, #000) right / 51% 100% no-repeat;
+}
+.sheet-main {
+  background: var(--paper); border-radius: 0 0 14px 14px;
+  -webkit-mask: radial-gradient(circle 10px at 0 0, #0000 98%, #000) left / 51% 100% no-repeat,
+                radial-gradient(circle 10px at 100% 0, #0000 98%, #000) right / 51% 100% no-repeat;
+          mask: radial-gradient(circle 10px at 0 0, #0000 98%, #000) left / 51% 100% no-repeat,
+                radial-gradient(circle 10px at 100% 0, #0000 98%, #000) right / 51% 100% no-repeat;
+}
+.sheet-big { font-size: 2.2rem; font-weight: 900; line-height: 1; letter-spacing: -0.04em; }
+.sheet-status { font-size: 0.85rem; font-weight: 700; opacity: 0.9; }
 .detail-close {
-  position: absolute; top: 14px; right: 14px; width: 40px; height: 40px;
-  border-radius: 50%; border: 0; background: rgba(255,255,255,.85); color: #333;
-  font-size: 1.2rem; box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  position: absolute; top: 12px; right: 12px; width: 38px; height: 38px;
+  border: 0; border-radius: 50%; font-size: 1.05rem;
+  background: color-mix(in srgb, var(--on-tone) 18%, transparent); color: var(--on-tone);
 }
-.detail-content { padding: 18px 20px 8px; }
-.detail-head { display: flex; align-items: flex-start; gap: 10px; }
-.detail-title { margin: 8px 0 0; font-size: 1.45rem; font-weight: 800; letter-spacing: -0.02em; flex: 1; }
+
+.sheet-main { position: relative; padding: 18px; }
+.detail-title {
+  margin: 4px 0 14px; font-size: 1.5rem; font-weight: 900;
+  letter-spacing: -0.03em; line-height: 1.25; word-break: keep-all;
+}
+.sheet-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; margin: 0 0 16px; }
+.field.wide { grid-column: 1 / -1; }
+.field dt { font-size: 0.7rem; color: var(--muted); }
+.field dd { margin: 1px 0 0; font-size: 0.93rem; font-weight: 600; word-break: keep-all; }
 .fav-btn {
-  flex: none; border: 1.5px solid var(--primary); background: var(--surface);
-  border-radius: 999px; padding: 8px 14px; font-weight: 700; margin-top: 6px;
+  border: 2px solid var(--ink); background: transparent; border-radius: 8px;
+  padding: 8px 14px; font-weight: 800; font-size: 0.9rem;
 }
-.fav-btn[aria-pressed="true"] { background: var(--primary); color: #fff; }
+.fav-btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--ink); }
+.barcode-lg { position: absolute; right: 18px; bottom: 22px; width: 96px; height: 26px; margin: 0; }
+.stamp-lg { position: absolute; margin: 0; right: 18px; bottom: 20px; font-size: 1rem; padding: 3px 10px; }
 
-/* 정보 표 (기간, 시간, 장소...) */
-.info { margin: 16px 0; background: var(--surface); border-radius: 18px; padding: 6px 16px; box-shadow: var(--shadow); }
-.info-row { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 0.93rem; }
-.info-row:last-child { border-bottom: 0; }
-.info-row dt { flex: none; width: 70px; color: var(--muted); font-weight: 600; }
-.info-row dd { margin: 0; flex: 1; word-break: keep-all; }
-.desc { font-size: 0.95rem; white-space: pre-line; }
+.detail-content { padding: 6px 2px 0; }
+.desc { margin: 18px 0 0; font-size: 0.95rem; white-space: pre-line; }
+.section-title {
+  display: inline-block; margin: 26px 0 0; font-size: 0.95rem; font-weight: 900;
+  background: linear-gradient(transparent 55%, var(--marker) 55%); /* 형광펜 밑줄 */
+}
+.detail-map { margin-top: 10px; height: 210px; border: 2px solid var(--ink); border-radius: var(--radius); overflow: hidden; }
 
-.section-title { font-size: 1rem; font-weight: 800; margin: 22px 0 10px; }
-.detail-map { height: 220px; border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); }
-
-/* 버튼 모음 */
+/* 버튼 */
 .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
 .btn {
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 12px 10px; border-radius: 14px; border: 0; text-decoration: none;
-  font-weight: 700; font-size: 0.9rem; background: var(--surface); box-shadow: var(--shadow);
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  min-height: 46px; padding: 10px; border-radius: 8px; text-decoration: none;
+  border: 2px solid var(--ink); background: var(--paper);
+  font-weight: 800; font-size: 0.88rem;
 }
-.btn:active { transform: scale(0.97); }
-.btn-kakao { background: #fee500; color: #191919; }
-.btn-naver { background: #03c75a; color: #fff; }
-.btn-primary { background: var(--primary); color: #fff; }
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--ink); }
+.btn-kakao { background: #FEE500; color: #191919; border-color: #191919; }
+.btn-naver { background: #03C75A; color: #fff; border-color: #03C75A; }
+
+.source { margin: 24px 0 0; font-size: 0.78rem; color: var(--muted); }
+.source a { font-weight: 800; }
 
 /* ----- 9. 하단 탭 메뉴 ----- */
 .tabbar {
@@ -248,31 +387,15 @@ main { max-width: 1132px; margin: 0 auto; padding: 16px; }
   display: flex; justify-content: center;
   height: calc(var(--tabbar-h) + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
-  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  border-top: 1px solid var(--line);
+  background: var(--tabbar); border-top: 2px solid var(--ink);
 }
 .tab {
   flex: 1; max-width: 200px; border: 0; background: none;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-  font-size: 0.75rem; font-weight: 600; color: var(--muted);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  font-size: 0.74rem; font-weight: 700; color: var(--muted);
 }
-.tab-ico { font-size: 1.3rem; filter: grayscale(1); opacity: .6; transition: .15s; }
-.tab.is-active { color: var(--primary); }
-.tab.is-active .tab-ico { filter: none; opacity: 1; transform: translateY(-2px); }
+.tab svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linejoin: round; }
+.tab.is-active { color: var(--accent); }
+.tab.is-active svg { stroke-width: 2.4; }
 
-/* 상세 화면이 열려 있을 때 뒤쪽 스크롤 막기 */
 body.no-scroll { overflow: hidden; }
-
-/* ----- 10. 분야 태그 / 출처 / 안내 띠 (2차 추가) ----- */
-.chips-category { padding-bottom: 0; }
-.cat-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-.cat-tag {
-  font-size: 0.74rem; font-weight: 700; color: var(--primary);
-  background: var(--primary-soft); padding: 2px 8px; border-radius: 999px;
-}
-.detail-content .cat-tags { margin-top: 10px; }
-.source { margin: 22px 0 0; font-size: 0.8rem; color: var(--muted); }
-.source a { color: var(--primary); font-weight: 700; }
-/* 업데이트 날짜 안내일 때는 노란색 대신 연한 하늘색 */
-.sample-banner.is-info { background: var(--sky); color: var(--sky-text); }
