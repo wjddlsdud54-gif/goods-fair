@@ -414,7 +414,30 @@ body.no-scroll { overflow: hidden; }
   position: relative; display: block; width: 100%; margin-top: 10px; padding: 0;
   border: 2px solid var(--ink); border-radius: var(--radius); overflow: hidden; background: #fff;
 }
-.booth-map img { display: block; width: 100%; height: auto; }
+.map-frame { position: relative; display: block; }
+.booth-map img, .map-frame img { display: block; width: 100%; height: auto; }
+/* 부스 위치 표시: 핑크 테두리가 세 번 반짝이고 남아 있어요 */
+.booth-mark {
+  position: absolute; border: 3px solid var(--accent); border-radius: 4px;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.85), 0 0 14px 4px color-mix(in srgb, var(--accent) 60%, transparent);
+  pointer-events: none;
+}
+.booth-mark[hidden] { display: none; }
+.booth-mark.pulse { animation: markPulse 0.7s ease-in-out 3; }
+@keyframes markPulse { 50% { transform: scale(1.35); opacity: 0.6; } }
+@media (prefers-reduced-motion: reduce) { .booth-mark.pulse { animation: none; } }
+.booth-picked {
+  margin: 8px 0 0; padding: 8px 12px; border-radius: 8px;
+  background: var(--paper); border: 2px solid var(--accent); font-size: 0.88rem; font-weight: 600;
+}
+.booth-picked b { color: var(--accent); }
+.booth-tip { margin: 8px 0 0; font-size: 0.78rem; color: var(--muted); }
+.booth.has-pos { cursor: pointer; }
+.booth.has-pos:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.booth.is-picked { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.pin-ico { width: 14px; height: 14px; margin-left: 6px; vertical-align: -2px; fill: none; stroke: var(--accent); stroke-width: 2.4; }
+.booth-hit { margin: -4px 0 8px; font-size: 0.78rem; color: var(--ink); }
+.booth-hit b { padding: 0 5px; border-radius: 3px; background: var(--marker); }
 .booth-map-hint {
   position: absolute; right: 8px; bottom: 8px; padding: 3px 9px; border-radius: 6px;
   background: var(--ink); color: var(--paper); font-size: 0.75rem; font-weight: 800;
@@ -463,4 +486,5 @@ body.no-scroll { overflow: hidden; }
 }
 .viewer-close { background: #fff; color: #1B2340; }
 .viewer-scroll { flex: 1; overflow: auto; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y pinch-zoom; padding: 0 8px 20px; }
-.viewer-scroll img { display: block; width: 100%; max-width: none; margin: 0 auto; background: #fff; border-radius: 8px; }
+.viewer-frame { width: 100%; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; }
+.viewer-frame img { max-width: none; }

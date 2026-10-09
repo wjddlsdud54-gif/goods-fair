@@ -252,7 +252,7 @@ function matchesFilter(ev) {
   // 검색어: 행사명, 장소, 주소, 지역에서 찾기 (띄어쓰기·대소문자 무시)
   if (state.query) {
     const norm = (s) => String(s || '').toLowerCase().replace(/\s/g, '');
-    const booths = (ev.boothMap?.groups || []).flatMap((g) => (g.booths || []).map((b) => b.name)).join('');
+    const booths = (ev.boothMap?.groups || []).flatMap((g) => (g.booths || []).map((b) => b.name + b.code)).join('');
     const hay = norm(ev.name) + norm(ev.venue) + norm(ev.address) + norm(ev.region) + norm(cats(ev).join('')) + norm(booths);
     if (!hay.includes(norm(state.query))) return false;
   }
@@ -272,6 +272,7 @@ function cardHTML(ev) {
       <div class="ticket-main">
         ${catTags(ev)}
         <h2 class="ticket-name">${esc(ev.name)}</h2>
+        ${(() => { const hits = boothHits(ev); return hits.length ? `<p class="booth-hit">부스 ${hits.slice(0, 2).map((b) => `<b>${esc(b.code)}</b> ${esc(b.name)}`).join(', ')}${hits.length > 2 ? ` 외 ${hits.length - 2}곳` : ''}</p>` : ''; })()}
         <dl class="ticket-fields">
           <div><dt>날짜</dt><dd>${fmtShortRange(ev)}</dd></div>
           <div><dt>장소</dt><dd>${esc(ev.venue)}</dd></div>
@@ -287,6 +288,15 @@ function cardHTML(ev) {
         <span class="stub-small">${status === 'upcoming' ? fmtShort(ev.startDate) : status === 'ongoing' ? '진행 중' : '~' + fmtShort(ev.endDate)}</span>
       </div>
     </button>`;
+}
+
+// 메인 검색어와 맞는 부스 찾기 (티켓에 "B-1 JCB카드"처럼 보여주려고)
+function boothHits(ev) {
+  if (!state.query || !ev.boothMap) return [];
+  const norm = (x) => String(x || '').toLowerCase().replace(/\s/g, '');
+  const q = norm(state.query);
+  return (ev.boothMap.groups || []).flatMap((g) => g.booths || [])
+    .filter((b) => norm(b.name).includes(q) || norm(b.code) === q);
 }
 
 // 분야 태그 (#게임 #코스프레 …)
@@ -557,10 +567,10 @@ function boothHTML(ev) {
       <summary><i class="gdot"></i>${esc(g.name)} <span class="gcount">${(g.booths || []).length}</span></summary>
       <ul class="booth-list">
         ${(g.booths || []).map((b) => `
-          <li class="booth" data-code="${esc(String(b.code).toLowerCase().replace(/\s/g, ''))}" data-search="${esc((b.code + ' ' + b.name).toLowerCase().replace(/\s/g, ''))}">
+          <li class="booth${b.pos ? ' has-pos' : ''}" ${b.pos ? `tabindex="0" role="button" data-pos="${esc(b.pos.join(','))}" aria-label="${esc(b.code + ' ' + b.name)} 배치도에서 위치 보기"` : ''} data-code="${esc(String(b.code).toLowerCase().replace(/\s/g, ''))}" data-search="${esc((b.code + ' ' + b.name).toLowerCase().replace(/\s/g, ''))}">
             <b class="booth-code">${esc(b.code)}</b>
             <span class="booth-name">${esc(b.name)}</span>
-            ${b.size ? `<span class="booth-size">${esc(b.size)}</span>` : ''}
+            <span class="booth-size">${esc(b.size || '')}${b.pos ? '<svg class="pin-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>' : ''}</span>
           </li>`).join('')}
       </ul>
     </details>`).join('');
@@ -569,9 +579,14 @@ function boothHTML(ev) {
     <h3 class="section-title">부스 배치도</h3>
     ${bm.image ? `
       <button class="booth-map" id="boothMapBtn" aria-label="부스 배치도 크게 보기">
-        <img src="${esc(bm.image)}" alt="${esc(ev.name)} 부스 배치도" loading="lazy" />
+        <span class="map-frame">
+          <img src="${esc(bm.image)}" alt="${esc(ev.name)} 부스 배치도" loading="lazy" />
+          <span class="booth-mark" id="boothMark" hidden></span>
+        </span>
         <span class="booth-map-hint">눌러서 크게 보기</span>
-      </button>` : ''}
+      </button>
+      <p class="booth-picked" id="boothPicked" hidden></p>` : ''}
+    ${bm.image && groups.some((g) => (g.booths || []).some((b) => b.pos)) ? '<p class="booth-tip">아래 목록에서 부스를 누르면 배치도에 위치가 표시돼요.</p>' : ''}
     ${!bm.image && bm.link ? `<div class="btn-row one"><a class="btn btn-primary" href="${esc(bm.link)}" target="_blank" rel="noopener">공식 부스 배치도 보기</a></div>` : ''}
     ${total ? `
       <label class="search booth-search">
@@ -604,7 +619,41 @@ function bindBoothSearch() {
       shown += n;
     });
     $('#boothEmpty').hidden = shown > 0;
+    // 결과가 하나뿐이면 바로 배치도에 표시
+    const visible = [...$$('#boothGroups .booth.has-pos')].filter((li) => !li.hidden && !li.closest('.booth-group').hidden);
+    if (q && visible.length === 1) markBooth(visible[0], false);
   });
+
+  // 부스를 누르면 배치도에 위치 표시
+  $$('#boothGroups .booth.has-pos').forEach((li) => {
+    li.addEventListener('click', () => markBooth(li, true));
+    li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); markBooth(li, true); } });
+  });
+}
+
+// 배치도 위에 부스 위치를 반짝이는 테두리로 표시
+let markedPos = null; // 크게 보기 화면에서도 같은 위치를 표시하려고 기억해둬요
+function placeMark(el, pos) {
+  const [x, y, w, h] = pos;
+  const pad = 1.2; // 테두리가 부스를 살짝 감싸도록 여유
+  el.style.left = (x - pad) + '%';
+  el.style.top = (y - pad) + '%';
+  el.style.width = (w + pad * 2) + '%';
+  el.style.height = (h + pad * 2) + '%';
+  el.hidden = false;
+  el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); // 애니메이션 다시 시작
+}
+function markBooth(li, scroll) {
+  const mark = $('#boothMark');
+  if (!mark) return;
+  markedPos = li.dataset.pos.split(',').map(Number);
+  placeMark(mark, markedPos);
+  $$('#boothGroups .booth.is-picked').forEach((x) => x.classList.remove('is-picked'));
+  li.classList.add('is-picked');
+  const picked = $('#boothPicked');
+  picked.innerHTML = `<b>${esc(li.querySelector('.booth-code').textContent)}</b> ${esc(li.querySelector('.booth-name').textContent)} — 여기예요!`;
+  picked.hidden = false;
+  if (scroll) $('#boothMapBtn').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
 }
 
 // 배치도 크게 보기 (손가락으로 확대·이동 가능)
@@ -619,11 +668,24 @@ function openMapViewer(src, alt) {
       <button class="viewer-btn" data-z="1" aria-label="확대">＋</button>
       <button class="viewer-btn viewer-close" aria-label="닫기">✕</button>
     </div>
-    <div class="viewer-scroll"><img src="${esc(src)}" alt="${esc(alt)}" /></div>`;
+    <div class="viewer-scroll"><div class="map-frame viewer-frame"><img src="${esc(src)}" alt="${esc(alt)}" /><span class="booth-mark" hidden></span></div></div>`;
   document.body.appendChild(v);
-  const img = v.querySelector('img');
-  let zoom = 1;
-  const apply = () => { img.style.width = (zoom * 100) + '%'; };
+  const img = v.querySelector('.viewer-frame');
+  if (markedPos) placeMark(v.querySelector('.booth-mark'), markedPos);
+  let zoom = markedPos ? 2 : 1; // 표시된 부스가 있으면 확대해서 열기
+  const apply = () => {
+    img.style.width = (zoom * 100) + '%';
+    if (markedPos) { // 표시된 부스가 화면 가운데 오도록 스크롤
+      const sc = v.querySelector('.viewer-scroll');
+      const center = () => {
+        sc.scrollLeft = img.offsetWidth * (markedPos[0] + markedPos[2] / 2) / 100 - sc.clientWidth / 2;
+        sc.scrollTop = img.offsetHeight * (markedPos[1] + markedPos[3] / 2) / 100 - sc.clientHeight / 2;
+      };
+      const pic = img.querySelector('img');
+      if (pic.complete) requestAnimationFrame(center); else pic.onload = center; // 그림이 다 뜬 뒤에 가운데로
+    }
+  };
+  apply();
   v.querySelectorAll('[data-z]').forEach((b) => {
     b.onclick = () => { zoom = Math.min(4, Math.max(1, zoom + Number(b.dataset.z) * 0.5)); apply(); };
   });
@@ -652,7 +714,16 @@ function openDetail(id) {
   $('#detailClose').onclick = closeDetail;
   $('#icsBtn').onclick = () => downloadICS(ev);
   $('#favBtn').onclick = () => toggleFavorite(ev.id);
+  markedPos = null;
   bindBoothSearch();
+  // 메인 검색어가 이 행사의 부스와 맞으면, 부스 검색에 자동으로 넣고 위치까지 표시
+  const bs = $('#boothSearch');
+  if (bs && state.query && boothHits(ev).length) {
+    bs.value = state.query;
+    bs.dispatchEvent(new Event('input'));
+    const first = [...$$('#boothGroups .booth.has-pos')].find((li) => !li.hidden);
+    if (first) setTimeout(() => markBooth(first, true), 350);
+  }
   const mapBtn = $('#boothMapBtn');
   if (mapBtn) mapBtn.onclick = () => openMapViewer(ev.boothMap.image, ev.name + ' 부스 배치도');
 
