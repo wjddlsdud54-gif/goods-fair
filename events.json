@@ -1068,6 +1068,13 @@
         "instagram": "",
         "x": "",
         "ticket": ""
+      },
+      "boothMap": {
+        "imageUrl": "https://comiverse.kr/builder/summernote/1791200866_7f55216290ab8dabe297.jpg",
+        "link": "https://comiverse.kr/board/view/227",
+        "note": "부스 배치도 V.1.0 (10월 5일 공개). 배치도는 변경될 수 있어요.",
+        "source": "https://comiverse.kr/board/view/227",
+        "groups": []
       }
     },
     {
