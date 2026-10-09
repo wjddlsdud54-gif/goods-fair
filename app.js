@@ -252,7 +252,8 @@ function matchesFilter(ev) {
   // 검색어: 행사명, 장소, 주소, 지역에서 찾기 (띄어쓰기·대소문자 무시)
   if (state.query) {
     const norm = (s) => String(s || '').toLowerCase().replace(/\s/g, '');
-    const hay = norm(ev.name) + norm(ev.venue) + norm(ev.address) + norm(ev.region) + norm(cats(ev).join(''));
+    const booths = (ev.boothMap?.groups || []).flatMap((g) => (g.booths || []).map((b) => b.name)).join('');
+    const hay = norm(ev.name) + norm(ev.venue) + norm(ev.address) + norm(ev.region) + norm(cats(ev).join('')) + norm(booths);
     if (!hay.includes(norm(state.query))) return false;
   }
   return true;
@@ -275,7 +276,10 @@ function cardHTML(ev) {
           <div><dt>날짜</dt><dd>${fmtShortRange(ev)}</dd></div>
           <div><dt>장소</dt><dd>${esc(ev.venue)}</dd></div>
         </dl>
-        ${status === 'ended' ? '<span class="stamp" aria-hidden="true">입장 마감</span>' : '<span class="barcode" aria-hidden="true"></span>'}
+        <div class="ticket-foot">
+          ${status === 'ended' ? '<span class="stamp" aria-hidden="true">입장 마감</span>' : '<span class="barcode" aria-hidden="true"></span>'}
+          ${ev.boothMap ? '<span class="has-map">부스 배치도</span>' : ''}
+        </div>
       </div>
       <div class="ticket-stub">
         ${isFav ? '<span class="stub-fav" aria-label="찜한 행사">★</span>' : ''}
@@ -525,10 +529,109 @@ function detailHTML(ev) {
         <a class="btn btn-naver" href="${naverURL(ev)}" target="_blank" rel="noopener">네이버지도 길찾기</a>
       </div>
 
+      ${boothHTML(ev)}
+
       ${linkBtns ? `<h3 class="section-title">관련 링크</h3><div class="btn-row">${linkBtns}</div>` : ''}
 
       ${ev.source ? `<p class="source"><a href="${esc(ev.source)}" target="_blank" rel="noopener">정보 출처 보기</a> — 일정은 바뀔 수 있으니 공식 공지를 확인하세요.</p>` : ''}
     </div>`;
+}
+
+// ---------------------------------------------------------
+// 9-1. 부스 배치도 (events.json의 boothMap)
+//   boothMap: {
+//     image: "maps/파일.png",      ← 배치도 그림 (없으면 생략)
+//     link:  "https://...",        ← 공식 배치도 페이지 (그림이 없을 때)
+//     note, source,
+//     groups: [{ name, color, booths: [{ code, size, name }] }]
+//   }
+// ---------------------------------------------------------
+function boothHTML(ev) {
+  const bm = ev.boothMap;
+  if (!bm) return '';
+  const groups = bm.groups || [];
+  const total = groups.reduce((n, g) => n + (g.booths || []).length, 0);
+
+  const groupHTML = groups.map((g, i) => `
+    <details class="booth-group" ${i === 0 ? 'open' : ''} style="--gcolor:${esc(g.color || '#8a93a8')}">
+      <summary><i class="gdot"></i>${esc(g.name)} <span class="gcount">${(g.booths || []).length}</span></summary>
+      <ul class="booth-list">
+        ${(g.booths || []).map((b) => `
+          <li class="booth" data-code="${esc(String(b.code).toLowerCase().replace(/\s/g, ''))}" data-search="${esc((b.code + ' ' + b.name).toLowerCase().replace(/\s/g, ''))}">
+            <b class="booth-code">${esc(b.code)}</b>
+            <span class="booth-name">${esc(b.name)}</span>
+            ${b.size ? `<span class="booth-size">${esc(b.size)}</span>` : ''}
+          </li>`).join('')}
+      </ul>
+    </details>`).join('');
+
+  return `
+    <h3 class="section-title">부스 배치도</h3>
+    ${bm.image ? `
+      <button class="booth-map" id="boothMapBtn" aria-label="부스 배치도 크게 보기">
+        <img src="${esc(bm.image)}" alt="${esc(ev.name)} 부스 배치도" loading="lazy" />
+        <span class="booth-map-hint">눌러서 크게 보기</span>
+      </button>` : ''}
+    ${!bm.image && bm.link ? `<div class="btn-row one"><a class="btn btn-primary" href="${esc(bm.link)}" target="_blank" rel="noopener">공식 부스 배치도 보기</a></div>` : ''}
+    ${total ? `
+      <label class="search booth-search">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input id="boothSearch" type="search" placeholder="부스 번호·이름 찾기 (예: A-12)" autocomplete="off" aria-label="부스 검색" />
+      </label>
+      <p class="booth-empty" id="boothEmpty" hidden>찾는 부스가 없어요. 번호나 이름을 다시 확인해보세요.</p>
+      <div class="booth-groups" id="boothGroups">${groupHTML}</div>` : ''}
+    ${bm.note ? `<p class="source">${esc(bm.note)}${bm.source ? ` <a href="${esc(bm.source)}" target="_blank" rel="noopener">배치도 출처</a>` : ''}</p>` : ''}`;
+}
+
+// 부스 검색: 번호·이름에 검색어가 들어간 부스만 보여주기
+function bindBoothSearch() {
+  const input = $('#boothSearch');
+  if (!input) return;
+  input.addEventListener('input', () => {
+    const q = input.value.toLowerCase().replace(/\s/g, '');
+    let shown = 0;
+    // "A-1"처럼 부스 번호를 정확히 쓰면 그 부스만 (A-10, A-11… 은 빼고)
+    const exact = q && [...$$('#boothGroups .booth')].some((li) => li.dataset.code === q);
+    $$('#boothGroups .booth-group').forEach((g) => {
+      let n = 0;
+      g.querySelectorAll('.booth').forEach((li) => {
+        const hit = !q || (exact ? li.dataset.code === q : li.dataset.search.includes(q));
+        li.hidden = !hit;
+        if (hit) n++;
+      });
+      g.hidden = n === 0;
+      if (q && n) g.open = true; // 검색 중에는 결과가 있는 묶음을 펼쳐요
+      shown += n;
+    });
+    $('#boothEmpty').hidden = shown > 0;
+  });
+}
+
+// 배치도 크게 보기 (손가락으로 확대·이동 가능)
+function openMapViewer(src, alt) {
+  const v = document.createElement('div');
+  v.className = 'viewer';
+  v.setAttribute('role', 'dialog');
+  v.setAttribute('aria-label', '부스 배치도');
+  v.innerHTML = `
+    <div class="viewer-bar">
+      <button class="viewer-btn" data-z="-1" aria-label="축소">−</button>
+      <button class="viewer-btn" data-z="1" aria-label="확대">＋</button>
+      <button class="viewer-btn viewer-close" aria-label="닫기">✕</button>
+    </div>
+    <div class="viewer-scroll"><img src="${esc(src)}" alt="${esc(alt)}" /></div>`;
+  document.body.appendChild(v);
+  const img = v.querySelector('img');
+  let zoom = 1;
+  const apply = () => { img.style.width = (zoom * 100) + '%'; };
+  v.querySelectorAll('[data-z]').forEach((b) => {
+    b.onclick = () => { zoom = Math.min(4, Math.max(1, zoom + Number(b.dataset.z) * 0.5)); apply(); };
+  });
+  const close = () => { v.remove(); document.removeEventListener('keydown', onKey); };
+  const onKey = (e) => { if (e.key === 'Escape') close(); };
+  v.querySelector('.viewer-close').onclick = close;
+  document.addEventListener('keydown', onKey);
+  v.querySelector('.viewer-close').focus();
 }
 
 let lastFocus = null; // 상세 화면을 닫으면 원래 누른 카드로 돌아가기 위해
@@ -549,6 +652,9 @@ function openDetail(id) {
   $('#detailClose').onclick = closeDetail;
   $('#icsBtn').onclick = () => downloadICS(ev);
   $('#favBtn').onclick = () => toggleFavorite(ev.id);
+  bindBoothSearch();
+  const mapBtn = $('#boothMapBtn');
+  if (mapBtn) mapBtn.onclick = () => openMapViewer(ev.boothMap.image, ev.name + ' 부스 배치도');
 
   // 상세 지도 만들기 (이전 지도는 지우고 새로)
   if (detailMap) { detailMap.remove(); detailMap = null; }
@@ -675,7 +781,7 @@ function bindEvents() {
   // 상세 바깥(어두운 부분) 누르면 닫기, ESC 키로 닫기
   $('#detailBackdrop').addEventListener('click', closeDetail);
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !$('#detail').hidden) closeDetail();
+    if (e.key === 'Escape' && !$('#detail').hidden && !document.querySelector('.viewer')) closeDetail();
   });
 
   window.addEventListener('hashchange', handleHash);

@@ -5,7 +5,10 @@
     {
       "id": "hoyoland-2026",
       "name": "호요랜드 2026",
-      "categories": ["게임", "동인·코스프레"],
+      "categories": [
+        "게임",
+        "동인·코스프레"
+      ],
       "startDate": "2026-10-02",
       "endDate": "2026-10-05",
       "hours": "10.2~3 10:00~18:00 / 10.4~5 10:00~19:00",
@@ -18,12 +21,19 @@
       "description": "원신, 붕괴: 스타레일, 젠레스 존 제로, 붕괴3rd 등 호요버스 게임들의 오프라인 축제.\n예약한 시간대(A~F조)에 맞춰 입장해요.",
       "image": "",
       "source": "https://goyangcon.com/events/hoyoland-2026-kintex/",
-      "links": { "homepage": "", "instagram": "", "x": "", "ticket": "https://www.ticketlink.co.kr/" }
+      "links": {
+        "homepage": "",
+        "instagram": "",
+        "x": "",
+        "ticket": "https://www.ticketlink.co.kr/"
+      }
     },
     {
       "id": "powerotaking-2",
       "name": "제2회 파워덕질 페스티벌",
-      "categories": ["동인·코스프레"],
+      "categories": [
+        "동인·코스프레"
+      ],
       "startDate": "2026-10-03",
       "endDate": "2026-10-03",
       "hours": "13:00 ~ 18:00",
@@ -36,12 +46,19 @@
       "description": "코스프레, 무대 공연, 이벤트, 마켓, 먹거리가 함께하는 지역 서브컬처 축제.\n(지도 위치는 대략적인 위치예요)",
       "image": "",
       "source": "https://comicw.net/c/412",
-      "links": { "homepage": "https://powerotaking.dothome.co.kr/gall", "instagram": "", "x": "", "ticket": "" }
+      "links": {
+        "homepage": "https://powerotaking.dothome.co.kr/gall",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      }
     },
     {
       "id": "dfesta-35",
       "name": "제35회 디.페스타",
-      "categories": ["동인·코스프레"],
+      "categories": [
+        "동인·코스프레"
+      ],
       "startDate": "2026-10-03",
       "endDate": "2026-10-04",
       "hours": "",
@@ -54,12 +71,20 @@
       "description": "창작·2차 창작 동인 행사.",
       "image": "",
       "source": "https://comicw.net/c/372",
-      "links": { "homepage": "https://dongne.co/", "instagram": "", "x": "", "ticket": "" }
+      "links": {
+        "homepage": "https://dongne.co/",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      }
     },
     {
       "id": "comicworld-337-ulsan",
       "name": "코믹월드 337 울산",
-      "categories": ["애니·만화", "동인·코스프레"],
+      "categories": [
+        "애니·만화",
+        "동인·코스프레"
+      ],
       "startDate": "2026-10-03",
       "endDate": "2026-10-04",
       "hours": "11:00 ~ 16:30",
@@ -72,12 +97,20 @@
       "description": "만화·애니메이션 동인 행사. 회지·굿즈 부스와 코스프레를 즐길 수 있어요.",
       "image": "",
       "source": "https://comicw.net/c/404",
-      "links": { "homepage": "https://comicw.net/", "instagram": "", "x": "https://x.com/comicw", "ticket": "https://comicw.net/shop/" }
+      "links": {
+        "homepage": "https://comicw.net/",
+        "instagram": "",
+        "x": "https://x.com/comicw",
+        "ticket": "https://comicw.net/shop/"
+      }
     },
     {
       "id": "moongu-2026-fall",
       "name": "문구전 2026 가을",
-      "categories": ["일러스트", "캐릭터·굿즈"],
+      "categories": [
+        "일러스트",
+        "캐릭터·굿즈"
+      ],
       "startDate": "2026-10-09",
       "endDate": "2026-10-09",
       "hours": "12:00 ~ 17:00",
@@ -90,12 +123,19 @@
       "description": "스티커, 메모지, 엽서 등 창작 문구와 일러스트 굿즈를 만나는 행사.",
       "image": "",
       "source": "https://comicw.net/c/405",
-      "links": { "homepage": "https://comicw.net/moongu/", "instagram": "", "x": "", "ticket": "" }
+      "links": {
+        "homepage": "https://comicw.net/moongu/",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      }
     },
     {
       "id": "omatsuri-2026",
       "name": "한일축제한마당 2026 in Seoul",
-      "categories": ["문화"],
+      "categories": [
+        "문화"
+      ],
       "startDate": "2026-10-10",
       "endDate": "2026-10-10",
       "hours": "11:00 ~ 18:30",
@@ -108,12 +148,383 @@
       "description": "한국과 일본의 문화를 함께 즐기는 축제. 무대 공연(K-POP·J-POP, 가부키 무용)과 체험 부스 110개가 운영돼요.",
       "image": "",
       "source": "https://www.kr.emb-japan.go.jp/itpr_ko/omatsuri_2026.html",
-      "links": { "homepage": "https://omatsuri.kr/", "instagram": "", "x": "", "ticket": "" }
+      "links": {
+        "homepage": "https://omatsuri.kr/",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      },
+      "boothMap": {
+        "image": "maps/omatsuri-2026.png",
+        "note": "배치도는 변경될 수 있어요. 부스 이름은 공식 배치도 그림을 옮겨 적은 것이라 일부 오타가 있을 수 있어요.",
+        "source": "https://omatsuri.kr/",
+        "groups": [
+          {
+            "name": "지자체 부스",
+            "color": "#3A8FC7",
+            "booths": [
+              {
+                "code": "A-1",
+                "size": "6X3m",
+                "name": "부흥청"
+              },
+              {
+                "code": "A-2",
+                "size": "6X3m",
+                "name": "농림수산성"
+              },
+              {
+                "code": "A-3",
+                "size": "6X3m",
+                "name": "일본정부관광국"
+              },
+              {
+                "code": "A-4",
+                "size": "6X3m",
+                "name": "고치현"
+              },
+              {
+                "code": "A-5",
+                "size": "3X3m",
+                "name": "도쿠시마현"
+              },
+              {
+                "code": "A-6",
+                "size": "6X3m",
+                "name": "에히메현"
+              },
+              {
+                "code": "A-7",
+                "size": "3X3m",
+                "name": "미야기현"
+              },
+              {
+                "code": "A-8",
+                "size": "3X3m",
+                "name": "니가타현"
+              },
+              {
+                "code": "A-9",
+                "size": "6X3m",
+                "name": "후쿠시마현 (아이즈와카마쓰시·이와키시·시라카와시)"
+              },
+              {
+                "code": "A-10",
+                "size": "6X3m",
+                "name": "시마네현"
+              },
+              {
+                "code": "A-11",
+                "size": "3X3m",
+                "name": "돗토리현"
+              },
+              {
+                "code": "A-12",
+                "size": "6X3m",
+                "name": "일본지방자치단체국제화협회 서울사무소"
+              },
+              {
+                "code": "A-13",
+                "size": "3X3m",
+                "name": "시즈오카현"
+              },
+              {
+                "code": "A-14",
+                "size": "3X3m",
+                "name": "JETAA 대한민국지부"
+              },
+              {
+                "code": "A-15",
+                "size": "6X3m",
+                "name": "야마구치현"
+              },
+              {
+                "code": "A-16",
+                "size": "6X3m",
+                "name": "나가사키현"
+              },
+              {
+                "code": "A-17",
+                "size": "6X3m",
+                "name": "홋카이도"
+              },
+              {
+                "code": "A-18",
+                "size": "3X3m",
+                "name": "아오모리·아키타·이와테·홋카이도"
+              },
+              {
+                "code": "A-19",
+                "size": "3X3m",
+                "name": "아오모리현 × JR 동일본"
+              }
+            ]
+          },
+          {
+            "name": "기업 부스",
+            "color": "#2E9A5C",
+            "booths": [
+              {
+                "code": "B-1",
+                "size": "6X3m",
+                "name": "JCB카드"
+              },
+              {
+                "code": "B-2",
+                "size": "3X3m",
+                "name": "일본인회 Lilac"
+              },
+              {
+                "code": "B-3",
+                "size": "3X3m",
+                "name": "출판사 모노하우스"
+              },
+              {
+                "code": "B-4",
+                "size": "3X3m",
+                "name": "VIBY"
+              },
+              {
+                "code": "B-5",
+                "size": "6X3m",
+                "name": "마루마루◎마모루"
+              },
+              {
+                "code": "B-6",
+                "size": "6X3m",
+                "name": "동아오츠카㈜"
+              },
+              {
+                "code": "B-7",
+                "size": "3X3m",
+                "name": "일본 드럭스토어"
+              },
+              {
+                "code": "B-8",
+                "size": "6X3m",
+                "name": "DAIICHI SANKYO HEALTHCARE"
+              },
+              {
+                "code": "B-9",
+                "size": "6X3m",
+                "name": "일본항공"
+              },
+              {
+                "code": "B-10",
+                "size": "6X3m",
+                "name": "한국토요타자동차"
+              },
+              {
+                "code": "B-11",
+                "size": "6X3m",
+                "name": "한국히타치그룹"
+              },
+              {
+                "code": "B-12",
+                "size": "3X3m",
+                "name": "한국미쓰비시상사주식회사"
+              },
+              {
+                "code": "B-13",
+                "size": "3X3m",
+                "name": "도쿄공항교통주식회사"
+              },
+              {
+                "code": "B-14",
+                "size": "3X3m",
+                "name": "Hoshino Resorts Korea Office (S&M)"
+              },
+              {
+                "code": "B-15",
+                "size": "6X3m",
+                "name": "호시노 리조트 토마무"
+              },
+              {
+                "code": "B-16",
+                "size": "6X3m",
+                "name": "한국다이이찌산쿄주식회사"
+              }
+            ]
+          },
+          {
+            "name": "체험·이벤트 부스",
+            "color": "#C2457E",
+            "booths": [
+              {
+                "code": "C-1",
+                "size": "6X3m",
+                "name": "이케바나 오하라류"
+              },
+              {
+                "code": "C-2",
+                "size": "12X3m",
+                "name": "일본다도 우라센케"
+              },
+              {
+                "code": "C-3",
+                "size": "9X3m",
+                "name": "특별전시 - 가부키 체험"
+              },
+              {
+                "code": "C-4",
+                "size": "6X3m",
+                "name": "이촌글로벌빌리지센터"
+              },
+              {
+                "code": "C-5",
+                "size": "6X3m",
+                "name": "한일 코스프레"
+              },
+              {
+                "code": "C-6",
+                "size": "6X3m",
+                "name": "일한문화교류기금"
+              },
+              {
+                "code": "C-7",
+                "size": "6X3m",
+                "name": "일본지역문화학과"
+              },
+              {
+                "code": "C-8",
+                "size": "6X3m",
+                "name": "서울일본인학교"
+              },
+              {
+                "code": "C-9",
+                "size": "6X3m",
+                "name": "한일학생미래회의"
+              },
+              {
+                "code": "C-10",
+                "size": "3X3m",
+                "name": "기타무라 자매"
+              },
+              {
+                "code": "C-11",
+                "size": "3X3m",
+                "name": "오에도와가미학회"
+              },
+              {
+                "code": "C-12",
+                "size": "6X3m",
+                "name": "유카타 체험"
+              },
+              {
+                "code": "C-13",
+                "size": "12X3m",
+                "name": "기모노 체험"
+              },
+              {
+                "code": "C-14",
+                "size": "6X3m",
+                "name": "한복 체험"
+              },
+              {
+                "code": "C-15",
+                "size": "6X3m",
+                "name": "K-POP (Cosmosy)"
+              },
+              {
+                "code": "C-16",
+                "size": "6X3m",
+                "name": "J-POP (ENJIN)"
+              },
+              {
+                "code": "C-17",
+                "size": "6X3m",
+                "name": "일본축제놀이"
+              },
+              {
+                "code": "한일광장",
+                "size": "",
+                "name": "한일놀이문화 · FESTIVAL WALL"
+              }
+            ]
+          },
+          {
+            "name": "푸드 부스",
+            "color": "#E8892B",
+            "booths": [
+              {
+                "code": "D-1",
+                "size": "6X3m",
+                "name": "한국과 일본의 식문화 체험"
+              },
+              {
+                "code": "D-2",
+                "size": "6X3m",
+                "name": "비비루"
+              },
+              {
+                "code": "D-3",
+                "size": "3X3m",
+                "name": "주식회사 디와이인터네셔널"
+              },
+              {
+                "code": "D-4",
+                "size": "6X3m",
+                "name": "㈜이대명과"
+              },
+              {
+                "code": "D-5",
+                "size": "6X3m",
+                "name": "동아리"
+              },
+              {
+                "code": "D-6",
+                "size": "3X3m",
+                "name": "pwrple Matcha"
+              }
+            ]
+          },
+          {
+            "name": "운영 부스",
+            "color": "#D9B300",
+            "booths": [
+              {
+                "code": "E-1",
+                "size": "6X3m",
+                "name": "(사)한일문화산업교류협회"
+              },
+              {
+                "code": "E-2",
+                "size": "3X3m",
+                "name": "인포메이션 (운영사무국)"
+              },
+              {
+                "code": "E-3",
+                "size": "3X3m",
+                "name": "미아보호소·분실물센터·응급센터"
+              },
+              {
+                "code": "E-4",
+                "size": "6X3m",
+                "name": "프레스센터"
+              },
+              {
+                "code": "E-5",
+                "size": "6X3m",
+                "name": "SNS기자단"
+              },
+              {
+                "code": "E-6",
+                "size": "6X3m",
+                "name": "기념품 판매"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "illustar-fes-14",
       "name": "일러스타 페스 14",
-      "categories": ["일러스트", "게임", "동인·코스프레"],
+      "categories": [
+        "일러스트",
+        "게임",
+        "동인·코스프레"
+      ],
       "startDate": "2026-10-10",
       "endDate": "2026-10-11",
       "hours": "",
@@ -126,12 +537,27 @@
       "description": "일러스트, 게임, 코스프레, 버추얼 크리에이터, 음악 공연까지 즐기는 종합 서브컬처 축제.\n보컬로이드 이벤트 '초 보카스타 3'과 게임 쇼케이스가 함께 열려요.",
       "image": "",
       "source": "https://www.khgames.co.kr/news/articleView.html?idxno=308725",
-      "links": { "homepage": "https://illustar.net/", "instagram": "", "x": "https://x.com/illustar_fes", "ticket": "" }
+      "links": {
+        "homepage": "https://illustar.net/",
+        "instagram": "",
+        "x": "https://x.com/illustar_fes",
+        "ticket": ""
+      },
+      "boothMap": {
+        "link": "https://x.com/illustar_notice",
+        "note": "일러스타 페스는 행사장·서클 배치도를 공식 안내 계정(X)에 올려요.",
+        "source": "https://x.com/illustar_notice",
+        "groups": []
+      }
     },
     {
       "id": "dccf-2026",
       "name": "제5회 대구콘텐츠페어 (DCCF 2026)",
-      "categories": ["게임", "애니·만화", "캐릭터·굿즈"],
+      "categories": [
+        "게임",
+        "애니·만화",
+        "캐릭터·굿즈"
+      ],
       "startDate": "2026-10-16",
       "endDate": "2026-10-17",
       "hours": "",
@@ -144,12 +570,21 @@
       "description": "게임, 웹툰·만화, 캐릭터, 일러스트, 크리에이터 콘텐츠를 다루는 대구 지역 콘텐츠 페어. (지도 위치는 대략적인 위치예요)",
       "image": "",
       "source": "https://www.akei.or.kr/bbs/board.php?bo_table=schedule&wr_id=104850",
-      "links": { "homepage": "https://www.dccf.co.kr/kor/", "instagram": "https://www.instagram.com/dccf_exco/", "x": "", "ticket": "" }
+      "links": {
+        "homepage": "https://www.dccf.co.kr/kor/",
+        "instagram": "https://www.instagram.com/dccf_exco/",
+        "x": "",
+        "ticket": ""
+      }
     },
     {
       "id": "daejeon-contents-fair-2026",
       "name": "2026 대전콘텐츠페어",
-      "categories": ["캐릭터·굿즈", "게임", "동인·코스프레"],
+      "categories": [
+        "캐릭터·굿즈",
+        "게임",
+        "동인·코스프레"
+      ],
       "startDate": "2026-10-16",
       "endDate": "2026-10-18",
       "hours": "",
@@ -162,12 +597,19 @@
       "description": "공공캐릭터·기능성 게임·서브컬처가 한자리에 모이는 콘텐츠 축제. 코스프레 런웨이·퍼레이드, 이타샤 전시, TCG·보드게임 체험 등이 열려요.\n16일은 업계 행사 위주, 17~18일은 체험·서브컬처 프로그램 위주예요. (지도 위치는 대략적인 위치예요)",
       "image": "",
       "source": "https://dcfair.co.kr/",
-      "links": { "homepage": "https://dcfair.co.kr/", "instagram": "", "x": "", "ticket": "" }
+      "links": {
+        "homepage": "https://dcfair.co.kr/",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      }
     },
     {
       "id": "biaf-2026",
       "name": "부천국제애니메이션페스티벌 BIAF2026",
-      "categories": ["애니·만화"],
+      "categories": [
+        "애니·만화"
+      ],
       "startDate": "2026-10-23",
       "endDate": "2026-10-27",
       "hours": "",
@@ -180,12 +622,20 @@
       "description": "국내외 장편·단편 애니메이션 상영과 다양한 부대행사가 열리는 애니메이션 영화제.",
       "image": "",
       "source": "https://www.biaf.or.kr/kr/",
-      "links": { "homepage": "https://www.biaf.or.kr/kr/", "instagram": "", "x": "", "ticket": "" }
+      "links": {
+        "homepage": "https://www.biaf.or.kr/kr/",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      }
     },
     {
       "id": "comicworld-338-suwon",
       "name": "코믹월드 338 수원",
-      "categories": ["애니·만화", "동인·코스프레"],
+      "categories": [
+        "애니·만화",
+        "동인·코스프레"
+      ],
       "startDate": "2026-10-24",
       "endDate": "2026-10-25",
       "hours": "11:00 ~ 16:30",
@@ -198,12 +648,19 @@
       "description": "만화·애니메이션 동인 행사. 회지·굿즈 부스와 코스프레를 즐길 수 있어요.",
       "image": "",
       "source": "https://comicw.net/c/408",
-      "links": { "homepage": "https://comicw.net/", "instagram": "", "x": "https://x.com/comicw", "ticket": "https://comicw.net/shop/" }
+      "links": {
+        "homepage": "https://comicw.net/",
+        "instagram": "",
+        "x": "https://x.com/comicw",
+        "ticket": "https://comicw.net/shop/"
+      }
     },
     {
       "id": "comiverse-2026-fall",
       "name": "코미버스 2026 가을",
-      "categories": ["동인·코스프레"],
+      "categories": [
+        "동인·코스프레"
+      ],
       "startDate": "2026-10-24",
       "endDate": "2026-10-25",
       "hours": "",
@@ -216,12 +673,19 @@
       "description": "1차·2차 창작이 모이는 동인 행사.",
       "image": "",
       "source": "https://comicw.net/c/419",
-      "links": { "homepage": "https://comiverse.kr/", "instagram": "", "x": "", "ticket": "" }
+      "links": {
+        "homepage": "https://comiverse.kr/",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      }
     },
     {
       "id": "illustkorea-incheon-2026",
       "name": "2026 인천 일러스트코리아",
-      "categories": ["일러스트"],
+      "categories": [
+        "일러스트"
+      ],
       "startDate": "2026-10-30",
       "endDate": "2026-11-01",
       "hours": "",
@@ -234,12 +698,19 @@
       "description": "일러스트 작가와 브랜드의 작품·굿즈를 보고 사는 일러스트 전시 행사.",
       "image": "",
       "source": "https://comicw.net/c/409",
-      "links": { "homepage": "https://illustrationkorea.co.kr/incheon/", "instagram": "https://www.instagram.com/illustrationkorea/", "x": "", "ticket": "" }
+      "links": {
+        "homepage": "https://illustrationkorea.co.kr/incheon/",
+        "instagram": "https://www.instagram.com/illustrationkorea/",
+        "x": "",
+        "ticket": ""
+      }
     },
     {
       "id": "bif-v7",
       "name": "부산일러스트레이션페어 V.7",
-      "categories": ["일러스트"],
+      "categories": [
+        "일러스트"
+      ],
       "startDate": "2026-11-06",
       "endDate": "2026-11-08",
       "hours": "10:00 ~ 18:00 (11.8 일요일은 17:00 종료, 입장 마감 1시간 전)",
@@ -252,12 +723,20 @@
       "description": "부산에서 열리는 일러스트레이션 페어(부일페). 당일 재입장이 가능해요.",
       "image": "",
       "source": "https://comicw.net/c/411",
-      "links": { "homepage": "https://ocreo.kr/fair/bif7", "instagram": "", "x": "https://x.com/BIF_office", "ticket": "" }
+      "links": {
+        "homepage": "https://ocreo.kr/fair/bif7",
+        "instagram": "",
+        "x": "https://x.com/BIF_office",
+        "ticket": ""
+      }
     },
     {
       "id": "comicworld-339-ilsan",
       "name": "코믹월드 339 일산",
-      "categories": ["애니·만화", "동인·코스프레"],
+      "categories": [
+        "애니·만화",
+        "동인·코스프레"
+      ],
       "startDate": "2026-11-07",
       "endDate": "2026-11-08",
       "hours": "",
@@ -270,12 +749,20 @@
       "description": "만화·애니메이션 동인 행사. 회지·굿즈 부스와 코스프레를 즐길 수 있어요.",
       "image": "",
       "source": "https://comicw.net/c/416",
-      "links": { "homepage": "https://comicw.net/", "instagram": "", "x": "https://x.com/comicw", "ticket": "https://comicw.net/shop/" }
+      "links": {
+        "homepage": "https://comicw.net/",
+        "instagram": "",
+        "x": "https://x.com/comicw",
+        "ticket": "https://comicw.net/shop/"
+      }
     },
     {
       "id": "bluearchive-5th-fes",
       "name": "블루 아카이브 5주년 페스티벌",
-      "categories": ["게임", "동인·코스프레"],
+      "categories": [
+        "게임",
+        "동인·코스프레"
+      ],
       "startDate": "2026-11-07",
       "endDate": "2026-11-08",
       "hours": "",
@@ -288,12 +775,19 @@
       "description": "블루 아카이브 5주년 오프라인 축제. 미니게임, 스테이지 이벤트, 공식 굿즈, 코스프레를 즐길 수 있어요.\n예매: 1차 10.13~14 (계정 Lv.70 이상), 2차 10.15~16 (Lv.30 이상)",
       "image": "",
       "source": "https://www.gamemeca.com/view.php?gid=1781156",
-      "links": { "homepage": "https://forum.nexon.com/bluearchive/board_view?board=1018&thread=3549630", "instagram": "", "x": "", "ticket": "" }
+      "links": {
+        "homepage": "https://forum.nexon.com/bluearchive/board_view?board=1018&thread=3549630",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      }
     },
     {
       "id": "gstar-2026",
       "name": "지스타 2026 (G-STAR)",
-      "categories": ["게임"],
+      "categories": [
+        "게임"
+      ],
       "startDate": "2026-11-19",
       "endDate": "2026-11-22",
       "hours": "",
@@ -306,12 +800,19 @@
       "description": "국내 최대 게임 전시회. 신작 체험, 인디 게임, e스포츠 경기가 열려요.",
       "image": "",
       "source": "https://zdnet.co.kr/view/?no=20260929140339",
-      "links": { "homepage": "https://www.gstar.or.kr/", "instagram": "", "x": "", "ticket": "" }
+      "links": {
+        "homepage": "https://www.gstar.or.kr/",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      }
     },
     {
       "id": "skycode-33",
       "name": "스카이코드 페스티벌 (제33회)",
-      "categories": ["동인·코스프레"],
+      "categories": [
+        "동인·코스프레"
+      ],
       "startDate": "2026-11-22",
       "endDate": "2026-11-22",
       "hours": "",
@@ -324,12 +825,20 @@
       "description": "부스, 코스프레, 무대가 함께하는 광주 지역 동인 행사.\n(지도 위치는 대략적인 위치예요)",
       "image": "",
       "source": "https://comicw.net/c/415",
-      "links": { "homepage": "", "instagram": "", "x": "", "ticket": "" }
+      "links": {
+        "homepage": "",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      }
     },
     {
       "id": "finecharacter-2026",
       "name": "파인캐릭터 2026",
-      "categories": ["캐릭터·굿즈", "일러스트"],
+      "categories": [
+        "캐릭터·굿즈",
+        "일러스트"
+      ],
       "startDate": "2026-11-27",
       "endDate": "2026-11-29",
       "hours": "",
@@ -342,12 +851,21 @@
       "description": "캐릭터를 굿즈가 아닌 아트·라이프스타일 콘텐츠로 보여주는 캐릭터 아트페어.",
       "image": "",
       "source": "https://comicw.net/c/410",
-      "links": { "homepage": "https://www.finecharacter.kr/", "instagram": "", "x": "", "ticket": "" }
+      "links": {
+        "homepage": "https://www.finecharacter.kr/",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      }
     },
     {
       "id": "agf-2026",
       "name": "AGF 2026 (애니메이션 X 게임 페스티벌)",
-      "categories": ["애니·만화", "게임", "동인·코스프레"],
+      "categories": [
+        "애니·만화",
+        "게임",
+        "동인·코스프레"
+      ],
       "startDate": "2026-12-04",
       "endDate": "2026-12-06",
       "hours": "09:30 ~ 18:00",
@@ -360,12 +878,19 @@
       "description": "국내 최대 애니메이션·게임 서브컬처 축제. 전시, 팝업스토어, 아티스트 공연, 콜라보 카페, 코스프레까지.\n서울역에서 GTX-A로 약 20분.",
       "image": "",
       "source": "https://www.pennmike.com/news/articleView.html?idxno=127786",
-      "links": { "homepage": "https://www.agfkorea.com/", "instagram": "", "x": "https://x.com/AGF_Korea", "ticket": "https://www.agfkorea.com/ticket" }
+      "links": {
+        "homepage": "https://www.agfkorea.com/",
+        "instagram": "",
+        "x": "https://x.com/AGF_Korea",
+        "ticket": "https://www.agfkorea.com/ticket"
+      }
     },
     {
       "id": "illustkorea-suwon-2026",
       "name": "2026 수원 일러스트코리아",
-      "categories": ["일러스트"],
+      "categories": [
+        "일러스트"
+      ],
       "startDate": "2026-12-11",
       "endDate": "2026-12-13",
       "hours": "",
@@ -378,12 +903,20 @@
       "description": "일러스트·디자인·아트 작가와 브랜드의 작품·굿즈를 보고 사는 일러스트 전시 행사.\n홈페이지에서 사전 등록할 수 있어요.",
       "image": "",
       "source": "https://illustrationkorea.co.kr/suwon/",
-      "links": { "homepage": "https://illustrationkorea.co.kr/suwon/", "instagram": "https://www.instagram.com/illustrationkorea/", "x": "", "ticket": "" }
+      "links": {
+        "homepage": "https://illustrationkorea.co.kr/suwon/",
+        "instagram": "https://www.instagram.com/illustrationkorea/",
+        "x": "",
+        "ticket": ""
+      }
     },
     {
       "id": "comicworld-winter-2026",
       "name": "코믹월드 WINTER 2026",
-      "categories": ["애니·만화", "동인·코스프레"],
+      "categories": [
+        "애니·만화",
+        "동인·코스프레"
+      ],
       "startDate": "2026-12-12",
       "endDate": "2026-12-13",
       "hours": "",
@@ -396,12 +929,20 @@
       "description": "코믹월드 겨울 행사. 회지·굿즈 부스와 코스프레를 즐길 수 있어요.",
       "image": "",
       "source": "https://comicw.net/c/421",
-      "links": { "homepage": "https://comicw.net/", "instagram": "", "x": "https://x.com/comicw", "ticket": "https://comicw.net/shop/" }
+      "links": {
+        "homepage": "https://comicw.net/",
+        "instagram": "",
+        "x": "https://x.com/comicw",
+        "ticket": "https://comicw.net/shop/"
+      }
     },
     {
       "id": "moongu-2026-winter",
       "name": "문구전 2026 겨울",
-      "categories": ["일러스트", "캐릭터·굿즈"],
+      "categories": [
+        "일러스트",
+        "캐릭터·굿즈"
+      ],
       "startDate": "2026-12-19",
       "endDate": "2026-12-20",
       "hours": "",
@@ -414,12 +955,20 @@
       "description": "스티커, 메모지, 엽서 등 창작 문구와 일러스트 굿즈를 만나는 행사. 전시홀·시간·가격은 아직 발표 전이에요. (지도 위치는 대략적인 위치예요)",
       "image": "",
       "source": "https://comicw.net/moongu/",
-      "links": { "homepage": "https://comicw.net/moongu/", "instagram": "", "x": "https://x.com/moongu_fair", "ticket": "" }
+      "links": {
+        "homepage": "https://comicw.net/moongu/",
+        "instagram": "",
+        "x": "https://x.com/moongu_fair",
+        "ticket": ""
+      }
     },
     {
       "id": "sif-v22",
       "name": "서울일러스트레이션페어 V.22",
-      "categories": ["일러스트", "캐릭터·굿즈"],
+      "categories": [
+        "일러스트",
+        "캐릭터·굿즈"
+      ],
       "startDate": "2026-12-24",
       "endDate": "2026-12-27",
       "hours": "10:00 ~ 18:00",
@@ -432,12 +981,20 @@
       "description": "국내 최대 규모의 일러스트레이션 전시·판매 행사(서일페).",
       "image": "",
       "source": "https://www.coex.co.kr/exhibitions/%EC%84%9C%EC%9A%B8%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8%EB%A0%88%EC%9D%B4%EC%84%A0%ED%8E%98%EC%96%B4v-22/",
-      "links": { "homepage": "https://ocreo.kr/", "instagram": "https://www.instagram.com/seoulillustrationfair/", "x": "https://x.com/SIF_office", "ticket": "" }
+      "links": {
+        "homepage": "https://ocreo.kr/",
+        "instagram": "https://www.instagram.com/seoulillustrationfair/",
+        "x": "https://x.com/SIF_office",
+        "ticket": ""
+      }
     },
     {
       "id": "k-illustfair-seoul-2027",
       "name": "K-일러스트레이션페어 서울 2027",
-      "categories": ["일러스트", "캐릭터·굿즈"],
+      "categories": [
+        "일러스트",
+        "캐릭터·굿즈"
+      ],
       "startDate": "2027-01-28",
       "endDate": "2027-01-31",
       "hours": "",
@@ -450,7 +1007,12 @@
       "description": "일러스트 작가·브랜드의 창작물을 소개하는 일러스트레이션 페어. 화방 특별전 '케일페 화방'이 새로 열려요.",
       "image": "",
       "source": "https://www.dt.co.kr/article/12085667",
-      "links": { "homepage": "https://www.k-illustrationfair.com/", "instagram": "", "x": "", "ticket": "" }
+      "links": {
+        "homepage": "https://www.k-illustrationfair.com/",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      }
     }
   ]
 }
