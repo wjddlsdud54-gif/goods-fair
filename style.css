@@ -432,7 +432,8 @@ body.no-scroll { overflow: hidden; }
 }
 .booth-picked b { color: var(--accent); }
 .booth-tip { margin: 8px 0 0; font-size: 0.78rem; color: var(--muted); }
-.booth.has-pos { cursor: pointer; }
+.booth-main { cursor: default; }
+.booth.has-pos .booth-main { cursor: pointer; }
 .booth.has-pos:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
 .booth.is-picked { background: color-mix(in srgb, var(--accent) 12%, transparent); }
 .pin-ico { width: 14px; height: 14px; margin-left: 6px; vertical-align: -2px; fill: none; stroke: var(--accent); stroke-width: 2.4; }
@@ -460,8 +461,12 @@ body.no-scroll { overflow: hidden; }
 .gcount { color: var(--muted); font-weight: 700; font-size: 0.8rem; }
 .booth-list { list-style: none; margin: 0; padding: 0 14px 8px; }
 .booth {
-  display: grid; grid-template-columns: 64px 1fr auto; align-items: baseline; gap: 10px;
-  padding: 8px 0; border-top: 1px dashed var(--line); font-size: 0.88rem;
+  display: flex; align-items: center; gap: 8px;
+  border-top: 1px dashed var(--line); font-size: 0.88rem;
+}
+.booth-main {
+  flex: 1; min-width: 0; display: grid; grid-template-columns: 64px 1fr auto; align-items: baseline; gap: 10px;
+  padding: 9px 0; border: 0; background: none; text-align: left; font: inherit; color: inherit;
 }
 .booth[hidden] { display: none; }
 .booth-code {
@@ -489,3 +494,59 @@ body.no-scroll { overflow: hidden; }
 .viewer-scroll { flex: 1; overflow: auto; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y pinch-zoom; padding: 0 8px 20px; }
 .viewer-frame { width: 100%; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; }
 .viewer-frame img { max-width: none; }
+
+
+/* ----- 11. 부스 찜 · 체크리스트 ----- */
+/* 우선순위 색: 1 꼭 살 것(핑크) / 2 살 수도(노랑) / 3 구경만(하늘) */
+.p1 { --pc: #FF5FA2; --pc-text: #fff; }
+.p2 { --pc: #FFC93C; --pc-text: #1B2340; }
+.p3 { --pc: #5BB8F0; --pc-text: #fff; }
+.booth-star {
+  flex: none; min-width: 44px; height: 30px; padding: 0 8px; border-radius: 999px;
+  border: 1.5px solid var(--line); background: var(--paper); color: var(--muted);
+  font-size: 0.78rem; font-weight: 900;
+}
+.booth-star.p1, .booth-star.p2, .booth-star.p3 { background: var(--pc); color: var(--pc-text); border-color: var(--ink); }
+.pchip {
+  display: inline-block; padding: 0 6px; border-radius: 4px; font-size: 0.72rem; font-weight: 900;
+  background: var(--pc); color: var(--pc-text);
+}
+.checklist { margin-top: 12px; }
+.checklist-empty {
+  margin: 0; padding: 12px 14px; border: 2px dashed var(--line); border-radius: 10px;
+  font-size: 0.82rem; color: var(--muted); line-height: 1.7;
+}
+.checklist-head {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 12px 14px 8px; background: var(--paper); border: 2px solid var(--ink); border-bottom: 0; border-radius: 10px 10px 0 0;
+}
+.checklist-head b { font-size: 0.95rem; }
+.checklist-count { font-size: 0.8rem; font-weight: 800; color: var(--accent); }
+.checklist-bar { flex: 1 1 100%; height: 6px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.checklist-bar i { display: block; height: 100%; background: var(--accent); border-radius: 99px; transition: width .3s; }
+.checklist-list {
+  list-style: none; margin: 0; padding: 0 14px 6px; background: var(--paper);
+  border: 2px solid var(--ink); border-top: 0; border-radius: 0 0 10px 10px;
+}
+.checklist-list li { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px dashed var(--line); font-size: 0.88rem; }
+.checklist-list label { flex: 1; min-width: 0; display: flex; align-items: center; gap: 7px; cursor: pointer; }
+.checklist-list input { width: 20px; height: 20px; accent-color: var(--accent); flex: none; }
+.cl-name { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.checklist-list li.is-done b, .checklist-list li.is-done .cl-name { text-decoration: line-through; opacity: .55; }
+.cl-locate {
+  flex: none; padding: 3px 9px; border-radius: 6px; border: 1.5px solid var(--ink);
+  background: transparent; font-size: 0.74rem; font-weight: 800;
+}
+/* 배치도 위 찜 표시 */
+.pick-layer { position: absolute; inset: 0; pointer-events: none; }
+.pick-dot {
+  position: absolute; border-radius: 3px; background: color-mix(in srgb, var(--pc) 55%, transparent);
+  outline: 2px solid var(--pc); outline-offset: 0;
+}
+.pick-dot.is-done { background: rgba(120,128,150,.45); outline-color: #7C8AA5; }
+.pick-dot.is-done::after { content: "✓"; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-weight: 900; font-size: 10px; }
+.has-map { white-space: nowrap; }
+.has-map.is-check { background: var(--accent); color: #fff; }
+.ticket-foot .has-map.is-check + .has-map { margin-left: 0; }
+.ticket-foot { gap: 6px; }
+.ticket-foot .barcode { flex: 0 1 112px; min-width: 28px; }

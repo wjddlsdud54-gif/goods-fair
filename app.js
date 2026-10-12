@@ -13,7 +13,8 @@ const state = {
   hideEnded: false,    // '종료 제외' 켜짐 여부
   query: '',           // 검색어
   tab: 'list',         // 현재 탭: list / map / fav
-  favorites: new Set() // 즐겨찾기한 행사 id 모음
+  favorites: new Set(), // 즐겨찾기한 행사 id 모음
+  picks: {}            // 부스 찜·구매 체크 (행사별)
 };
 
 // 지도 객체들 (한 번 만들면 재사용)
@@ -39,6 +40,27 @@ function loadFavorites() {
   } catch (e) {
     state.favorites = new Set(); // 저장소를 못 쓰면 빈 상태로 시작 (메모리에만 저장)
   }
+}
+
+// 부스 찜(체크리스트): { 행사id: { 부스번호: { p: 1|2|3, done: true|false } } }
+//   p = 우선순위 (1 꼭 살 것 / 2 살 수도 / 3 구경만)
+const PICK_KEY = 'goodsfair.boothPicks';
+const PRIORITY = {
+  1: { label: '꼭 살 것', short: '꼭' },
+  2: { label: '살 수도', short: '혹시' },
+  3: { label: '구경만', short: '구경' }
+};
+function loadPicks() {
+  try { state.picks = JSON.parse(localStorage.getItem(PICK_KEY) || '{}') || {}; }
+  catch (e) { state.picks = {}; }
+}
+function savePicks() {
+  try { localStorage.setItem(PICK_KEY, JSON.stringify(state.picks)); } catch (e) { /* 저장이 안 되면 메모리에만 */ }
+}
+function picksOf(evId) { return state.picks[evId] || {}; }
+function pickCount(evId) {
+  const list = Object.values(picksOf(evId));
+  return { total: list.length, done: list.filter((x) => x.done).length };
 }
 
 function saveFavorites() {
@@ -279,6 +301,7 @@ function cardHTML(ev) {
         </dl>
         <div class="ticket-foot">
           ${status === 'ended' ? '<span class="stamp" aria-hidden="true">입장 마감</span>' : '<span class="barcode" aria-hidden="true"></span>'}
+          ${(() => { const c = pickCount(ev.id); return c.total ? `<span class="has-map is-check">체크 ${c.done}/${c.total}</span>` : ''; })()}
           ${ev.boothMap ? '<span class="has-map">부스 배치도</span>' : ''}
         </div>
       </div>
@@ -567,10 +590,13 @@ function boothHTML(ev) {
       <summary><i class="gdot"></i>${esc(g.name)} <span class="gcount">${(g.booths || []).length}</span></summary>
       <ul class="booth-list">
         ${(g.booths || []).map((b) => `
-          <li class="booth${b.pos ? ' has-pos' : ''}" ${b.pos ? `tabindex="0" role="button" data-pos="${esc(b.pos.join(','))}" aria-label="${esc(b.code + ' ' + b.name)} 배치도에서 위치 보기"` : ''} data-code="${esc(String(b.code).toLowerCase().replace(/\s/g, ''))}" data-search="${esc((b.code + ' ' + (b.name || g.name)).toLowerCase().replace(/\s/g, ''))}">
-            <b class="booth-code">${esc(b.code)}</b>
-            <span class="booth-name${b.name ? '' : ' is-blank'}">${esc(b.name || g.name)}</span>
-            <span class="booth-size">${esc(b.size || '')}${b.pos ? '<svg class="pin-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>' : ''}</span>
+          <li class="booth${b.pos ? ' has-pos' : ''}" data-booth="${esc(b.code)}" ${b.pos ? `data-pos="${esc(b.pos.join(','))}"` : ''} data-code="${esc(String(b.code).toLowerCase().replace(/\s/g, ''))}" data-search="${esc((b.code + ' ' + (b.name || g.name)).toLowerCase().replace(/\s/g, ''))}">
+            <button class="booth-main" ${b.pos ? `aria-label="${esc(b.code + ' ' + (b.name || g.name))} 배치도에서 위치 보기"` : 'tabindex="-1"'}>
+              <b class="booth-code">${esc(b.code)}</b>
+              <span class="booth-name${b.name ? '' : ' is-blank'}">${esc(b.name || g.name)}</span>
+              <span class="booth-size">${esc(b.size || '')}${b.pos ? '<svg class="pin-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>' : ''}</span>
+            </button>
+            ${starHTML(ev.id, b.code)}
           </li>`).join('')}
       </ul>
     </details>`).join('');
@@ -581,6 +607,7 @@ function boothHTML(ev) {
       <button class="booth-map" id="boothMapBtn" aria-label="부스 배치도 크게 보기">
         <span class="map-frame">
           <img src="${esc(bm.image)}" alt="${esc(ev.name)} 부스 배치도" loading="lazy" />
+          <span class="pick-layer" id="pickLayer"></span>
           <span class="booth-mark" id="boothMark" hidden></span>
         </span>
         <span class="booth-map-hint">눌러서 크게 보기</span>
@@ -589,6 +616,7 @@ function boothHTML(ev) {
     ${bm.image && groups.some((g) => (g.booths || []).some((b) => b.pos)) ? '<p class="booth-tip">아래 목록에서 부스를 누르면 배치도에 위치가 표시돼요.</p>' : ''}
     ${!bm.image && bm.link ? `<div class="btn-row one"><a class="btn btn-primary" href="${esc(bm.link)}" target="_blank" rel="noopener">공식 부스 배치도 보기</a></div>` : ''}
     ${total ? `
+      <div class="checklist" id="checklist"></div>
       <label class="search booth-search">
         <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
         <input id="boothSearch" type="search" placeholder="부스 번호·이름 찾기 (예: A-12)" autocomplete="off" aria-label="부스 검색" />
@@ -596,6 +624,108 @@ function boothHTML(ev) {
       <p class="booth-empty" id="boothEmpty" hidden>찾는 부스가 없어요. 번호나 이름을 다시 확인해보세요.</p>
       <div class="booth-groups" id="boothGroups">${groupHTML}</div>` : ''}
     ${bm.note ? `<p class="source">${esc(bm.note)}${bm.source ? ` <a href="${esc(bm.source)}" target="_blank" rel="noopener">배치도 출처</a>` : ''}</p>` : ''}`;
+}
+
+// 부스 찜 버튼: 누를 때마다 꼭 살 것 → 살 수도 → 구경만 → 찜 해제
+function starHTML(evId, code) {
+  const pk = picksOf(evId)[code];
+  return `<button class="booth-star${pk ? ' p' + pk.p : ''}" data-star="${esc(code)}"
+    aria-label="${esc(code)} 찜하기 (지금: ${pk ? PRIORITY[pk.p].label : '찜 안 함'})">${pk ? PRIORITY[pk.p].short : '☆'}</button>`;
+}
+
+function cyclePick(ev, code) {
+  const picks = (state.picks[ev.id] = state.picks[ev.id] || {});
+  const cur = picks[code];
+  if (!cur) picks[code] = { p: 1, done: false };
+  else if (cur.p < 3) cur.p += 1;
+  else delete picks[code];
+  if (!Object.keys(picks).length) delete state.picks[ev.id];
+  savePicks();
+  refreshPicks(ev);
+}
+
+function togglePickDone(ev, code) {
+  const pk = picksOf(ev.id)[code];
+  if (!pk) return;
+  pk.done = !pk.done;
+  savePicks();
+  refreshPicks(ev);
+}
+
+// 부스 정보 찾기 (번호 → 부스·묶음)
+function findBooth(ev, code) {
+  for (const g of ev.boothMap?.groups || []) {
+    const b = (g.booths || []).find((x) => x.code === code);
+    if (b) return { b, g };
+  }
+  return null;
+}
+
+// 찜·체크가 바뀌면: 별 버튼, 체크리스트, 배치도 표시, 목록 티켓을 다시 그려요
+function refreshPicks(ev) {
+  $$('#boothGroups .booth-star').forEach((btn) => { btn.outerHTML = starHTML(ev.id, btn.dataset.star); });
+  bindStars(ev);
+  renderChecklist(ev);
+  renderPickLayer(ev, $('#pickLayer'));
+  renderList();
+  renderFavorites();
+}
+
+function bindStars(ev) {
+  $$('#boothGroups .booth-star').forEach((btn) => {
+    btn.onclick = (e) => { e.stopPropagation(); cyclePick(ev, btn.dataset.star); };
+  });
+}
+
+// 내 체크리스트: 찜한 부스를 우선순위 순으로, 산 것은 체크
+function renderChecklist(ev) {
+  const box = $('#checklist');
+  if (!box) return;
+  const picks = picksOf(ev.id);
+  const codes = Object.keys(picks).sort((a, b) => picks[a].p - picks[b].p || a.localeCompare(b, 'ko', { numeric: true }));
+  if (!codes.length) {
+    box.innerHTML = `<p class="checklist-empty">사고 싶은 부스 옆 <b>☆</b>를 눌러 찜하면 여기 체크리스트로 모여요.<br>한 번 더 누를 때마다 <span class="pchip p1">꼭</span> → <span class="pchip p2">혹시</span> → <span class="pchip p3">구경</span> 순서로 바뀌어요.</p>`;
+    return;
+  }
+  const { total, done } = pickCount(ev.id);
+  box.innerHTML = `
+    <div class="checklist-head">
+      <b>내 체크리스트</b>
+      <span class="checklist-count">${done}/${total} 완료</span>
+      <span class="checklist-bar" aria-hidden="true"><i style="width:${Math.round(done / total * 100)}%"></i></span>
+    </div>
+    <ul class="checklist-list">
+      ${codes.map((c) => {
+        const info = findBooth(ev, c);
+        const name = info ? (info.b.name || info.g.name) : '';
+        const pk = picks[c];
+        return `<li class="${pk.done ? 'is-done' : ''}">
+          <label><input type="checkbox" data-done="${esc(c)}" ${pk.done ? 'checked' : ''} />
+            <span class="pchip p${pk.p}">${PRIORITY[pk.p].short}</span>
+            <b>${esc(c)}</b> <span class="cl-name">${esc(name)}</span></label>
+          ${info && info.b.pos ? `<button class="cl-locate" data-locate="${esc(c)}" aria-label="${esc(c)} 위치 보기">위치</button>` : ''}
+        </li>`;
+      }).join('')}
+    </ul>`;
+  box.querySelectorAll('[data-done]').forEach((cb) => { cb.onchange = () => togglePickDone(ev, cb.dataset.done); });
+  box.querySelectorAll('[data-locate]').forEach((btn) => {
+    btn.onclick = () => {
+      const li = [...$$('#boothGroups .booth')].find((x) => x.dataset.booth === btn.dataset.locate);
+      if (li) markBooth(li, true);
+    };
+  });
+}
+
+// 배치도 위에 찜한 부스를 색 점으로 표시 (산 곳은 회색 체크)
+function renderPickLayer(ev, layer) {
+  if (!layer) return;
+  const picks = picksOf(ev.id);
+  layer.innerHTML = Object.entries(picks).map(([c, pk]) => {
+    const info = findBooth(ev, c);
+    if (!info || !info.b.pos) return '';
+    const [x, y, w, h] = info.b.pos;
+    return `<span class="pick-dot p${pk.p}${pk.done ? ' is-done' : ''}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%"></span>`;
+  }).join('');
 }
 
 // 부스 검색: 번호·이름에 검색어가 들어간 부스만 보여주기
@@ -625,9 +755,8 @@ function bindBoothSearch() {
   });
 
   // 부스를 누르면 배치도에 위치 표시
-  $$('#boothGroups .booth.has-pos').forEach((li) => {
-    li.addEventListener('click', () => markBooth(li, true));
-    li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); markBooth(li, true); } });
+  $$('#boothGroups .booth.has-pos .booth-main').forEach((btn) => {
+    btn.addEventListener('click', () => markBooth(btn.closest('.booth'), true));
   });
 }
 
@@ -657,7 +786,7 @@ function markBooth(li, scroll) {
 }
 
 // 배치도 크게 보기 (손가락으로 확대·이동 가능)
-function openMapViewer(src, alt) {
+function openMapViewer(src, alt, ev) {
   const v = document.createElement('div');
   v.className = 'viewer';
   v.setAttribute('role', 'dialog');
@@ -668,10 +797,11 @@ function openMapViewer(src, alt) {
       <button class="viewer-btn" data-z="1" aria-label="확대">＋</button>
       <button class="viewer-btn viewer-close" aria-label="닫기">✕</button>
     </div>
-    <div class="viewer-scroll"><div class="map-frame viewer-frame"><img src="${esc(src)}" alt="${esc(alt)}" /><span class="booth-mark" hidden></span></div></div>`;
+    <div class="viewer-scroll"><div class="map-frame viewer-frame"><img src="${esc(src)}" alt="${esc(alt)}" /><span class="pick-layer"></span><span class="booth-mark" hidden></span></div></div>`;
   document.body.appendChild(v);
   const img = v.querySelector('.viewer-frame');
   if (markedPos) placeMark(v.querySelector('.booth-mark'), markedPos);
+  if (ev) renderPickLayer(ev, v.querySelector('.pick-layer'));
   let zoom = markedPos ? 2 : 1; // 표시된 부스가 있으면 확대해서 열기
   const apply = () => {
     img.style.width = (zoom * 100) + '%';
@@ -716,6 +846,7 @@ function openDetail(id) {
   $('#favBtn').onclick = () => toggleFavorite(ev.id);
   markedPos = null;
   bindBoothSearch();
+  if (ev.boothMap) { bindStars(ev); renderChecklist(ev); renderPickLayer(ev, $('#pickLayer')); }
   // 메인 검색어가 이 행사의 부스와 맞으면, 부스 검색에 자동으로 넣고 위치까지 표시
   const bs = $('#boothSearch');
   if (bs && state.query && boothHits(ev).length) {
@@ -725,7 +856,7 @@ function openDetail(id) {
     if (first) setTimeout(() => markBooth(first, true), 350);
   }
   const mapBtn = $('#boothMapBtn');
-  if (mapBtn) mapBtn.onclick = () => openMapViewer(ev.boothMap.image, ev.name + ' 부스 배치도');
+  if (mapBtn) mapBtn.onclick = () => openMapViewer(ev.boothMap.image, ev.name + ' 부스 배치도', ev);
 
   // 상세 지도 만들기 (이전 지도는 지우고 새로)
   if (detailMap) { detailMap.remove(); detailMap = null; }
@@ -873,6 +1004,7 @@ function registerServiceWorker() {
 // ---------------------------------------------------------
 async function init() {
   loadFavorites();
+  loadPicks();
   bindEvents();
   await loadEvents();
   renderList();
