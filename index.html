@@ -71,13 +71,24 @@
 
   <!-- 안내 줄: 예시 데이터가 있으면 경고, 아니면 마지막 업데이트 날짜를 보여줘요 -->
   <p class="sample-banner" id="sampleBanner" hidden></p>
+  <!-- 인터넷이 끊기면 보이는 안내 -->
+  <p class="offline-bar" id="offlineBar" role="status" hidden>인터넷 연결이 없어요. 폰에 저장된 정보로 보여드리고 있어요.</p>
 
   <!-- ================= 본문: 탭 3개 ================= -->
   <main>
     <!-- ① 목록 탭 -->
     <section id="view-list" class="view is-active" aria-label="행사 목록">
       <div id="listGrid" class="grid"></div>
+      <button class="archive-link" id="archiveBtn">지난 행사 아카이브 보기</button>
       <p id="listEmpty" class="empty" hidden>조건에 맞는 행사가 없어요.<br />필터를 바꾸거나 검색어를 지워보세요.</p>
+    </section>
+
+    <!-- ①-1 지난 행사 아카이브 (목록 맨 아래 버튼으로 열려요) -->
+    <section id="view-archive" class="view" aria-label="지난 행사 아카이브">
+      <button class="archive-back" id="archiveBack">← 다가오는 행사로 돌아가기</button>
+      <h2 class="archive-title">지난 행사 아카이브</h2>
+      <p class="archive-sub">끝난 행사를 연도·달별로 모아뒀어요. 눌러서 그때 정보와 배치도를 다시 볼 수 있어요.</p>
+      <div id="archiveList"></div>
     </section>
 
     <!-- ② 지도 탭 -->

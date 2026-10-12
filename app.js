@@ -332,7 +332,7 @@ function catTags(ev) {
 // 목록 탭 그리기
 function renderList() {
   if (!state.events.length) return;
-  const list = sortEvents(state.events.filter(matchesFilter));
+  const list = sortEvents(state.events.filter((ev) => !ev._archived && matchesFilter(ev)));
   $('#listGrid').innerHTML = list.map(cardHTML).join('');
   $('#listEmpty').hidden = list.length > 0;
   renderHero();
@@ -406,7 +406,7 @@ function renderAllMap() {
 
   // 같은 장소(예: 코엑스)에 여러 행사가 있으면 핀 하나에 묶어서 보여줘요
   const groups = {};
-  state.events.filter(hasCoords).forEach((ev) => {
+  state.events.filter((ev) => hasCoords(ev) && !ev._archived).forEach((ev) => {
     const key = ev.lat.toFixed(4) + ',' + ev.lng.toFixed(4);
     (groups[key] = groups[key] || []).push(ev);
   });
@@ -683,6 +683,9 @@ function boothHTML(ev) {
       </button>
       <p class="booth-picked" id="boothPicked" hidden></p>` : ''}
     ${bm.image && groups.some((g) => (g.booths || []).some((b) => b.pos)) ? '<p class="booth-tip">아래 목록에서 부스를 누르면 배치도에 위치가 표시돼요.</p>' : ''}
+    ${bm.image ? (offlineEventIds().has(ev.id)
+      ? '<p class="booth-tip offline-ok">✓ 찜한 행사라 이 배치도는 폰에 저장돼요. 행사장에서 인터넷이 안 돼도 볼 수 있어요.</p>'
+      : '<p class="booth-tip">행사를 찜하면 배치도가 폰에 저장돼서, 행사장에서 인터넷이 안 돼도 볼 수 있어요.</p>') : ''}
     ${!bm.image && bm.link ? `<div class="btn-row one"><a class="btn btn-primary" href="${esc(bm.link)}" target="_blank" rel="noopener">공식 부스 배치도 보기</a></div>` : ''}
     ${total ? `
       <div class="checklist" id="checklist"></div>
@@ -710,6 +713,7 @@ function cyclePick(ev, code) {
   else delete picks[code];
   if (!Object.keys(picks).length) delete state.picks[ev.id];
   savePicks();
+  saveOfflineMaps();
   refreshPicks(ev);
 }
 
@@ -975,6 +979,7 @@ function toggleFavorite(id) {
   if (state.favorites.has(id)) state.favorites.delete(id);
   else state.favorites.add(id);
   saveFavorites();
+  saveOfflineMaps();
 
   // 버튼 모양 바꾸기
   const btn = $('#favBtn');
@@ -992,7 +997,7 @@ function toggleFavorite(id) {
 // ---------------------------------------------------------
 function switchTab(tab) {
   state.tab = tab;
-  $$('.tab').forEach((b) => b.classList.toggle('is-active', b.dataset.tab === tab));
+  $$('.tab').forEach((b) => b.classList.toggle('is-active', b.dataset.tab === (tab === 'archive' ? 'list' : tab)));
   $$('.view').forEach((v) => v.classList.toggle('is-active', v.id === 'view-' + tab));
   // 지도 탭에서는 검색·필터가 필요 없으니 숨겨요
   $('#filterChips').style.display = tab === 'list' ? '' : 'none';
@@ -1047,6 +1052,10 @@ function bindEvents() {
     if (openBtn) return goToEvent(openBtn.dataset.open);
   });
 
+  // 지난 행사 아카이브
+  $('#archiveBtn').addEventListener('click', showArchive);
+  $('#archiveBack').addEventListener('click', () => switchTab('list'));
+
   // 하단 탭
   $$('.tab').forEach((b) => b.addEventListener('click', () => switchTab(b.dataset.tab)));
 
@@ -1057,6 +1066,66 @@ function bindEvents() {
   });
 
   window.addEventListener('hashchange', handleHash);
+}
+
+// ---------------------------------------------------------
+// 12-1. 오프라인: 찜한 행사·체크리스트가 있는 행사의 배치도를 폰에 미리 저장
+// ---------------------------------------------------------
+function offlineEventIds() {
+  return new Set([...state.favorites, ...Object.keys(state.picks)]);
+}
+function saveOfflineMaps() {
+  if (!('serviceWorker' in navigator)) return;
+  const ids = offlineEventIds();
+  const urls = state.events
+    .filter((ev) => ids.has(ev.id) && ev.boothMap?.image)
+    .map((ev) => new URL(ev.boothMap.image, location.href).href);
+  if (!urls.length) return;
+  navigator.serviceWorker.ready
+    .then((reg) => reg.active && reg.active.postMessage({ type: 'save-maps', urls }))
+    .catch(() => {});
+}
+function updateOnlineBar() {
+  $('#offlineBar').hidden = navigator.onLine !== false;
+}
+
+// ---------------------------------------------------------
+// 12-2. 지난 행사 아카이브 (archive.json + 이미 끝난 행사)
+// ---------------------------------------------------------
+let archiveLoaded = null;
+async function loadArchive() {
+  if (archiveLoaded) return archiveLoaded;
+  let old = [];
+  try {
+    const res = await fetch('archive.json', { cache: 'no-cache' });
+    if (res.ok) old = (await res.json()).events || [];
+  } catch (e) { /* 아카이브를 못 불러와도 끝난 행사는 보여줘요 */ }
+  const ended = state.events.filter((ev) => getStatus(ev) === 'ended');
+  const seen = new Set();
+  archiveLoaded = [...ended, ...old].filter((ev) => !seen.has(ev.id) && seen.add(ev.id));
+  // 상세 화면에서도 열 수 있게 목록에 합쳐두기 (화면 목록에는 안 나오게 표시)
+  old.forEach((ev) => { if (!state.events.some((e) => e.id === ev.id)) { ev._archived = true; state.events.push(ev); } });
+  return archiveLoaded;
+}
+async function showArchive() {
+  switchTab('archive');
+  const list = await loadArchive();
+  const box = $('#archiveList');
+  if (!list.length) { box.innerHTML = '<p class="empty">아직 지난 행사가 없어요.</p>'; return; }
+  // 최근 끝난 순 → 연도 → 달로 묶기
+  const sorted = [...list].sort((a, b) => b.endDate.localeCompare(a.endDate));
+  const byYear = {};
+  sorted.forEach((ev) => {
+    const [y, m] = ev.startDate.split('-');
+    ((byYear[y] = byYear[y] || {})[Number(m)] = byYear[y][Number(m)] || []).push(ev);
+  });
+  box.innerHTML = Object.keys(byYear).sort().reverse().map((y) => `
+    <section class="archive-year">
+      <h3 class="archive-y">${y}년 <span>${Object.values(byYear[y]).flat().length}개</span></h3>
+      ${Object.keys(byYear[y]).sort((a, b) => b - a).map((m) => `
+        <h4 class="archive-m">${m}월</h4>
+        <div class="grid">${byYear[y][m].map(cardHTML).join('')}</div>`).join('')}
+    </section>`).join('');
 }
 
 // ---------------------------------------------------------
@@ -1073,6 +1142,8 @@ function registerServiceWorker() {
 // 14. 앱 시작!
 // ---------------------------------------------------------
 async function init() {
+  window.addEventListener('online', updateOnlineBar);
+  window.addEventListener('offline', updateOnlineBar);
   loadFavorites();
   loadPicks();
   bindEvents();
@@ -1081,6 +1152,8 @@ async function init() {
   renderFavorites();
   handleHash(); // 주소에 #event=... 가 있으면 바로 상세 열기 (링크 공유용)
   registerServiceWorker();
+  updateOnlineBar();
+  saveOfflineMaps();
 }
 
 init();

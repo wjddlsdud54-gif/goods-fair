@@ -579,3 +579,22 @@ body.no-scroll { overflow: hidden; }
 .tt-item.is-past { opacity: .45; }
 .tt-item.is-now { background: color-mix(in srgb, var(--accent) 10%, transparent); margin: 0 -14px; padding-left: 14px; padding-right: 14px; }
 .tt-now { flex: none; padding: 1px 7px; border-radius: 4px; background: var(--accent); color: #fff; font-size: 0.72rem; font-weight: 900; }
+
+/* ----- 13. 오프라인 안내 · 지난 행사 아카이브 ----- */
+.offline-bar {
+  position: sticky; top: 0; z-index: 950; margin: 0; padding: 9px 16px;
+  background: var(--ink); color: var(--paper); font-size: 0.82rem; font-weight: 700; text-align: center;
+}
+.offline-bar[hidden] { display: none; }
+.offline-ok { color: var(--ink); font-weight: 600; }
+.archive-link {
+  display: block; width: 100%; margin: 22px 0 0; padding: 13px;
+  border: 2px dashed var(--ink); border-radius: 10px; background: color-mix(in srgb, var(--paper) 70%, transparent);
+  font-weight: 800; font-size: 0.9rem;
+}
+.archive-back { border: 0; background: none; padding: 4px 0; font-weight: 800; color: var(--muted); font-size: 0.88rem; }
+.archive-title { margin: 8px 0 2px; font-size: 1.5rem; font-weight: 900; letter-spacing: -0.03em; }
+.archive-sub { margin: 0 0 8px; color: var(--muted); font-size: 0.86rem; }
+.archive-y { margin: 26px 0 0; font-size: 1.2rem; font-weight: 900; display: inline-block; background: var(--marker); padding: 0 8px; transform: rotate(-1deg); }
+.archive-y span { font-size: 0.8rem; font-weight: 700; color: var(--muted); margin-left: 4px; }
+.archive-m { margin: 16px 0 10px; font-size: 0.95rem; font-weight: 800; color: var(--muted); }
