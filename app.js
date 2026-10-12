@@ -962,6 +962,8 @@ function hideDetail() {
 
 // 주소(#event=id)에 따라 상세 화면 열기/닫기 → 폰에서 뒤로 가기 버튼이 자연스럽게 동작
 function handleHash() {
+  // 홈 화면 바로가기(#fav, #map)로 열면 그 탭으로
+  if (location.hash === '#fav' || location.hash === '#map') { switchTab(location.hash.slice(1)); return; }
   const m = location.hash.match(/^#event=(.+)$/);
   if (m) openDetail(decodeURIComponent(m[1]));
   else if (!$('#detail').hidden) hideDetail();
