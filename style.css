@@ -550,3 +550,32 @@ body.no-scroll { overflow: hidden; }
 .ticket-foot .has-map.is-check + .has-map { margin-left: 0; }
 .ticket-foot { gap: 6px; }
 .ticket-foot .barcode { flex: 0 1 112px; min-width: 28px; }
+
+/* ----- 12. 관람 안내 · 시간표 ----- */
+.guide-list { margin-top: 10px; display: grid; gap: 6px; }
+.guide-item { background: var(--paper); border: 2px solid var(--ink); border-radius: 10px; }
+.guide-item summary {
+  display: flex; align-items: center; padding: 11px 14px; font-weight: 800; font-size: 0.92rem;
+  cursor: pointer; list-style: none;
+}
+.guide-item summary::-webkit-details-marker { display: none; }
+.guide-item summary::after { content: "＋"; margin-left: auto; color: var(--muted); }
+.guide-item[open] summary::after { content: "−"; }
+.guide-item p { margin: 0; padding: 0 14px 12px; font-size: 0.88rem; white-space: pre-line; line-height: 1.65; }
+.day-tabs { display: flex; gap: 6px; margin-top: 10px; overflow-x: auto; }
+.day-tab {
+  flex: none; padding: 6px 12px; border-radius: 6px; border: 1.5px solid var(--ink);
+  background: var(--paper); font-weight: 800; font-size: 0.85rem;
+}
+.day-tab.is-active { background: var(--accent); color: #fff; }
+.timetable { margin-top: 8px; background: var(--paper); border: 2px solid var(--ink); border-radius: 10px; }
+.tt-list { list-style: none; margin: 0; padding: 4px 14px; }
+.tt-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-top: 1px dashed var(--line); }
+.tt-item:first-child { border-top: 0; }
+.tt-time { flex: none; width: 52px; font-weight: 900; font-size: 0.9rem; display: flex; flex-direction: column; }
+.tt-time small { font-weight: 600; color: var(--muted); font-size: 0.72rem; }
+.tt-body { flex: 1; min-width: 0; display: flex; flex-direction: column; font-size: 0.9rem; }
+.tt-body small { color: var(--muted); font-size: 0.76rem; }
+.tt-item.is-past { opacity: .45; }
+.tt-item.is-now { background: color-mix(in srgb, var(--accent) 10%, transparent); margin: 0 -14px; padding-left: 14px; padding-right: 14px; }
+.tt-now { flex: none; padding: 1px 7px; border-radius: 4px; background: var(--accent); color: #fff; font-size: 0.72rem; font-weight: 900; }

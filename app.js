@@ -549,6 +549,9 @@ function detailHTML(ev) {
     <div class="detail-content">
       ${ev.description ? `<p class="desc">${esc(ev.description)}</p>` : ''}
 
+      ${guideHTML(ev)}
+      ${scheduleHTML(ev)}
+
       <h3 class="section-title">일정 저장</h3>
       <div class="btn-row">
         <button class="btn" id="icsBtn">캘린더 파일 받기</button>
@@ -568,6 +571,72 @@ function detailHTML(ev) {
 
       ${ev.source ? `<p class="source"><a href="${esc(ev.source)}" target="_blank" rel="noopener">정보 출처 보기</a> — 일정은 바뀔 수 있으니 공식 공지를 확인하세요.</p>` : ''}
     </div>`;
+}
+
+// ---------------------------------------------------------
+// 9-0. 관람 안내 + 무대·이벤트 시간표
+//   guide: [{ title, body }]
+//   schedule: { source, days: [{ date: "2026-10-24", items: [{ start: "11:00", end: "11:40", title, place }] }] }
+// ---------------------------------------------------------
+function guideHTML(ev) {
+  const list = ev.guide || [];
+  if (!list.length) return '';
+  return `
+    <h3 class="section-title">관람 안내</h3>
+    <div class="guide-list">
+      ${list.map((g, i) => `
+        <details class="guide-item" ${i === 0 ? 'open' : ''}>
+          <summary>${esc(g.title)}</summary>
+          <p>${esc(g.body)}</p>
+        </details>`).join('')}
+    </div>
+    ${ev.guideSource ? `<p class="source">안내 내용은 바뀔 수 있어요. <a href="${esc(ev.guideSource)}" target="_blank" rel="noopener">공식 안내 보기</a></p>` : ''}`;
+}
+
+// "11:30" → 690 (분)
+const toMin = (t) => { const [h, m] = String(t || '0:0').split(':').map(Number); return h * 60 + (m || 0); };
+const todayStr = () => { const t = today(); return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`; };
+
+function scheduleHTML(ev) {
+  const days = ev.schedule?.days || [];
+  if (!days.length) return '';
+  // 오늘이 행사일이면 오늘 탭을, 아니면 첫날을 먼저 보여줘요
+  const first = Math.max(0, days.findIndex((d) => d.date === todayStr()));
+  return `
+    <h3 class="section-title">무대·이벤트 시간표</h3>
+    <div class="day-tabs" role="tablist">
+      ${days.map((d, i) => `<button role="tab" class="day-tab${i === first ? ' is-active' : ''}" data-day="${i}" aria-selected="${i === first}">${esc(fmtShort(d.date))}</button>`).join('')}
+    </div>
+    <div class="timetable" id="timetable" data-ev="${esc(ev.id)}">${timetableHTML(days[first])}</div>
+    ${ev.schedule.source ? `<p class="source">시간표는 바뀔 수 있어요. <a href="${esc(ev.schedule.source)}" target="_blank" rel="noopener">공식 시간표 보기</a></p>` : ''}`;
+}
+
+function timetableHTML(day) {
+  const now = new Date();
+  const isToday = day.date === todayStr();
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const items = [...(day.items || [])].sort((a, b) => toMin(a.start) - toMin(b.start));
+  return `<ol class="tt-list">
+    ${items.map((it) => {
+      const s = toMin(it.start), e = it.end ? toMin(it.end) : s + 30;
+      const state = !isToday ? '' : nowMin >= e ? ' is-past' : nowMin >= s ? ' is-now' : '';
+      return `<li class="tt-item${state}">
+        <span class="tt-time">${esc(it.start)}${it.end ? `<small>~${esc(it.end)}</small>` : ''}</span>
+        <span class="tt-body"><b>${esc(it.title)}</b>${it.place ? `<small>${esc(it.place)}</small>` : ''}</span>
+        ${state === ' is-now' ? '<span class="tt-now">지금</span>' : ''}
+      </li>`;
+    }).join('')}
+  </ol>`;
+}
+
+function bindSchedule(ev) {
+  const days = ev.schedule?.days || [];
+  $$('.day-tab').forEach((btn) => {
+    btn.onclick = () => {
+      $$('.day-tab').forEach((b) => { b.classList.toggle('is-active', b === btn); b.setAttribute('aria-selected', b === btn); });
+      $('#timetable').innerHTML = timetableHTML(days[Number(btn.dataset.day)]);
+    };
+  });
 }
 
 // ---------------------------------------------------------
@@ -845,6 +914,7 @@ function openDetail(id) {
   $('#icsBtn').onclick = () => downloadICS(ev);
   $('#favBtn').onclick = () => toggleFavorite(ev.id);
   markedPos = null;
+  bindSchedule(ev);
   bindBoothSearch();
   if (ev.boothMap) { bindStars(ev); renderChecklist(ev); renderPickLayer(ev, $('#pickLayer')); }
   // 메인 검색어가 이 행사의 부스와 맞으면, 부스 검색에 자동으로 넣고 위치까지 표시
