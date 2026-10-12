@@ -19,6 +19,8 @@ def norm_code(raw):
     first, second, digits = m.group(1), m.group(2), m.group(3)
     if second in ("O", "Q"):          # "BO8" → "B08"
         digits, second = "0" + digits, ""
+    elif second in ("I", "L", "T", "N", "J") and len(digits) == 2:   # "CI60" → "C160"
+        digits, second = "1" + digits, ""
     digits = digits.translate(str.maketrans({"O": "0", "Q": "0", "I": "1", "L": "1", "|": "1"}))
     if not digits.isdigit() or len(digits) > 3:
         return None

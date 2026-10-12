@@ -273,7 +273,7 @@ function matchesFilter(ev) {
 
   // 검색어: 행사명, 장소, 주소, 지역에서 찾기 (띄어쓰기·대소문자 무시)
   if (state.query) {
-    const norm = (s) => String(s || '').toLowerCase().replace(/\s/g, '');
+    const norm = (s) => String(s || '').toLowerCase().replace(/[\s-]/g, '');
     const booths = (ev.boothMap?.groups || []).flatMap((g) => (g.booths || []).map((b) => b.name + b.code)).join('');
     const hay = norm(ev.name) + norm(ev.venue) + norm(ev.address) + norm(ev.region) + norm(cats(ev).join('')) + norm(booths);
     if (!hay.includes(norm(state.query))) return false;
@@ -316,7 +316,7 @@ function cardHTML(ev) {
 // 메인 검색어와 맞는 부스 찾기 (티켓에 "B-1 JCB카드"처럼 보여주려고)
 function boothHits(ev) {
   if (!state.query || !ev.boothMap) return [];
-  const norm = (x) => String(x || '').toLowerCase().replace(/\s/g, '');
+  const norm = (x) => String(x || '').toLowerCase().replace(/[\s-]/g, '');
   const q = norm(state.query);
   return (ev.boothMap.groups || []).flatMap((g) => g.booths || [])
     .filter((b) => norm(b.name).includes(q) || norm(b.code) === q);
@@ -659,7 +659,7 @@ function boothHTML(ev) {
       <summary><i class="gdot"></i>${esc(g.name)} <span class="gcount">${(g.booths || []).length}</span></summary>
       <ul class="booth-list">
         ${(g.booths || []).map((b) => `
-          <li class="booth${b.pos ? ' has-pos' : ''}" data-booth="${esc(b.code)}" ${b.pos ? `data-pos="${esc(b.pos.join(','))}"` : ''} data-code="${esc(String(b.code).toLowerCase().replace(/\s/g, ''))}" data-search="${esc((b.code + ' ' + (b.name || g.name)).toLowerCase().replace(/\s/g, ''))}">
+          <li class="booth${b.pos ? ' has-pos' : ''}" data-booth="${esc(b.code)}" ${b.pos ? `data-pos="${esc(b.pos.join(','))}"` : ''} data-code="${esc(String(b.code).toLowerCase().replace(/[\s-]/g, ''))}" data-search="${esc((b.code + ' ' + (b.name || g.name)).toLowerCase().replace(/[\s-]/g, ''))}">
             <button class="booth-main" ${b.pos ? `aria-label="${esc(b.code + ' ' + (b.name || g.name))} 배치도에서 위치 보기"` : 'tabindex="-1"'}>
               <b class="booth-code">${esc(b.code)}</b>
               <span class="booth-name${b.name ? '' : ' is-blank'}">${esc(b.name || g.name)}</span>
@@ -806,7 +806,7 @@ function bindBoothSearch() {
   const input = $('#boothSearch');
   if (!input) return;
   input.addEventListener('input', () => {
-    const q = input.value.toLowerCase().replace(/\s/g, '');
+    const q = input.value.toLowerCase().replace(/[\s-]/g, '');
     let shown = 0;
     // "A-1"처럼 부스 번호를 정확히 쓰면 그 부스만 (A-10, A-11… 은 빼고)
     const exact = q && [...$$('#boothGroups .booth')].some((li) => li.dataset.code === q);

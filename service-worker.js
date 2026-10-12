@@ -7,7 +7,7 @@
      아래 CACHE_VERSION 숫자를 하나 올려주세요 (v6 → v7).
      그래야 사용자 폰에 새 버전이 적용돼요.
    ========================================================= */
-const CACHE_VERSION = 'v8';
+const CACHE_VERSION = 'v9';
 const CACHE_NAME = 'goodsfair-' + CACHE_VERSION;
 // 부스 배치도 그림 저장소: 앱 버전이 바뀌어도 지우지 않아요 (행사장에서 꺼내 보려고)
 const OFFLINE_CACHE = 'goodsfair-offline-maps';
