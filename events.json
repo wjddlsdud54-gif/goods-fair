@@ -1,6 +1,6 @@
 {
   "_안내": "행사 정보는 공식 사이트·보도자료·행사 캘린더에서 모은 것입니다. 시간·가격이 비어 있는 행사는 아직 발표되지 않은 것이에요. 방문 전에 꼭 공식 공지를 확인하세요.",
-  "updatedAt": "2026-10-10",
+  "updatedAt": "2026-10-13",
   "events": [
     {
       "id": "hoyoland-2026",
@@ -2335,22 +2335,41 @@
       ],
       "startDate": "2026-10-16",
       "endDate": "2026-10-18",
-      "hours": "",
+      "hours": "10:00 ~ 18:00 (10.18 일요일은 10:00 ~ 17:00)",
       "venue": "대전컨벤션센터(DCC) 제2전시장",
       "address": "대전 유성구 엑스포로 87",
       "lat": 36.3757,
       "lng": 127.3916,
       "region": "대전",
-      "price": "",
+      "price": "온라인 사전등록 시 무료 (현장 등록도 가능)",
       "description": "공공캐릭터·기능성 게임·서브컬처가 한자리에 모이는 콘텐츠 축제. 코스프레 런웨이·퍼레이드, 이타샤 전시, TCG·보드게임 체험 등이 열려요.\n16일은 업계 행사 위주, 17~18일은 체험·서브컬처 프로그램 위주예요. (지도 위치는 대략적인 위치예요)",
       "image": "",
-      "source": "https://dcfair.co.kr/",
+      "source": "https://dcfair.co.kr/sub0302",
       "links": {
         "homepage": "https://dcfair.co.kr/",
         "instagram": "",
         "x": "",
         "ticket": ""
-      }
+      },
+      "guide": [
+        {
+          "title": "입장권",
+          "body": "온라인으로 미리 등록하면 행사 기간 동안 매일 무료로 들어갈 수 있어요. 등록은 공식 홈페이지의 '사전예약하기' 버튼으로 해요.\n현장 등록도 돼요. 학생·65세 이상·장애인·국가유공자 무료 입장은 증빙 서류(학생증·신분증 등)를 챙겨 가세요."
+        },
+        {
+          "title": "운영 시간",
+          "body": "16~17일은 오전 10시~오후 6시, 18일(일)은 오전 10시~오후 5시예요."
+        },
+        {
+          "title": "입장 방법",
+          "body": "현장 등록 입장권은 그날 하루, 한 번만 쓸 수 있어요. 나갔다가 다시 들어올 수 없어요."
+        },
+        {
+          "title": "금지 물품",
+          "body": "음식물은 가지고 들어갈 수 없고, 행사장 안은 금연이에요.\n안내견을 빼고 반려동물은 들어갈 수 없어요."
+        }
+      ],
+      "guideSource": "https://dcfair.co.kr/sub0302"
     },
     {
       "id": "biaf-2026",
@@ -2428,7 +2447,12 @@
           "body": "반려동물은 이동 가방에 넣어도 들어갈 수 없어요.\n환불은 마이페이지 주문내역의 [환불 요청]으로 해요. 행사 2일 전부터는 취소가 안 되고, 시기에 따라 수수료가 있어요."
         }
       ],
-      "guideSource": "https://comicw.net/faq"
+      "guideSource": "https://comicw.net/faq",
+      "boothMap": {
+        "link": "https://comicw.net/map/338/",
+        "note": "코믹월드 공식 동아리 배치도 페이지에서 볼 수 있어요. 배치도는 변경될 수 있어요.",
+        "source": "https://comicw.net/map/338/"
+      }
     },
     {
       "id": "comiverse-2026-fall",
@@ -2452,7 +2476,7 @@
         "homepage": "https://comiverse.kr/",
         "instagram": "",
         "x": "",
-        "ticket": ""
+        "ticket": "https://comiverse.kr/ticket"
       },
       "boothMap": {
         "imageUrl": "https://comiverse.kr/builder/summernote/1791200866_7f55216290ab8dabe297.jpg",
@@ -5359,22 +5383,41 @@
       ],
       "startDate": "2026-10-30",
       "endDate": "2026-11-01",
-      "hours": "",
+      "hours": "10:00 ~ 18:00 (입장 마감 17:30)",
       "venue": "송도컨벤시아",
       "address": "인천 연수구 센트럴로 123",
       "lat": 37.3886,
       "lng": 126.643,
       "region": "인천",
-      "price": "",
+      "price": "10,000원 (사전등록 후 10/29까지 사전결제 시 5,000원 · 중고생 5,000원 · 초등학생 무료)",
       "description": "일러스트 작가와 브랜드의 작품·굿즈를 보고 사는 일러스트 전시 행사.",
       "image": "",
-      "source": "https://comicw.net/c/409",
+      "source": "https://illustrationkorea.co.kr/incheon/visitors/guide/",
       "links": {
         "homepage": "https://illustrationkorea.co.kr/incheon/",
         "instagram": "https://www.instagram.com/illustrationkorea/",
         "x": "",
         "ticket": ""
-      }
+      },
+      "guide": [
+        {
+          "title": "입장권",
+          "body": "정가는 10,000원이에요. 홈페이지에서 사전등록하고 10월 29일(목)까지 미리 결제하면 5,000원이에요.\n중고생은 5,000원, 초등학생은 무료예요(학생증·청소년증 등 챙기기). 미취학 아동·장애인(복지카드)·국가유공자도 무료예요.\n만 14세 미만은 보호자와 함께 현장에서만 살 수 있어요."
+        },
+        {
+          "title": "입장 방법",
+          "body": "미리 결제했다면 문자나 카카오톡으로 받은 바코드를 사전등록대에서 찍고 출입증을 받아요.\n종이 초청장이 있으면 현장 등록 후 키오스크에서 바코드를 찍어요. 둘 다 없으면 현장 매표소에서 사면 돼요.\n입장권 1장은 1명이 하루만 쓸 수 있어요. 여러 명이 가면 각자 등록하고 각자 사야 해요."
+        },
+        {
+          "title": "운영 시간",
+          "body": "10월 30일(금)~11월 1일(일), 매일 오전 10시~오후 6시예요. 입장은 오후 5시 30분에 마감돼요."
+        },
+        {
+          "title": "환불",
+          "body": "미리 결제한 입장권은 10월 29일(목) 밤 11시 59분까지 홈페이지 '참관객 > 등록확인 및 취소'에서 취소할 수 있어요. 그 뒤로는 환불이 안 돼요."
+        }
+      ],
+      "guideSource": "https://illustrationkorea.co.kr/incheon/visitors/guide/"
     },
     {
       "id": "bif-v7",
@@ -5452,7 +5495,12 @@
           "body": "반려동물은 이동 가방에 넣어도 들어갈 수 없어요.\n환불은 마이페이지 주문내역의 [환불 요청]으로 해요. 행사 2일 전부터는 취소가 안 되고, 시기에 따라 수수료가 있어요."
         }
       ],
-      "guideSource": "https://comicw.net/faq"
+      "guideSource": "https://comicw.net/faq",
+      "boothMap": {
+        "link": "https://comicw.net/map/339/",
+        "note": "코믹월드 공식 동아리 배치도 페이지에서 볼 수 있어요. 배치도는 변경될 수 있어요.",
+        "source": "https://comicw.net/map/339/"
+      }
     },
     {
       "id": "bluearchive-5th-fes",
