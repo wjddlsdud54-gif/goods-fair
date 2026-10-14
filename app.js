@@ -549,6 +549,12 @@ function detailHTML(ev) {
     <div class="detail-content">
       ${ev.description ? `<p class="desc">${esc(ev.description)}</p>` : ''}
 
+      <button class="board-btn" data-board="${esc(ev.id)}">
+        <span class="board-btn-ic" aria-hidden="true">💬</span>
+        <span><b>행사 이야기</b><small>1일차 인증 · 후기 · 작가 칭찬 · 행사 평가</small></span>
+        <span aria-hidden="true">›</span>
+      </button>
+
       ${guideHTML(ev)}
       ${scheduleHTML(ev)}
 
@@ -963,7 +969,7 @@ function hideDetail() {
 // 주소(#event=id)에 따라 상세 화면 열기/닫기 → 폰에서 뒤로 가기 버튼이 자연스럽게 동작
 function handleHash() {
   // 홈 화면 바로가기(#fav, #map)로 열면 그 탭으로
-  if (location.hash === '#fav' || location.hash === '#map') { switchTab(location.hash.slice(1)); return; }
+  if (['#fav', '#map', '#community'].includes(location.hash)) { switchTab(location.hash.slice(1)); return; }
   const m = location.hash.match(/^#event=(.+)$/);
   if (m) openDetail(decodeURIComponent(m[1]));
   else if (!$('#detail').hidden) hideDetail();
@@ -1008,6 +1014,7 @@ function switchTab(tab) {
 
   if (tab === 'map') renderAllMap();
   if (tab === 'fav') renderFavorites();
+  if (tab === 'community' && window.renderCommunityTab) window.renderCommunityTab();
   window.scrollTo({ top: 0 });
 }
 

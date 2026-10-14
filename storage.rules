@@ -1,0 +1,28 @@
+rules_version = '2';
+// =========================================================
+// Storage 보안 규칙 — 사진 파일
+// Firebase 콘솔 > Storage > 규칙 탭에 통째로 붙여넣고 [게시]를 누르세요.
+// =========================================================
+service firebase.storage {
+  match /b/{bucket}/o {
+    function myImage(uid) {
+      return request.auth != null && request.auth.uid == uid
+        && request.resource.size < 3 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    // 글 사진: 누구나 볼 수 있고, 본인만 올리고 지울 수 있어요
+    match /posts/{uid}/{postId}/{file} {
+      allow read: if true;
+      allow create, update: if myImage(uid);
+      allow delete: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // 관람 인증 사진: 본인만 볼 수 있어요 (운영자는 콘솔에서 확인)
+    match /verifications/{uid}/{file} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if myImage(uid);
+      allow delete: if request.auth != null && request.auth.uid == uid;
+    }
+  }
+}

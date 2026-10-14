@@ -82,7 +82,7 @@
       <button class="archive-link" id="archiveBtn">지난 행사 아카이브 보기</button>
       <p class="app-foot">
         행사 정보는 각 주최 측 공식 자료에서 모았어요. 방문 전에 공식 공지를 꼭 확인하세요.<br />
-        <a href="privacy.html">개인정보처리방침</a>
+        <a href="terms.html">이용약관</a> · <a href="privacy.html">개인정보처리방침</a>
       </p>
       <p id="listEmpty" class="empty" hidden>조건에 맞는 행사가 없어요.<br />필터를 바꾸거나 검색어를 지워보세요.</p>
     </section>
@@ -105,7 +105,21 @@
       <div id="favGrid" class="grid"></div>
       <p id="favEmpty" class="empty" hidden>아직 찜한 행사가 없어요.<br />티켓을 열고 ☆ 찜하기를 눌러보세요.</p>
     </section>
+    <!-- ④ 커뮤니티 탭 (community.js가 채워 넣어요) -->
+    <section id="view-community" class="view" aria-label="커뮤니티">
+      <div class="comm-head">
+        <h2 class="section-title"><span class="mk">행사 이야기</span></h2>
+        <div id="communityAuth"></div>
+      </div>
+      <p class="comm-sub">행사별로 1일차 인증 · 후기 · 작가 칭찬 · 행사 평가를 나눠요.</p>
+      <div id="communityList"></div>
+      <p class="app-foot">커뮤니티는 만 14세 이상만 가입할 수 있어요.<br /><a href="terms.html">이용약관</a> · <a href="privacy.html">개인정보처리방침</a></p>
+    </section>
   </main>
+
+  <!-- ================= 커뮤니티 게시판 · 작은 창 ================= -->
+  <div class="comm-board" id="commBoard" hidden></div>
+  <div class="comm-modal" id="commModal" hidden></div>
 
   <!-- ================= 상세 화면 (카드를 누르면 아래에서 올라와요) ================= -->
   <div class="detail-backdrop" id="detailBackdrop" hidden></div>
@@ -121,10 +135,13 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>지도</button>
     <button class="tab" data-tab="fav">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>찜한 행사</button>
+    <button class="tab" data-tab="community">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>커뮤니티</button>
   </nav>
 
   <!-- 스크립트: Leaflet 먼저, 그다음 우리 코드 -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="app.js"></script>
+  <script type="module" src="community.js"></script>
 </body>
 </html>

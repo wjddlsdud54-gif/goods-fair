@@ -7,7 +7,7 @@
      아래 CACHE_VERSION 숫자를 하나 올려주세요 (v6 → v7).
      그래야 사용자 폰에 새 버전이 적용돼요.
    ========================================================= */
-const CACHE_VERSION = 'v9';
+const CACHE_VERSION = 'v10';
 const CACHE_NAME = 'goodsfair-' + CACHE_VERSION;
 // 부스 배치도 그림 저장소: 앱 버전이 바뀌어도 지우지 않아요 (행사장에서 꺼내 보려고)
 const OFFLINE_CACHE = 'goodsfair-offline-maps';
@@ -22,6 +22,11 @@ const APP_FILES = [
   './archive.json',
   './manifest.json',
   './privacy.html',
+  './terms.html',
+  './community.js',
+  './community-backend-demo.js',
+  './community-backend-firebase.js',
+  './firebase-config.js',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];
@@ -67,6 +72,8 @@ self.addEventListener('fetch', (event) => {
 
   // 지도 그림(타일)은 너무 많아서 저장하지 않고 그냥 인터넷에서 받아요
   if (url.hostname.includes('tile.openstreetmap.org')) return;
+  // 커뮤니티 서버(Firebase·구글 로그인)는 항상 인터넷으로 — 저장하면 안 돼요
+  if (/(gstatic|googleapis|firebaseapp|firebasestorage|google)\.(com|app)$/.test(url.hostname) || url.pathname.startsWith('/__/auth')) return;
 
   // 행사 데이터(events.json, archive.json)는 "인터넷 먼저" → 최신 정보를 우선,
   // 인터넷이 안 되면 저장해둔 것 사용

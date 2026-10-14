@@ -1,0 +1,126 @@
+rules_version = '2';
+// =========================================================
+// Firestore 보안 규칙 — 누가 무엇을 읽고 쓸 수 있는지 정해요.
+// Firebase 콘솔 > Firestore Database > 규칙 탭에 통째로 붙여넣고 [게시]를 누르세요.
+// =========================================================
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isMe(uid) { return signedIn() && request.auth.uid == uid; }
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/config/admins)
+        && request.auth.uid in get(/databases/$(database)/documents/config/admins).data.uids;
+    }
+    function profile() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
+    function hasProfile() { return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)); }
+    function notBanned() { return !('banned' in profile()) || profile().banned != true; }
+    function okNick(n) { return n is string && n.matches('^[가-힣a-zA-Z0-9]{2,12}$'); }
+
+    // 관리자 목록: 읽기만 (수정은 콘솔에서 직접)
+    match /config/{doc} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // 회원 프로필
+    match /users/{uid} {
+      allow read: if isMe(uid) || isAdmin();
+      allow create: if isMe(uid) && okNick(request.resource.data.nickname) && !('banned' in request.resource.data);
+      allow update: if (isMe(uid) && okNick(request.resource.data.nickname)
+                        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['banned']))
+                    || isAdmin();
+      allow delete: if isMe(uid) || isAdmin();
+
+      // 내가 차단한 사람
+      match /blocked/{other} {
+        allow read, write: if isMe(uid);
+      }
+    }
+
+    // 닉네임 중복 막기
+    match /nicknames/{nick} {
+      allow read: if true;
+      allow create: if signedIn() && okNick(nick) && request.resource.data.uid == request.auth.uid;
+      allow update: if false;
+      allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+    }
+
+    // 관람 인증
+    match /verifications/{id} {
+      allow read: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+      allow create: if hasProfile()
+        && request.resource.data.uid == request.auth.uid
+        && id == request.resource.data.eventId + '_' + request.auth.uid
+        && request.resource.data.status == 'approved';
+      allow update: if isAdmin();      // 관리자가 status 를 'rejected' 로 바꿔 취소
+      allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+    }
+
+    // 글
+    match /posts/{postId} {
+      allow read: if resource.data.hidden == false
+                  || (signedIn() && resource.data.uid == request.auth.uid)
+                  || isAdmin();
+
+      allow create: if hasProfile() && notBanned()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.nickname == profile().nickname
+        && request.resource.data.type in ['day', 'review', 'artist', 'rating']
+        && request.resource.data.text is string && request.resource.data.text.size() <= 2000
+        && request.resource.data.photos is list && request.resource.data.photos.size() <= 4
+        && request.resource.data.hidden == false
+        && request.resource.data.likeCount == 0
+        && request.resource.data.commentCount == 0
+        && request.resource.data.createdAt == request.time
+        // 관람 인증 배지는 실제로 인증한 사람만
+        && request.resource.data.verified == (
+             exists(/databases/$(database)/documents/verifications/$(request.resource.data.eventId + '_' + request.auth.uid))
+             && get(/databases/$(database)/documents/verifications/$(request.resource.data.eventId + '_' + request.auth.uid)).data.status == 'approved')
+        // 작가 칭찬은 부스 번호가 꼭 있어야 해요
+        && (request.resource.data.type != 'artist' || request.resource.data.boothCode.size() > 0);
+
+      // 좋아요 수(±1)·댓글 수(+1)만 다른 사람이 바꿀 수 있어요. 숨기기는 관리자만.
+      allow update: if (signedIn()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likeCount'])
+          && (request.resource.data.likeCount == resource.data.likeCount + 1
+              || request.resource.data.likeCount == resource.data.likeCount - 1))
+        || (hasProfile()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['commentCount'])
+          && request.resource.data.commentCount == resource.data.commentCount + 1)
+        || (isAdmin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['hidden']));
+
+      allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+
+      match /likes/{uid} {
+        allow read: if signedIn();
+        allow create, delete: if isMe(uid);
+      }
+
+      match /comments/{cid} {
+        allow read: if true;
+        allow create: if hasProfile() && notBanned()
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.nickname == profile().nickname
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 500
+          && request.resource.data.createdAt == request.time;
+        allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+      }
+    }
+
+    // 회원 탈퇴 때 내 댓글을 한꺼번에 찾기 위한 규칙
+    match /{path=**}/comments/{cid} {
+      allow read: if true;
+      allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+    }
+
+    // 신고: 누구나 쓸 수 있고, 관리자만 읽어요
+    match /reports/{id} {
+      allow create: if hasProfile() && request.resource.data.uid == request.auth.uid
+        && request.resource.data.reason is string && request.resource.data.reason.size() <= 50;
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}
