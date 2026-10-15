@@ -1,6 +1,6 @@
 {
   "_안내": "행사 정보는 공식 사이트·보도자료·행사 캘린더에서 모은 것입니다. 시간·가격이 비어 있는 행사는 아직 발표되지 않은 것이에요. 방문 전에 꼭 공식 공지를 확인하세요.",
-  "updatedAt": "2026-10-13",
+  "updatedAt": "2026-10-16",
   "events": [
     {
       "id": "hoyoland-2026",
@@ -2369,7 +2369,13 @@
           "body": "음식물은 가지고 들어갈 수 없고, 행사장 안은 금연이에요.\n안내견을 빼고 반려동물은 들어갈 수 없어요."
         }
       ],
-      "guideSource": "https://dcfair.co.kr/sub0302"
+      "guideSource": "https://dcfair.co.kr/sub0302",
+      "boothMap": {
+        "imageUrl": "https://dcfair.co.kr/public/images/contents/diagram.png",
+        "link": "https://dcfair.co.kr/sub0102",
+        "note": "대전콘텐츠페어 공식 홈페이지의 부스배치도예요. 참가기업 목록은 공식 홈페이지 '참가기업' 메뉴에서 볼 수 있어요. 배치도는 변경될 수 있어요.",
+        "source": "https://dcfair.co.kr/sub0102"
+      }
     },
     {
       "id": "biaf-2026",
@@ -5417,7 +5423,12 @@
           "body": "미리 결제한 입장권은 10월 29일(목) 밤 11시 59분까지 홈페이지 '참관객 > 등록확인 및 취소'에서 취소할 수 있어요. 그 뒤로는 환불이 안 돼요."
         }
       ],
-      "guideSource": "https://illustrationkorea.co.kr/incheon/visitors/guide/"
+      "guideSource": "https://illustrationkorea.co.kr/incheon/visitors/guide/",
+      "boothMap": {
+        "link": "https://illustrationkorea.co.kr/incheon/media/notice/?uid=21&mod=document",
+        "note": "10월 15일 공식 공지로 부스배치도(PDF)가 공개됐어요. 링크에서 PDF를 열어 볼 수 있어요. 배치도는 변경될 수 있어요.",
+        "source": "https://illustrationkorea.co.kr/incheon/media/notice/?uid=21&mod=document"
+      }
     },
     {
       "id": "bif-v7",
