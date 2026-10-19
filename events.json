@@ -3194,7 +3194,8 @@
         "link": "https://comicw.net/free/9328",
         "note": "배치도 1.1 버전 (10월 19일 공개). 공식 동아리 배치도 페이지(https://comicw.net/map/338/)에서 검색도 할 수 있어요. 배치도는 변경될 수 있어요.",
         "source": "https://comicw.net/free/9328",
-        "imageUrl": "https://comicw.net/data/file/free/promo_9badef3abb5695df73c6b8dce73e7a84.png"
+        "imageUrl": "https://comicw.net/data/file/free/promo_9badef3abb5695df73c6b8dce73e7a84.png",
+        "image": "maps/comicworld-338-suwon.png"
       }
     },
     {
@@ -6180,7 +6181,8 @@
         "link": "https://illustrationkorea.co.kr/incheon/visitors/booth/",
         "note": "부스배치도 10월 16일 버전 (송도컨벤시아 1홀). 공식 부스 페이지에서 PDF로도 볼 수 있어요. 배치도는 변경될 수 있어요.",
         "source": "https://illustrationkorea.co.kr/incheon/visitors/booth/",
-        "imageUrl": "https://d315x4xj2fs2tq.cloudfront.net/wp-content/uploads/sites/11/2026/10/17023914/2026-incheon_ilko_floorplan_261016_incheon.png"
+        "imageUrl": "https://d315x4xj2fs2tq.cloudfront.net/wp-content/uploads/sites/11/2026/10/17023914/2026-incheon_ilko_floorplan_261016_incheon.png",
+        "image": "maps/illustkorea-incheon-2026.png"
       }
     },
     {
