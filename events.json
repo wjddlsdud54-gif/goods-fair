@@ -1,6 +1,6 @@
 {
   "_안내": "행사 정보는 공식 사이트·보도자료·행사 캘린더에서 모은 것입니다. 시간·가격이 비어 있는 행사는 아직 발표되지 않은 것이에요. 방문 전에 꼭 공식 공지를 확인하세요.",
-  "updatedAt": "2026-10-16",
+  "updatedAt": "2026-10-20",
   "events": [
     {
       "id": "hoyoland-2026",
@@ -3191,9 +3191,10 @@
       ],
       "guideSource": "https://comicw.net/faq",
       "boothMap": {
-        "link": "https://comicw.net/map/338/",
-        "note": "코믹월드 공식 동아리 배치도 페이지에서 볼 수 있어요. 배치도는 변경될 수 있어요.",
-        "source": "https://comicw.net/map/338/"
+        "link": "https://comicw.net/free/9328",
+        "note": "배치도 1.1 버전 (10월 19일 공개). 공식 동아리 배치도 페이지(https://comicw.net/map/338/)에서 검색도 할 수 있어요. 배치도는 변경될 수 있어요.",
+        "source": "https://comicw.net/free/9328",
+        "imageUrl": "https://comicw.net/data/file/free/promo_9badef3abb5695df73c6b8dce73e7a84.png"
       }
     },
     {
@@ -6115,7 +6116,22 @@
           }
         ],
         "image": "maps/comiverse-2026-fall.jpg"
-      }
+      },
+      "guide": [
+        {
+          "title": "입장권",
+          "body": "입장권은 날짜별로 따로 팔아요. 토요일·일요일 이틀 다 가려면 날짜마다 따로 사야 해요."
+        },
+        {
+          "title": "코스프레",
+          "body": "행사장 안에서는 어떤 코스프레도 할 수 없어요(일반 관람객도 마찬가지예요).\n탈의 공간이 없고, 화장실·공용 공간에서 옷을 갈아입는 것도 안 돼요. 코스프레 촬영회와 촬영 요청도 금지예요."
+        },
+        {
+          "title": "금지 물품",
+          "body": "날카로운 모형 무기, 딱딱하고 큰 소품, 얼굴 전체를 가리는 마스크·헬멧·가면은 반입이 제한될 수 있어요.\n성인물은 들고 들어올 수 없어요."
+        }
+      ],
+      "guideSource": "https://comiverse.kr/rule"
     },
     {
       "id": "illustkorea-incheon-2026",
@@ -6161,9 +6177,10 @@
       ],
       "guideSource": "https://illustrationkorea.co.kr/incheon/visitors/guide/",
       "boothMap": {
-        "link": "https://illustrationkorea.co.kr/incheon/media/notice/?uid=21&mod=document",
-        "note": "10월 15일 공식 공지로 부스배치도(PDF)가 공개됐어요. 링크에서 PDF를 열어 볼 수 있어요. 배치도는 변경될 수 있어요.",
-        "source": "https://illustrationkorea.co.kr/incheon/media/notice/?uid=21&mod=document"
+        "link": "https://illustrationkorea.co.kr/incheon/visitors/booth/",
+        "note": "부스배치도 10월 16일 버전 (송도컨벤시아 1홀). 공식 부스 페이지에서 PDF로도 볼 수 있어요. 배치도는 변경될 수 있어요.",
+        "source": "https://illustrationkorea.co.kr/incheon/visitors/booth/",
+        "imageUrl": "https://d315x4xj2fs2tq.cloudfront.net/wp-content/uploads/sites/11/2026/10/17023914/2026-incheon_ilko_floorplan_261016_incheon.png"
       }
     },
     {
@@ -6206,7 +6223,7 @@
       "lat": 37.6688,
       "lng": 126.7453,
       "region": "경기",
-      "price": "",
+      "price": "사전 예매 7,000원 (1인 최대 4장)",
       "description": "만화·애니메이션 동인 행사. 회지·굿즈 부스와 코스프레를 즐길 수 있어요.",
       "image": "",
       "source": "https://comicw.net/c/416",
@@ -6245,7 +6262,7 @@
       "guideSource": "https://comicw.net/faq",
       "boothMap": {
         "link": "https://comicw.net/map/339/",
-        "note": "코믹월드 공식 동아리 배치도 페이지에서 볼 수 있어요. 배치도는 변경될 수 있어요.",
+        "note": "10월 16일 공식 게시판에 배치도 0.7 버전이 공개됐어요(https://comicw.net/free/9301). 공식 동아리 배치도 페이지에도 곧 올라올 예정이에요. 배치도는 변경될 수 있어요.",
         "source": "https://comicw.net/map/339/"
       }
     },
@@ -6258,7 +6275,7 @@
       ],
       "startDate": "2026-11-07",
       "endDate": "2026-11-08",
-      "hours": "",
+      "hours": "10:00 ~ 18:00",
       "venue": "킨텍스 제2전시장 9홀",
       "address": "경기 고양시 일산서구 킨텍스로 217-59",
       "lat": 37.6702,
@@ -6267,7 +6284,7 @@
       "price": "사전 예매 (1인 1일 1매)",
       "description": "블루 아카이브 5주년 오프라인 축제. 미니게임, 스테이지 이벤트, 공식 굿즈, 코스프레를 즐길 수 있어요.\n예매: 1차 10.13~14 (계정 Lv.70 이상), 2차 10.15~16 (Lv.30 이상)",
       "image": "",
-      "source": "https://www.gamemeca.com/view.php?gid=1781156",
+      "source": "https://forum.nexon.com/bluearchive/board_view?board=1018&thread=3549630",
       "links": {
         "homepage": "https://forum.nexon.com/bluearchive/board_view?board=1018&thread=3549630",
         "instagram": "",
