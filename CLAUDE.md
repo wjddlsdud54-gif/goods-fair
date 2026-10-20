@@ -11,7 +11,7 @@
 - 디자인은 "입장권 × 다꾸 모눈종이" 스타일이에요. 민트 모눈 배경에 마스킹테이프를 쓰고, 색은 `style.css`의 `:root` 변수로 정해요.
 - 기술: 순수 HTML/CSS/JS로 만들었고 빌드 과정이 없어요. Leaflet + OpenStreetMap, Pretendard 글꼴을 써요.
 - 배포: `main`에 push하면 Netlify가 자동으로 배포해요 → https://magnificent-bubblegum-b46e5d.netlify.app/
-- **앱 파일(html/css/js)을 바꾸면 `service-worker.js`의 `CACHE_VERSION`을 하나 올려주세요.** 지금은 v11이에요.
+- **앱 파일(html/css/js)을 바꾸면 `service-worker.js`의 `CACHE_VERSION`을 하나 올려주세요.** 지금은 v12예요.
 
 ## 파일
 | 파일 | 역할 |
