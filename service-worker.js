@@ -7,7 +7,7 @@
      아래 CACHE_VERSION 숫자를 하나 올려주세요 (v6 → v7).
      그래야 사용자 폰에 새 버전이 적용돼요.
    ========================================================= */
-const CACHE_VERSION = 'v11';
+const CACHE_VERSION = 'v12';
 const CACHE_NAME = 'goodsfair-' + CACHE_VERSION;
 // 부스 배치도 그림 저장소: 앱 버전이 바뀌어도 지우지 않아요 (행사장에서 꺼내 보려고)
 const OFFLINE_CACHE = 'goodsfair-offline-maps';
@@ -215,7 +215,14 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 나머지(앱 파일, 폰트, 지도 라이브러리)는 "저장본 먼저" → 빠르게 열림
+  // 우리 앱 파일(html·js·css)은 "인터넷 먼저" → 업데이트하면 바로 새 화면이 보여요.
+  // 인터넷이 없거나 4초 넘게 느리면 폰에 저장해둔 것으로 열어요.
+  if (url.origin === self.location.origin && (req.mode === 'navigate' || /(\/|\.html|\.js|\.css)$/.test(url.pathname))) {
+    event.respondWith(networkFirst(req));
+    return;
+  }
+
+  // 나머지(그림, 폰트, 지도 라이브러리)는 "저장본 먼저" → 빠르게 열림
   event.respondWith(
     caches.match(req).then((cached) => {
       const network = fetch(req)
@@ -232,3 +239,20 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+
+// 인터넷 먼저, 안 되면 저장본 (앱 파일용)
+async function networkFirst(req) {
+  const cache = await caches.open(CACHE_NAME);
+  const fromCache = () => cache.match(req, { ignoreSearch: req.mode === 'navigate' });
+  try {
+    const res = await Promise.race([
+      fetch(req),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('느림')), 4000))
+    ]);
+    if (res.ok) cache.put(req, res.clone());
+    return res;
+  } catch (e) {
+    // 인터넷이 없거나 느릴 때: 저장본 → 그것도 없으면 첫 화면
+    return (await fromCache()) || (await cache.match('./index.html')) || Response.error();
+  }
+}
