@@ -11,13 +11,14 @@
 - 디자인은 "입장권 × 다꾸 모눈종이" 스타일이에요. 민트 모눈 배경에 마스킹테이프를 쓰고, 색은 `style.css`의 `:root` 변수로 정해요.
 - 기술: 순수 HTML/CSS/JS로 만들었고 빌드 과정이 없어요. Leaflet + OpenStreetMap, Pretendard 글꼴을 써요.
 - 배포: `main`에 push하면 Netlify가 자동으로 배포해요 → https://magnificent-bubblegum-b46e5d.netlify.app/
-- **앱 파일(html/css/js)을 바꾸면 `service-worker.js`의 `CACHE_VERSION`을 하나 올려주세요.** 지금은 v10이에요.
+- **앱 파일(html/css/js)을 바꾸면 `service-worker.js`의 `CACHE_VERSION`을 하나 올려주세요.** 지금은 v11이에요.
 
 ## 파일
 | 파일 | 역할 |
 |---|---|
 | `index.html` | 화면 뼈대. 탭은 티켓 / 지도 / 찜한 행사 / 커뮤니티 |
-| `app.js` | 목록, 필터, 상세, 부스 배치도와 부스 검색, 부스 찜 체크리스트, 관람 안내와 시간표, 오프라인, 아카이브 |
+| `app.js` | 목록, 필터, 상세, 부스 배치도와 부스 검색, 부스 찜 체크리스트, 관람 안내와 시간표, 오프라인, 아카이브, 설정(화면 모드·글자 크기·알림·시작 화면) |
+| `service-worker.js` | 오프라인 저장, 찜한 행사·새 행사 알림 확인(앱을 열 때 + 설치한 앱은 하루 한 번쯤) |
 | `community.js` | 커뮤니티 화면(행사 이야기). 서버와 주고받는 부분은 `community-backend-*.js` |
 | `community-backend-firebase.js` / `community-backend-demo.js` | 실제 Firebase 서버 / 미리보기용 가짜 서버(`?demo=community`) |
 | `firebase-config.js` | **아직 `null`이라서 커뮤니티가 "준비 중"으로 보여요.** 사용자가 config를 주면 여기에 넣어요 |

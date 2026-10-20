@@ -28,6 +28,14 @@
 
   <!-- 우리가 만든 디자인 파일 -->
   <link rel="stylesheet" href="style.css" />
+  <!-- 설정(라이트/다크, 글자 크기)을 화면이 그려지기 전에 먼저 적용 → 깜빡임 방지 -->
+  <script>
+    try {
+      var s = JSON.parse(localStorage.getItem('goodsfair.settings') || '{}');
+      if (s.theme === 'light' || s.theme === 'dark') document.documentElement.dataset.theme = s.theme;
+      if (['s', 'l', 'xl'].indexOf(s.font) >= 0) document.documentElement.dataset.font = s.font;
+    } catch (e) {}
+  </script>
 </head>
 <body>
 
@@ -35,6 +43,10 @@
   <header class="top">
     <div class="top-inner">
       <p class="brand">굿즈행사 캘린더</p>
+      <!-- 오른쪽 위 톱니바퀴: 설정 화면 열기 -->
+      <button class="settings-btn" id="settingsBtn" aria-label="설정">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+      </button>
       <!-- 큰 제목: app.js가 "오늘 열리는 행사 N곳"처럼 바꿔 넣어요 -->
       <h1 class="hero" id="heroTitle">굿즈행사 캘린더</h1>
       <p class="hero-sub" id="heroSub">일러스트·애니·게임·코스프레 행사 일정을 한눈에</p>
@@ -93,6 +105,119 @@
       <h2 class="archive-title">지난 행사 아카이브</h2>
       <p class="archive-sub">끝난 행사를 연도·달별로 모아뒀어요. 눌러서 그때 정보와 배치도를 다시 볼 수 있어요.</p>
       <div id="archiveList"></div>
+    </section>
+
+    <!-- ①-2 설정 (오른쪽 위 톱니바퀴로 열려요) -->
+    <section id="view-settings" class="view" aria-label="설정">
+      <button class="archive-back" id="settingsBack">← 돌아가기</button>
+      <h2 class="archive-title">설정</h2>
+
+      <h3 class="set-group-title">화면</h3>
+      <div class="set-group">
+        <div class="set-row">
+          <span class="set-label">화면 모드</span>
+          <div class="seg" data-setting="theme" role="group" aria-label="화면 모드">
+            <button data-value="system">시스템 설정</button>
+            <button data-value="light">라이트</button>
+            <button data-value="dark">다크</button>
+          </div>
+          <p class="set-desc">'시스템 설정'은 폰이 다크모드일 때 자동으로 어둡게 바뀌어요.</p>
+        </div>
+        <div class="set-row">
+          <span class="set-label">글자 크기</span>
+          <div class="seg" data-setting="font" role="group" aria-label="글자 크기">
+            <button data-value="s">작게</button>
+            <button data-value="m">보통</button>
+            <button data-value="l">크게</button>
+            <button data-value="xl">더 크게</button>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="set-group-title">알림</h3>
+      <div class="set-group">
+        <div class="set-row">
+          <div class="set-row-head">
+            <label class="set-label" for="notifyFav">찜한 행사가 다가오면 알림</label>
+            <span class="switch"><input type="checkbox" id="notifyFav" role="switch" /><span></span></span>
+          </div>
+          <div class="set-sub" id="notifyFavDays">
+            <span class="set-desc">언제 알려드릴까요? (여러 개 고를 수 있어요)</span>
+            <div class="seg" role="group" aria-label="알림 시점">
+              <button data-day="7">7일 전</button>
+              <button data-day="3">3일 전</button>
+              <button data-day="1">하루 전</button>
+              <button data-day="0">당일</button>
+            </div>
+          </div>
+        </div>
+        <div class="set-row">
+          <div class="set-row-head">
+            <label class="set-label" for="notifyNew">새 행사가 올라오면 알림</label>
+            <span class="switch"><input type="checkbox" id="notifyNew" role="switch" /><span></span></span>
+          </div>
+        </div>
+        <div class="set-row">
+          <div class="set-row-head">
+            <span class="set-desc" id="notifyStatus" style="margin:0"></span>
+            <button class="set-small-btn" id="notifyTest">알림 시험</button>
+          </div>
+          <p class="set-desc">앱을 열 때 확인해서 알려드려요. 홈 화면에 설치한 앱은 폰이 허락하면 하루에 한 번쯤 저절로 확인해요.</p>
+        </div>
+      </div>
+
+      <h3 class="set-group-title">기본 화면</h3>
+      <div class="set-group">
+        <div class="set-row">
+          <div class="set-row-head">
+            <label class="set-label" for="startTab">앱을 열면 보일 화면</label>
+            <select class="set-select" id="startTab">
+              <option value="list">티켓</option>
+              <option value="map">지도</option>
+              <option value="fav">찜한 행사</option>
+              <option value="community">커뮤니티</option>
+            </select>
+          </div>
+        </div>
+        <div class="set-row">
+          <div class="set-row-head">
+            <label class="set-label" for="hideEndedDefault">끝난 행사 처음부터 숨기기</label>
+            <span class="switch"><input type="checkbox" id="hideEndedDefault" role="switch" /><span></span></span>
+          </div>
+          <p class="set-desc">켜두면 앱을 열 때 '종료 제외'가 켜진 채로 시작해요.</p>
+        </div>
+      </div>
+
+      <h3 class="set-group-title">저장 공간</h3>
+      <div class="set-group">
+        <div class="set-row">
+          <div class="set-row-head">
+            <span class="set-label">폰에 저장한 부스 배치도</span>
+            <button class="set-small-btn" id="clearMaps">지우기</button>
+          </div>
+          <p class="set-desc" id="mapsInfo">인터넷이 없을 때도 볼 수 있게 저장해둔 그림이에요.</p>
+        </div>
+        <button class="set-link is-danger" id="resetData">찜·부스 체크리스트 모두 지우기</button>
+      </div>
+
+      <h3 class="set-group-title">정보</h3>
+      <div class="set-group">
+        <div class="set-row">
+          <div class="set-row-head">
+            <span class="set-label">앱 버전</span>
+            <span class="set-value" id="appVersion">-</span>
+          </div>
+        </div>
+        <a class="set-link" href="terms.html">이용약관</a>
+        <a class="set-link" href="privacy.html">개인정보처리방침</a>
+        <details class="set-credits" id="settingsCredits">
+          <summary>오픈소스·지도 출처</summary>
+          지도: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap 기여자</a><br />
+          지도 표시: <a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a> (BSD-2-Clause)<br />
+          글꼴: <a href="https://github.com/orioncactus/pretendard" target="_blank" rel="noopener">Pretendard</a> (SIL Open Font License 1.1)<br />
+          행사 정보: 각 행사 주최 측 공식 자료
+        </details>
+      </div>
     </section>
 
     <!-- ② 지도 탭 -->

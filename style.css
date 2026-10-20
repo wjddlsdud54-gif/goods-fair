@@ -38,9 +38,11 @@
   color-scheme: light;
 }
 
-/* ----- 2. 다크 모드 (폰이 다크모드면 자동 적용) ----- */
+/* ----- 2. 다크 모드 -----
+   설정에서 '시스템 설정 따르기'면 폰이 다크모드일 때 자동으로,
+   '다크'를 고르면 항상 적용돼요. (아래 두 곳의 색은 똑같이 맞춰주세요) */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #12201D;
     --grid: rgba(255, 255, 255, 0.05);
     --paper: #1E2B30;
@@ -65,6 +67,36 @@
     color-scheme: dark;
   }
 }
+:root[data-theme="dark"] {
+  --bg: #12201D;
+  --grid: rgba(255, 255, 255, 0.05);
+  --paper: #1E2B30;
+  --hero-sub: #8FC2B6;
+  --accent: #FF6FAE;
+  --marker: #8C7A2E;
+  --tabbar: #172623;
+  --tape-1: repeating-linear-gradient(45deg, #B9658A 0 6px, #94506F 6px 12px);
+  --tape-2: repeating-linear-gradient(90deg, #4E86A8 0 5px, #3D6C88 5px 10px);
+  --tape-3: repeating-linear-gradient(45deg, #A8923A 0 6px, #8A782F 6px 12px);
+  --ink: #E8ECF6;
+  --muted: #9AA3BF;
+  --line: #3A4260;
+  --lift: rgba(0, 0, 0, 0.45);
+  --illust: #F2559A;
+  --anime: #5B83FF;
+  --game: #F2BE38;
+  --cos: #9A72F7;
+  --goods: #F5843D;
+  --culture: #1DB3B3;
+  --ended: #59617A;
+  color-scheme: dark;
+}
+:root[data-theme="light"] { color-scheme: light; }
+
+/* 글자 크기 설정 (설정 → 글자 크기) */
+:root[data-font="s"] { font-size: 93.75%; }
+:root[data-font="l"] { font-size: 112.5%; }
+:root[data-font="xl"] { font-size: 125%; }
 
 /* 분야 색을 하나의 변수(--tone)로 바꿔주는 클래스 */
 .tone-illust  { --tone: var(--illust);  --on-tone: #fff; }
@@ -799,3 +831,80 @@ body.no-scroll { overflow: hidden; }
   transform: translateX(-50%); padding: 10px 16px; border-radius: 999px; font-size: 0.86rem; font-weight: 700;
   background: var(--ink); color: var(--paper); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2); white-space: nowrap;
 }
+
+/* ----- 설정 화면 ----- */
+body[data-view="settings"] :is(.hero, .hero-sub, #sampleBanner) { display: none; }
+body[data-view="settings"] .top { padding-bottom: 0; }
+.top-inner { position: relative; }
+.settings-btn {
+  position: absolute; top: -6px; right: -4px; width: 42px; height: 42px;
+  display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: var(--ink);
+}
+.settings-btn svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.settings-btn:active { background: color-mix(in srgb, var(--ink) 10%, transparent); }
+
+.set-group {
+  margin: 18px 0 0; padding: 4px 16px; background: var(--paper);
+  border: 2px solid var(--ink); border-radius: var(--radius);
+  filter: drop-shadow(0 3px 0 var(--lift));
+}
+.set-group-title { margin: 22px 2px 0; font-size: 0.82rem; font-weight: 800; color: var(--muted); }
+.set-group-title + .set-group { margin-top: 8px; }
+.set-row { padding: 14px 0; border-top: 1.5px dashed var(--line); }
+.set-row:first-child { border-top: 0; }
+.set-row-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.set-label { font-weight: 800; font-size: 0.95rem; }
+.set-desc { margin: 4px 0 0; font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
+.set-desc.is-warn { color: var(--accent); font-weight: 700; }
+.set-sub { margin-top: 10px; }
+.set-sub[hidden] { display: none; }
+
+/* 여러 개 중 하나 고르기 (라이트/다크 등) */
+.seg { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.seg button {
+  flex: 1 1 0; min-width: 64px; min-height: 40px; padding: 6px 8px;
+  border: 1.5px solid var(--line); border-radius: 8px; background: transparent;
+  font-size: 0.85rem; font-weight: 700; color: var(--muted);
+}
+.seg button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--ink); }
+
+/* 켜기/끄기 스위치 */
+.switch { position: relative; flex: none; width: 50px; height: 30px; }
+.switch input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; z-index: 1; }
+.switch span {
+  position: absolute; inset: 0; border-radius: 30px; background: var(--line);
+  border: 1.5px solid var(--ink); transition: background 0.15s;
+}
+.switch span::after {
+  content: ""; position: absolute; top: 3px; left: 3px; width: 21px; height: 21px; border-radius: 50%;
+  background: #fff; border: 1.5px solid var(--ink); transition: transform 0.15s;
+}
+.switch input:checked + span { background: var(--accent); }
+.switch input:checked + span::after { transform: translateX(20px); }
+.switch input:focus-visible + span { outline: 3px solid var(--anime); outline-offset: 2px; }
+.switch input:disabled + span { opacity: 0.45; }
+
+.set-select {
+  font: inherit; font-size: 0.88rem; font-weight: 700; color: var(--ink);
+  padding: 6px 10px; border: 1.5px solid var(--ink); border-radius: 8px; background: var(--paper);
+}
+.set-link {
+  display: flex; align-items: center; justify-content: space-between; width: 100%;
+  padding: 14px 0; border: 0; border-top: 1.5px dashed var(--line); background: none;
+  text-align: left; text-decoration: none; font-weight: 800; font-size: 0.95rem;
+}
+.set-group > .set-link:first-child { border-top: 0; }
+.set-link::after { content: "›"; color: var(--muted); font-size: 1.2rem; }
+.set-link.is-danger { color: var(--accent); }
+.set-link.is-danger::after { content: ""; }
+.set-value { color: var(--muted); font-weight: 700; font-size: 0.88rem; }
+.set-small-btn:disabled { opacity: 0.4; cursor: default; }
+.set-small-btn {
+  flex: none; padding: 6px 12px; border: 1.5px solid var(--ink); border-radius: 8px;
+  background: transparent; font-size: 0.82rem; font-weight: 800;
+}
+.set-credits { margin: 0; padding: 0 0 14px; font-size: 0.8rem; color: var(--muted); line-height: 1.8; }
+.set-credits summary { cursor: pointer; padding: 14px 0; font-size: 0.95rem; font-weight: 800; color: var(--ink); list-style: none; }
+.set-credits summary::-webkit-details-marker { display: none; }
+.set-credits a { font-weight: 700; }
+#settingsCredits { border-top: 1.5px dashed var(--line); }
