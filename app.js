@@ -12,7 +12,7 @@ const state = {
   category: 'all',     // 선택된 분야 필터: all / 일러스트 / 애니·만화 / 게임 / 동인·코스프레 / 캐릭터·굿즈
   hideEnded: false,    // '종료 제외' 켜짐 여부
   query: '',           // 검색어
-  tab: 'list',         // 현재 탭: list / map / fav
+  tab: 'list',         // 현재 탭: list / map / fav / community / archive / settings
   favorites: new Set(), // 즐겨찾기한 행사 id 모음
   picks: {}            // 부스 찜·구매 체크 (행사별)
 };
@@ -69,6 +69,7 @@ function saveFavorites() {
   } catch (e) {
     /* 저장이 안 되는 환경이면 조용히 무시 — 앱이 켜져 있는 동안은 즐겨찾기 유지 */
   }
+  if (settings.notify.fav) syncNotify(); // 찜이 바뀌면 알림 목록도 바꿔요
 }
 
 // ---------------------------------------------------------
@@ -1007,6 +1008,7 @@ function switchTab(tab) {
   state.tab = tab;
   $$('.tab').forEach((b) => b.classList.toggle('is-active', b.dataset.tab === (tab === 'archive' ? 'list' : tab)));
   $$('.view').forEach((v) => v.classList.toggle('is-active', v.id === 'view-' + tab));
+  document.body.dataset.view = tab; // 설정 화면에서는 큰 제목을 숨겨요 (style.css)
   // 지도 탭에서는 검색·필터가 필요 없으니 숨겨요
   $('#filterChips').style.display = tab === 'list' ? '' : 'none';
   $('#categoryChips').style.display = tab === 'list' ? '' : 'none';
@@ -1138,6 +1140,206 @@ async function showArchive() {
 }
 
 // ---------------------------------------------------------
+// 12-3. 설정 (오른쪽 위 톱니바퀴)
+//   화면 모드·글자 크기·알림·시작 화면 등을 폰에 저장해요.
+//   화면 모드와 글자 크기는 index.html 위쪽의 작은 스크립트가 먼저 적용해요 (깜빡임 방지).
+// ---------------------------------------------------------
+const SETTINGS_KEY = 'goodsfair.settings';
+const DEFAULT_SETTINGS = {
+  theme: 'system',      // system / light / dark
+  font: 'm',            // s / m / l / xl
+  startTab: 'list',     // 앱을 열면 보일 탭
+  hideEnded: false,     // '종료 제외'를 켠 채로 시작
+  notify: { fav: false, days: [1, 0], newEvents: false }
+};
+let settings = structuredClone(DEFAULT_SETTINGS);
+let tabBeforeSettings = 'list';
+
+function loadSettings() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}') || {};
+    settings = { ...structuredClone(DEFAULT_SETTINGS), ...saved,
+      notify: { ...DEFAULT_SETTINGS.notify, ...(saved.notify || {}) } };
+  } catch (e) { /* 저장소를 못 쓰면 기본값 */ }
+}
+function saveSettings() {
+  try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); } catch (e) { /* 메모리에만 */ }
+}
+
+// 화면 모드·글자 크기를 <html>에 표시 → style.css가 색과 크기를 바꿔요
+function applyDisplaySettings() {
+  const root = document.documentElement;
+  if (settings.theme === 'system') delete root.dataset.theme; else root.dataset.theme = settings.theme;
+  if (settings.font === 'm') delete root.dataset.font; else root.dataset.font = settings.font;
+  // 폰 상단 상태바 색도 맞추기
+  const colors = { light: '#DFF5EE', dark: '#12201D' };
+  $$('meta[name="theme-color"]').forEach((m) => {
+    const own = m.media.includes('dark') ? 'dark' : 'light';
+    m.content = colors[settings.theme === 'system' ? own : settings.theme];
+  });
+}
+
+function notifySupported() {
+  return 'Notification' in window && 'serviceWorker' in navigator;
+}
+function renderNotifyStatus() {
+  const el = $('#notifyStatus');
+  const on = settings.notify.fav || settings.notify.newEvents;
+  el.classList.remove('is-warn');
+  if (!notifySupported()) {
+    el.textContent = '이 브라우저에서는 알림을 쓸 수 없어요. (아이폰은 홈 화면에 설치한 뒤 쓸 수 있어요)';
+    el.classList.add('is-warn');
+  } else if (Notification.permission === 'denied') {
+    el.textContent = '알림이 막혀 있어요. 폰 설정 → 앱(또는 브라우저) → 알림에서 허용해 주세요.';
+    el.classList.add('is-warn');
+  } else if (Notification.permission === 'granted') {
+    el.textContent = on ? '알림이 켜져 있어요.' : '알림이 꺼져 있어요.';
+  } else {
+    el.textContent = '알림을 켜면 허용할지 물어봐요.';
+  }
+  $('#notifyTest').hidden = !(notifySupported() && Notification.permission === 'granted');
+}
+
+function renderSettings() {
+  $$('.seg[data-setting] button').forEach((b) => {
+    b.setAttribute('aria-pressed', settings[b.parentElement.dataset.setting] === b.dataset.value);
+  });
+  $('#notifyFav').checked = settings.notify.fav;
+  $('#notifyNew').checked = settings.notify.newEvents;
+  $('#notifyFavDays').hidden = !settings.notify.fav;
+  $$('#notifyFavDays button').forEach((b) => {
+    b.setAttribute('aria-pressed', settings.notify.days.includes(Number(b.dataset.day)));
+  });
+  $('#startTab').value = settings.startTab;
+  $('#hideEndedDefault').checked = settings.hideEnded;
+  renderNotifyStatus();
+  renderStorageInfo();
+  renderVersion();
+}
+
+// 저장한 배치도 개수 보여주기
+async function renderStorageInfo() {
+  if (!('caches' in window)) return;
+  try {
+    const keys = await (await caches.open('goodsfair-offline-maps')).keys();
+    $('#mapsInfo').textContent = keys.length
+      ? `${keys.length}장 저장돼 있어요. 지워도 다시 열면 인터넷에서 받아와요.`
+      : '저장된 배치도가 없어요. 찜한 행사의 배치도는 자동으로 저장돼요.';
+    $('#clearMaps').disabled = !keys.length;
+  } catch (e) { /* 저장소를 못 쓰는 환경 */ }
+}
+// 앱 버전 = 서비스 워커 저장소 이름(goodsfair-v10 → v10)
+async function renderVersion() {
+  if (!('caches' in window)) return;
+  try {
+    const v = (await caches.keys()).map((k) => k.match(/^goodsfair-(v\d+)$/)).find(Boolean);
+    if (v) $('#appVersion').textContent = v[1];
+  } catch (e) { /* 무시 */ }
+}
+
+function appToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'comm-toast'; t.textContent = msg; t.setAttribute('role', 'status');
+  document.body.appendChild(t); setTimeout(() => t.remove(), 2400);
+}
+
+function openSettings() {
+  if (state.tab !== 'settings') tabBeforeSettings = state.tab === 'archive' ? 'list' : state.tab;
+  renderSettings();
+  switchTab('settings');
+}
+
+// 알림을 켜려고 할 때 허락 받기. 허락을 못 받으면 false
+async function askNotifyPermission() {
+  if (!notifySupported()) return false;
+  if (Notification.permission === 'granted') return true;
+  if (Notification.permission === 'denied') return false;
+  return (await Notification.requestPermission()) === 'granted';
+}
+
+// 서비스 워커에게 알림 설정·찜 목록을 알려주고, 지금 한 번 확인해 달라고 부탁해요.
+// (서비스 워커는 앱이 꺼져 있어도 폰이 허락하면 하루 한 번쯤 깨어나서 확인해요)
+function syncNotify() {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.ready.then(async (reg) => {
+    if (!reg.active) return;
+    reg.active.postMessage({
+      type: 'notify-prefs', prefs: settings.notify, favorites: [...state.favorites], check: true
+    });
+    const on = settings.notify.fav || settings.notify.newEvents;
+    if (!('periodicSync' in reg)) return;
+    try {
+      if (on) await reg.periodicSync.register('goodsfair-notify', { minInterval: 12 * 60 * 60 * 1000 });
+      else await reg.periodicSync.unregister('goodsfair-notify');
+    } catch (e) { /* 설치 안 한 웹 등에서는 안 돼요 → 앱을 열 때만 확인 */ }
+  }).catch(() => {});
+}
+
+function bindSettings() {
+  $('#settingsBtn').addEventListener('click', openSettings);
+  $('#settingsBack').addEventListener('click', () => switchTab(tabBeforeSettings));
+
+  // 화면 모드·글자 크기
+  $$('.seg[data-setting] button').forEach((b) => b.addEventListener('click', () => {
+    settings[b.parentElement.dataset.setting] = b.dataset.value;
+    saveSettings(); applyDisplaySettings(); renderSettings();
+  }));
+
+  // 알림 켜기/끄기
+  const toggleNotify = (key) => async (e) => {
+    const want = e.target.checked;
+    if (want && !(await askNotifyPermission())) {
+      e.target.checked = false;
+      appToast('알림 허용이 필요해요.');
+      renderNotifyStatus();
+      return;
+    }
+    settings.notify[key] = want;
+    saveSettings(); renderSettings(); syncNotify();
+  };
+  $('#notifyFav').addEventListener('change', toggleNotify('fav'));
+  $('#notifyNew').addEventListener('change', toggleNotify('newEvents'));
+  $$('#notifyFavDays button').forEach((b) => b.addEventListener('click', () => {
+    const d = Number(b.dataset.day);
+    const days = new Set(settings.notify.days);
+    if (days.has(d)) days.delete(d); else days.add(d);
+    if (!days.size) return appToast('하나는 골라주세요.');
+    settings.notify.days = [...days].sort((a, b2) => b2 - a);
+    saveSettings(); renderSettings(); syncNotify();
+  }));
+  $('#notifyTest').addEventListener('click', () => {
+    navigator.serviceWorker.ready.then((reg) => reg.showNotification('굿즈행사 캘린더', {
+      body: '알림이 잘 와요! 찜한 행사가 다가오면 이렇게 알려드릴게요.',
+      icon: 'icons/icon-192.png', badge: 'icons/icon-192.png', tag: 'test'
+    })).catch(() => appToast('알림을 보내지 못했어요.'));
+  });
+
+  // 기본 화면
+  $('#startTab').addEventListener('change', (e) => { settings.startTab = e.target.value; saveSettings(); });
+  $('#hideEndedDefault').addEventListener('change', (e) => { settings.hideEnded = e.target.checked; saveSettings(); });
+
+  // 저장 공간
+  $('#clearMaps').addEventListener('click', async () => {
+    if (!confirm('저장한 부스 배치도를 지울까요?\n인터넷이 없을 때는 배치도를 볼 수 없게 돼요.')) return;
+    try { await caches.delete('goodsfair-offline-maps'); } catch (e) { /* 무시 */ }
+    appToast('저장한 배치도를 지웠어요.');
+    renderStorageInfo();
+  });
+  $('#resetData').addEventListener('click', () => {
+    if (!confirm('찜한 행사와 부스 체크리스트를 모두 지울까요?\n지운 뒤에는 되돌릴 수 없어요.')) return;
+    state.favorites = new Set(); state.picks = {};
+    saveFavorites(); savePicks();
+    renderList(); renderFavorites();
+    appToast('모두 지웠어요.');
+  });
+
+  // 다른 앱을 보다가 돌아오면 알림 다시 확인 (날짜가 바뀌었을 수 있어요)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && (settings.notify.fav || settings.notify.newEvents)) syncNotify();
+  });
+}
+
+// ---------------------------------------------------------
 // 13. 서비스 워커 등록 (오프라인 지원 + 홈 화면 설치)
 // ---------------------------------------------------------
 function registerServiceWorker() {
@@ -1153,16 +1355,25 @@ function registerServiceWorker() {
 async function init() {
   window.addEventListener('online', updateOnlineBar);
   window.addEventListener('offline', updateOnlineBar);
+  loadSettings();
+  applyDisplaySettings();
   loadFavorites();
   loadPicks();
   bindEvents();
+  bindSettings();
+  // '끝난 행사 처음부터 숨기기'
+  state.hideEnded = settings.hideEnded;
+  $('#hideEndedBtn').setAttribute('aria-pressed', state.hideEnded);
   await loadEvents();
   renderList();
   renderFavorites();
+  // 설정한 시작 화면 (주소에 #fav 같은 게 있으면 그게 먼저)
+  if (!location.hash && settings.startTab !== 'list') switchTab(settings.startTab);
   handleHash(); // 주소에 #event=... 가 있으면 바로 상세 열기 (링크 공유용)
   registerServiceWorker();
   updateOnlineBar();
   saveOfflineMaps();
+  if (settings.notify.fav || settings.notify.newEvents) syncNotify();
 }
 
 init();

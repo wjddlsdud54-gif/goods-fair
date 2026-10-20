@@ -4,9 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>개인정보처리방침 · 굿즈행사 캘린더</title>
+  <script>
+    /* 앱 설정의 화면 모드(라이트/다크)를 이 페이지에도 적용 */
+    try { var t = (JSON.parse(localStorage.getItem('goodsfair.settings') || '{}') || {}).theme;
+      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
   <style>
     :root { --bg: #DFF5EE; --paper: #fff; --ink: #1B2340; --muted: #5D6785; color-scheme: light; }
-    @media (prefers-color-scheme: dark) { :root { --bg: #12201D; --paper: #1E2B30; --ink: #E8ECF6; --muted: #9AA3BF; color-scheme: dark; } }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #12201D; --paper: #1E2B30; --ink: #E8ECF6; --muted: #9AA3BF; color-scheme: dark; } }
+    :root[data-theme="dark"] { --bg: #12201D; --paper: #1E2B30; --ink: #E8ECF6; --muted: #9AA3BF; color-scheme: dark; }
     body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Pretendard Variable", Pretendard, "Noto Sans KR", -apple-system, sans-serif; line-height: 1.7; }
     main { max-width: 720px; margin: 0 auto; padding: 28px 16px 60px; }
     article { background: var(--paper); border: 2px solid var(--ink); border-radius: 14px; padding: 22px 20px; }

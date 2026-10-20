@@ -7,10 +7,12 @@
      아래 CACHE_VERSION 숫자를 하나 올려주세요 (v6 → v7).
      그래야 사용자 폰에 새 버전이 적용돼요.
    ========================================================= */
-const CACHE_VERSION = 'v10';
+const CACHE_VERSION = 'v11';
 const CACHE_NAME = 'goodsfair-' + CACHE_VERSION;
 // 부스 배치도 그림 저장소: 앱 버전이 바뀌어도 지우지 않아요 (행사장에서 꺼내 보려고)
 const OFFLINE_CACHE = 'goodsfair-offline-maps';
+// 알림 설정·보낸 알림 기록: 서비스 워커는 localStorage를 못 써서 여기에 저장해요
+const NOTIFY_CACHE = 'goodsfair-notify';
 
 // 처음 설치할 때 저장해둘 파일 목록
 const APP_FILES = [
@@ -43,26 +45,132 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE_NAME && k !== OFFLINE_CACHE).map((k) => caches.delete(k)))
+      Promise.all(keys.filter((k) => k !== CACHE_NAME && k !== OFFLINE_CACHE && k !== NOTIFY_CACHE).map((k) => caches.delete(k)))
     )
   );
   self.clients.claim();
 });
 
-// 3) 앱이 "이 배치도들을 저장해줘" 하고 부탁하면 미리 내려받아 둬요
+// 3) 앱이 보내는 부탁 처리
 self.addEventListener('message', (event) => {
   const msg = event.data || {};
-  if (msg.type !== 'save-maps' || !Array.isArray(msg.urls)) return;
-  event.waitUntil(
-    caches.open(OFFLINE_CACHE).then(async (cache) => {
-      for (const u of msg.urls) {
-        try {
-          if (!(await cache.match(u))) await cache.add(u);
-        } catch (e) { /* 하나 실패해도 나머지는 계속 */ }
-      }
-    })
-  );
+  // "이 배치도들을 저장해줘" → 미리 내려받아 둬요
+  if (msg.type === 'save-maps' && Array.isArray(msg.urls)) {
+    event.waitUntil(
+      caches.open(OFFLINE_CACHE).then(async (cache) => {
+        for (const u of msg.urls) {
+          try {
+            if (!(await cache.match(u))) await cache.add(u);
+          } catch (e) { /* 하나 실패해도 나머지는 계속 */ }
+        }
+      })
+    );
+  }
+  // "알림 설정이 바뀌었어" → 저장하고, 지금 한 번 확인
+  if (msg.type === 'notify-prefs') {
+    event.waitUntil(
+      writeJSON('prefs', { prefs: msg.prefs || {}, favorites: msg.favorites || [] })
+        .then(() => msg.check && checkNotify())
+    );
+  }
 });
+
+// 3-1) 앱이 꺼져 있어도 폰이 허락하면 하루 한 번쯤 깨워줘요 (설치한 앱, 크롬 계열)
+self.addEventListener('periodicsync', (event) => {
+  if (event.tag === 'goodsfair-notify') event.waitUntil(checkNotify());
+});
+
+// 3-2) 알림을 누르면 앱 열기 (이미 열려 있으면 그 창으로)
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const url = new URL(event.notification.data?.url || './', self.registration.scope).href;
+  event.waitUntil((async () => {
+    const wins = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    const win = wins.find((w) => w.url.startsWith(self.registration.scope));
+    if (win) { await win.focus(); return win.navigate(url).catch(() => {}); }
+    return self.clients.openWindow(url);
+  })());
+});
+
+// ----- 알림 확인 -----
+async function readJSON(name) {
+  try {
+    const res = await (await caches.open(NOTIFY_CACHE)).match('./__' + name);
+    return res ? await res.json() : null;
+  } catch (e) { return null; }
+}
+async function writeJSON(name, data) {
+  const cache = await caches.open(NOTIFY_CACHE);
+  await cache.put('./__' + name, new Response(JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } }));
+}
+function dayNumber(str) { // "2026-10-15" → 날짜 번호 (폰 시간 기준)
+  const [y, m, d] = str.split('-').map(Number);
+  return Math.round(new Date(y, m - 1, d).getTime() / 86400000);
+}
+async function loadEventsForNotify() {
+  const url = new URL('events.json', self.registration.scope);
+  try {
+    const res = await fetch(url, { cache: 'no-cache' });
+    if (res.ok) {
+      caches.open(CACHE_NAME).then((c) => c.put(url.origin + url.pathname, res.clone()));
+      return (await res.clone().json()).events || [];
+    }
+  } catch (e) { /* 인터넷이 없으면 저장본 */ }
+  const cached = await caches.match(url.origin + url.pathname);
+  return cached ? ((await cached.json()).events || []) : [];
+}
+
+async function checkNotify() {
+  const saved = await readJSON('prefs');
+  if (!saved) return;
+  const { prefs, favorites } = saved;
+  if (typeof Notification !== 'undefined' && Notification.permission !== 'granted') return;
+  const events = await loadEventsForNotify();
+  if (!events.length) return;
+
+  const log = (await readJSON('log')) || { sent: {}, known: null };
+  const now = new Date();
+  const todayNum = Math.round(new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime() / 86400000);
+  const show = (title, body, tag, url) =>
+    self.registration.showNotification(title, { body, tag, data: { url }, icon: 'icons/icon-192.png', badge: 'icons/icon-192.png' })
+      .catch(() => {});
+
+  // ① 찜한 행사가 다가오면: 고른 시점(예: 하루 전, 당일) 중 지난 것 가운데 가장 가까운 것 하나만 알려요
+  if (prefs.fav && Array.isArray(prefs.days) && prefs.days.length) {
+    const days = [...prefs.days].sort((a, b) => a - b);
+    for (const ev of events) {
+      if (!favorites.includes(ev.id)) continue;
+      const left = dayNumber(ev.startDate) - todayNum;
+      if (left < 0) continue; // 이미 시작했거나 끝난 행사
+      const step = days.find((d) => left <= d);
+      if (step === undefined || log.sent[ev.id + ':' + step]) continue;
+      await show(
+        left === 0 ? `오늘 시작해요! ${ev.name}` : `D-${left} · ${ev.name}`,
+        `${ev.startDate.replace(/-/g, '.')} 시작 · ${ev.venue || ''}`.trim(),
+        'fav-' + ev.id,
+        './#event=' + encodeURIComponent(ev.id)
+      );
+      days.filter((d) => d >= step).forEach((d) => { log.sent[ev.id + ':' + d] = 1; });
+    }
+  }
+
+  // ② 새 행사: 처음 확인할 때는 목록만 기억해두고, 그다음부터 새로 생긴 행사를 알려요
+  const ids = events.map((ev) => ev.id);
+  if (log.known && prefs.newEvents) {
+    const fresh = events.filter((ev) => !log.known.includes(ev.id));
+    if (fresh.length === 1) {
+      await show('새 행사가 올라왔어요', `${fresh[0].name} · ${fresh[0].startDate.replace(/-/g, '.')}`,
+        'new-events', './#event=' + encodeURIComponent(fresh[0].id));
+    } else if (fresh.length > 1) {
+      await show(`새 행사 ${fresh.length}개가 올라왔어요`, fresh.slice(0, 3).map((ev) => ev.name).join(', ') + (fresh.length > 3 ? ' 외' : ''),
+        'new-events', './');
+    }
+  }
+  log.known = ids;
+  // 목록에서 사라진 행사의 알림 기록은 정리
+  Object.keys(log.sent).forEach((k) => { if (!ids.includes(k.slice(0, k.lastIndexOf(':')))) delete log.sent[k]; });
+  await writeJSON('log', log);
+}
 
 // 4) 요청 처리
 self.addEventListener('fetch', (event) => {
