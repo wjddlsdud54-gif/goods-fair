@@ -4,7 +4,7 @@
 아래 순서대로 한 번만 설정하면 돼요. 화면 이름은 조금 다를 수 있어요.
 
 > 설정 전에는 앱의 커뮤니티 탭이 **"준비 중"** 으로 보여요.
-> 미리 써보려면 주소 끝에 `?demo=community` 를 붙이세요 (예: `https://magnificent-bubblegum-b46e5d.netlify.app/?demo=community`).
+> 미리 써보려면 주소 끝에 `?demo=community` 를 붙이세요 (예: `https://goodsfestival.pages.dev/?demo=community`).
 > 미리보기에서 쓴 글은 그 기기에만 잠깐 저장되고 다른 사람에게 안 보여요.
 
 ---
@@ -37,7 +37,7 @@
 
 1. 왼쪽 메뉴 **빌드 → Authentication** → [시작하기].
 2. **로그인 방법** 탭 → **Google** → 사용 설정 켜기 → 프로젝트 지원 이메일 고르기 → [저장].
-3. **설정** 탭 → **승인된 도메인** → [도메인 추가] → `magnificent-bubblegum-b46e5d.netlify.app` 입력 → 추가.
+3. **설정** 탭 → **승인된 도메인** → [도메인 추가] → `goodsfestival.pages.dev` 입력 → 추가.
    (이걸 안 하면 앱에서 구글 로그인이 막혀요)
 
 ## 4단계. 글 저장소(Firestore) 만들기
