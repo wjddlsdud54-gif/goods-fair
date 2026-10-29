@@ -10,8 +10,9 @@
 - 한국 굿즈·일러스트·애니·게임·코스프레·동인 행사 일정을 **티켓 모양 카드**로 보여주는 웹앱(PWA)이에요. 나중에 Google Play 앱(TWA)으로 낼 계획이에요.
 - 디자인은 "입장권 × 다꾸 모눈종이" 스타일이에요. 민트 모눈 배경에 마스킹테이프를 쓰고, 색은 `style.css`의 `:root` 변수로 정해요.
 - 기술: 순수 HTML/CSS/JS로 만들었고 빌드 과정이 없어요. Leaflet + OpenStreetMap, Pretendard 글꼴을 써요.
-- 배포: `main`에 push하면 Netlify가 자동으로 배포해요 → https://magnificent-bubblegum-b46e5d.netlify.app/
-- **앱 파일(html/css/js)을 바꾸면 `service-worker.js`의 `CACHE_VERSION`을 하나 올려주세요.** 지금은 v12예요.
+- 배포: `main`에 push하면 **Cloudflare Pages**가 자동으로 배포해요 → https://goodsfestival.pages.dev/
+  - 2026-10-29에 Netlify에서 옮겼어요 (Netlify 무료 배포 횟수가 모자라서). 캐시 설정은 `_headers` 파일이에요. 예전 Netlify 주소는 더 이상 업데이트되지 않아요.
+- **앱 파일(html/css/js)을 바꾸면 `service-worker.js`의 `CACHE_VERSION`을 하나 올려주세요.** 지금은 v13이에요.
 
 ## 파일
 | 파일 | 역할 |
