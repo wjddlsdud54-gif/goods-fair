@@ -1,6 +1,6 @@
 {
   "_안내": "행사 정보는 공식 사이트·보도자료·행사 캘린더에서 모은 것입니다. 시간·가격이 비어 있는 행사는 아직 발표되지 않은 것이에요. 방문 전에 꼭 공식 공지를 확인하세요.",
-  "updatedAt": "2026-10-20",
+  "updatedAt": "2026-10-31",
   "events": [
     {
       "id": "hoyoland-2026",
@@ -8409,7 +8409,7 @@
       "guideSource": "https://comicw.net/faq",
       "boothMap": {
         "link": "https://comicw.net/map/339/",
-        "note": "10월 16일 공식 게시판에 배치도 0.7 버전이 공개됐어요(https://comicw.net/free/9301). 공식 동아리 배치도 페이지에도 곧 올라올 예정이에요. 배치도는 변경될 수 있어요.",
+        "note": "공식 동아리 배치도 페이지(https://comicw.net/map/339/)에 339회 배치도가 올라왔어요. 배치도를 확대하면 부스 번호가 보여요. 10월 16일에는 공식 게시판에 0.7 버전이 먼저 공개됐어요(https://comicw.net/free/9301). 배치도는 변경될 수 있어요.",
         "source": "https://comicw.net/map/339/"
       }
     },
@@ -8437,6 +8437,11 @@
         "instagram": "",
         "x": "",
         "ticket": ""
+      },
+      "boothMap": {
+        "link": "https://forum.nexon.com/bluearchive/board_view?board=1018&thread=3564649",
+        "note": "공식 포럼에 2차 창작 마켓 '키보토스 마켓' 참가 부스 소개 글이 올라왔어요(판매 부스만 있어요). 배치도는 변경될 수 있어요.",
+        "source": "https://forum.nexon.com/bluearchive/board_view?board=1018&thread=3564649"
       }
     },
     {
