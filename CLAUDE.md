@@ -12,7 +12,7 @@
 - 기술: 순수 HTML/CSS/JS로 만들었고 빌드 과정이 없어요. Leaflet + OpenStreetMap, Pretendard 글꼴을 써요.
 - 배포: `main`에 push하면 **Cloudflare Pages**가 자동으로 배포해요 → https://goodsfestival.pages.dev/
   - 2026-10-29에 Netlify에서 옮겼어요 (Netlify 무료 배포 횟수가 모자라서). 캐시 설정은 `_headers` 파일이에요. Netlify는 GitHub 연결을 끊었고 예전 주소는 더 이상 업데이트되지 않아요.
-- **앱 파일(html/css/js)을 바꾸면 `service-worker.js`의 `CACHE_VERSION`을 하나 올려주세요.** 지금은 v13이에요.
+- **앱 파일(html/css/js)을 바꾸면 `service-worker.js`의 `CACHE_VERSION`을 하나 올려주세요.** 지금은 v14예요.
 
 ## 파일
 | 파일 | 역할 |
@@ -38,7 +38,7 @@
 ## 꼭 지킬 것
 - 자동 수집을 막는 사이트(robots.txt 등)는 **우회하지 말고**, 사용자에게 보고해주세요.
 - 출처가 있는 공식 정보만 써주세요. 행사 정보를 지어내지 말고, 다른 서비스의 글이나 그림을 베끼지 마세요.
-- 사용자의 이메일을 공개 파일에 넣지 마세요. privacy/terms의 연락처는 사용자가 알려줄 때까지 `[연락처 이메일을 여기에 적어주세요]` 그대로 둬요.
+- 사용자의 개인 이메일을 공개 파일에 넣지 마세요. 공개 연락처는 사용자가 정한 앱 전용 메일 **goodsfestival@gmail.com** 만 써요 (privacy/terms에 넣었어요).
 - commit 메시지는 한국어로 써주세요.
 
 ## 테스트
@@ -50,6 +50,5 @@
    - `firebase-config.js`에 넣고 CACHE_VERSION을 올려요.
    - 실제 서버에서 로그인 → 닉네임 → 글쓰기 → 권한 막힘을 확인해요. 보안 규칙은 아직 에뮬레이터로 테스트하지 못했어요.
    - 사진 기능(Storage)은 Blaze 요금제가 필요해요. 사용자가 원하지 않으면 config에 `photos: false`를 넣어요.
-2. privacy.html과 terms.html의 연락처 이메일을 받아서 넣어요.
-3. Play 스토어: PWABuilder로 TWA 만들기, 사용자가 주는 `assetlinks.json`을 `.well-known/`에 넣기, 테스터 12명 × 14일 비공개 테스트
-4. 나중에: 카카오 로그인 (Firebase 기본 기능이 아니라서 따로 서버 함수가 필요해요)
+2. Play 스토어: PWABuilder로 TWA 만들기, 사용자가 주는 `assetlinks.json`을 `.well-known/`에 넣기, 테스터 12명 × 14일 비공개 테스트
+3. 나중에: 카카오 로그인 (Firebase 기본 기능이 아니라서 따로 서버 함수가 필요해요)

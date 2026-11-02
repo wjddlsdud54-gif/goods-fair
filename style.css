@@ -898,6 +898,7 @@ body[data-view="settings"] .top { padding-bottom: 0; }
 .set-link.is-danger { color: var(--accent); }
 .set-link.is-danger::after { content: ""; }
 .set-value { color: var(--muted); font-weight: 700; font-size: 0.88rem; }
+.set-link .set-value { margin-left: auto; margin-right: 10px; font-size: 0.8rem; }
 .set-small-btn:disabled { opacity: 0.4; cursor: default; }
 .set-small-btn {
   flex: none; padding: 6px 12px; border: 1.5px solid var(--ink); border-radius: 8px;
