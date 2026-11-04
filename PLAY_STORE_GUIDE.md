@@ -9,14 +9,14 @@
 ## 준비물 체크리스트
 - [x] 연락처 이메일: goodsfestival@gmail.com (스토어와 개인정보처리방침에 공개돼요)
 - [x] `privacy.html`, `terms.html`에 연락처 이메일 넣기 (2026-11-02)
-- [ ] (추천) 나만의 주소(도메인). 없으면 지금 주소(goodsfestival.pages.dev)로도 출시할 수 있어요
-- [ ] 구글 플레이 개발자 계정 (1회 25달러, 본인 인증)
+- [x] 사이트 주소: https://goodsfestival.pages.dev (2026-10-29 Cloudflare Pages로 이전)
+- [x] 구글 플레이 개발자 계정: goodsfestival@gmail.com, 개발자 이름 **Goods Festival**, 개인 계정 (2026-11-04 인증 완료)
 - [ ] 테스터 12명 (가족·친구, 안드로이드 폰 + 구글 계정)
 
 ## 저장소에 이미 준비된 것
 | 파일 | 용도 |
 |---|---|
-| `privacy.html` | 개인정보처리방침 (스토어에 주소 입력: `https://사이트주소/privacy.html`) |
+| `privacy.html` | 개인정보처리방침 (스토어에 주소 입력: `https://goodsfestival.pages.dev/privacy.html`) |
 | `manifest.json` | 앱 이름·아이콘·색·바로가기 |
 | `icons/icon-512.png` | 스토어 아이콘 (512×512) |
 | `store/feature-graphic.png` | 대표 그래픽 (1024×500) |
@@ -30,10 +30,10 @@
 
 ## 2단계. 앱 파일(.aab) 만들기 — PWABuilder 사용 (설치 필요 없음)
 1. https://www.pwabuilder.com 접속
-2. 사이트 주소 입력 → **Start**
+2. 사이트 주소 `https://goodsfestival.pages.dev` 입력 → **Start**
 3. **Package For Stores** → **Android** → **Generate Package**
 4. 설정 화면에서
-   - **Package ID**: `kr.goodsfair.calendar` 처럼 영어 소문자·점으로 (한 번 정하면 못 바꿔요)
+   - **Package ID**: 추천 `com.goodsfestival.calendar` (영어 소문자·점. **한 번 정하면 영원히 못 바꿔요**)
    - **App name**: 굿즈행사 캘린더 / **Short name**: 굿즈행사
    - **Signing key**: *Create new* (새로 만들기)
 5. **Download** → zip 파일 안에 이런 게 들어 있어요
@@ -50,7 +50,7 @@
 1. **앱 만들기** → 이름: 굿즈행사 캘린더 / 언어: 한국어 / 앱 / 무료
 2. **스토어 설정 → 기본 스토어 등록정보**: 아래 "스토어 문구" 붙여넣기 + 이미지 올리기
 3. **앱 콘텐츠** 항목 채우기
-   - 개인정보처리방침: `https://사이트주소/privacy.html`
+   - 개인정보처리방침: `https://goodsfestival.pages.dev/privacy.html`
    - 광고: 없음
    - 앱 액세스 권한: 행사 보기는 제한 없음. 커뮤니티 글쓰기는 Google 로그인 필요 → 심사용 테스트 구글 계정 안내 (또는 "누구나 구글 계정으로 가입 가능"이라고 적기)
    - 콘텐츠 등급: 설문에서 **"사용자 간 소통 가능(사용자 제작 콘텐츠)" = 예** 로 답하기 (커뮤니티가 있으므로)
