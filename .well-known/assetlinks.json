@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.goodsfestival.calendar",
+      "sha256_cert_fingerprints": [
+        "E6:56:86:56:7B:E6:A6:43:B7:16:1D:54:20:9A:13:89:F5:8C:E7:80:D3:43:D1:7A:28:ED:44:9C:67:C6:A3:53"
+      ]
+    }
+  }
+]

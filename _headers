@@ -10,3 +10,8 @@
 
 /service-worker.js
   Cache-Control: no-cache
+
+# 안드로이드 앱(TWA) 확인서: 앱 위쪽 주소창을 없애려면 JSON으로 열려야 해요
+/.well-known/assetlinks.json
+  Content-Type: application/json
+  Cache-Control: no-cache
