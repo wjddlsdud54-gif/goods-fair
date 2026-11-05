@@ -33,8 +33,8 @@
 2. 사이트 주소 `https://goodsfestival.pages.dev` 입력 → **Start**
 3. **Package For Stores** → **Android** → **Generate Package**
 4. 설정 화면에서
-   - **Package ID**: 추천 `com.goodsfestival.calendar` (영어 소문자·점. **한 번 정하면 영원히 못 바꿔요**)
-   - **App name**: 굿즈행사 캘린더 / **Short name**: 굿즈행사
+   - **Package ID**: `com.goodsfestival.calendar` (2026-11-05 확정. **영원히 못 바꿔요**)
+   - **App name**: 굿즈 페스티벌 / **Short name**: 굿즈페스티벌 (manifest.json과 같게)
    - **Signing key**: *Create new* (새로 만들기)
 5. **Download** → zip 파일 안에 이런 게 들어 있어요
    - `app-release-bundle.aab` ← 플레이에 올릴 파일
