@@ -35,7 +35,7 @@
 
   --radius: 12px;
   --tabbar-h: 62px;
-  color-scheme: light;
+  color-scheme: only light; /* only: 폰 브라우저가 화면을 멋대로 어둡게 칠하지 못하게 */
 }
 
 /* ----- 2. 다크 모드 -----
@@ -64,7 +64,7 @@
     --goods: #F5843D;
     --culture: #1DB3B3;
     --ended: #59617A;
-    color-scheme: dark;
+    color-scheme: only dark;
   }
 }
 :root[data-theme="dark"] {
@@ -89,9 +89,9 @@
   --goods: #F5843D;
   --culture: #1DB3B3;
   --ended: #59617A;
-  color-scheme: dark;
+  color-scheme: only dark;
 }
-:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="light"] { color-scheme: only light; }
 
 /* 글자 크기 설정 (설정 → 글자 크기) */
 :root[data-font="s"] { font-size: 93.75%; }
