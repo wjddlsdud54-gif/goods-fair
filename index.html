@@ -11,8 +11,9 @@
   <!-- ===== PWA(홈 화면 설치) 관련 설정 ===== -->
   <link rel="manifest" href="manifest.json" />
   <!-- 폰 상단 상태바 색 (라이트/다크 각각) -->
-  <!-- 이 앱은 라이트/다크를 직접 처리해요. 폰 브라우저의 "웹페이지 어둡게" 기능이 덧칠하지 않도록 알려줘요 -->
-  <meta name="color-scheme" content="light dark" />
+  <!-- 폰 브라우저(특히 삼성 인터넷)의 "웹페이지 어둡게" 기능이 덧칠하지 않도록 막아요.
+       앱의 다크 모드는 style.css가 따로 처리해서 여기서 only light 라고 써도 다크 모드는 그대로 돼요 -->
+  <meta name="color-scheme" content="only light" />
   <meta name="theme-color" content="#DFF5EE" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#12201D" media="(prefers-color-scheme: dark)" />
   <!-- 아이폰(사파리)용 설정 -->
