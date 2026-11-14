@@ -1,6 +1,6 @@
 {
   "_안내": "행사 정보는 공식 사이트·보도자료·행사 캘린더에서 모은 것입니다. 시간·가격이 비어 있는 행사는 아직 발표되지 않은 것이에요. 방문 전에 꼭 공식 공지를 확인하세요.",
-  "updatedAt": "2026-11-08",
+  "updatedAt": "2026-11-15",
   "events": [
     {
       "id": "hoyoland-2026",
@@ -8467,6 +8467,11 @@
         "instagram": "",
         "x": "",
         "ticket": ""
+      },
+      "boothMap": {
+        "link": "https://www.etnews.com/20260929000166",
+        "note": "주최 측이 공개한 제1·2전시장 구역 배치도예요(부스 단위 배치도는 아직 확인하지 못했어요). 배치도는 변경될 수 있어요.",
+        "source": "https://www.etnews.com/20260929000166"
       }
     },
     {
@@ -8503,21 +8508,21 @@
       ],
       "startDate": "2026-11-27",
       "endDate": "2026-11-29",
-      "hours": "",
+      "hours": "10:00 ~ 19:00 (입장 마감 18:30)",
       "venue": "동대문디자인플라자(DDP) 쇼룸 1층",
       "address": "서울 중구 을지로 281",
       "lat": 37.5665,
       "lng": 127.0092,
       "region": "서울",
-      "price": "",
+      "price": "무료 (홈페이지 사전등록)",
       "description": "캐릭터를 굿즈가 아닌 아트·라이프스타일 콘텐츠로 보여주는 캐릭터 아트페어.",
       "image": "",
-      "source": "https://comicw.net/c/410",
+      "source": "https://www.finecharacter.kr/",
       "links": {
         "homepage": "https://www.finecharacter.kr/",
-        "instagram": "",
+        "instagram": "https://www.instagram.com/finecharacter.official/",
         "x": "",
-        "ticket": ""
+        "ticket": "https://www.finecharacter.kr/visit"
       }
     },
     {
@@ -8530,22 +8535,33 @@
       ],
       "startDate": "2026-12-04",
       "endDate": "2026-12-06",
-      "hours": "09:30 ~ 18:00",
+      "hours": "10:00 ~ 18:00 (패스트티켓 09:30 입장)",
       "venue": "킨텍스 제1전시장 1~5홀",
       "address": "경기 고양시 일산서구 킨텍스로 217-60",
       "lat": 37.6688,
       "lng": 126.7453,
       "region": "경기",
-      "price": "1일권 29,000원 / 3일권 65,000원 (얼리버드 1일권 24,000원·3일권 55,000원, 10월 14일부터 판매 / 일반 티켓 11월 12일부터 판매)",
+      "price": "1일권 29,000원 / 3일권 65,000원 (11월 12일~12월 6일 판매) / 패스트티켓 50,000원 (하루 1,000장, 1인 하루 1장) — 멜론티켓에서 판매",
       "description": "국내 최대 애니메이션·게임 서브컬처 축제. 전시, 팝업스토어, 아티스트 공연, 콜라보 카페, 코스프레까지.\n서울역에서 GTX-A로 약 20분.",
       "image": "",
-      "source": "https://www.pennmike.com/news/articleView.html?idxno=127786",
+      "source": "https://www.gamemeca.com/view.php?gid=1783349",
       "links": {
         "homepage": "https://www.agfkorea.com/",
         "instagram": "",
         "x": "https://x.com/AGF_Korea",
         "ticket": "https://www.agfkorea.com/ticket"
-      }
+      },
+      "guide": [
+        {
+          "title": "입장권",
+          "body": "멜론티켓에서 팔아요. 1일권·3일권이 있고, 일찍 들어가고 싶으면 패스트티켓(하루 1,000장 한정)을 사요.\n일반 입장은 오전 10시, 패스트티켓은 오전 9시 30분부터예요."
+        },
+        {
+          "title": "레드 스테이지",
+          "body": "12월 5~6일 5B홀에서 애니·게임 무대가 열려요. AGF 입장권이 있으면 무료지만 좌석 예약이 필요해요.\n11월 20일 오후 6시부터 멜론티켓에서 선착순으로, 계정당 날짜별 3장까지 예약할 수 있어요(지정석). 자세한 시간은 공식 시간표를 확인하세요."
+        }
+      ],
+      "guideSource": "https://www.gamemeca.com/view.php?gid=1782509"
     },
     {
       "id": "illustkorea-suwon-2026",
@@ -8555,21 +8571,21 @@
       ],
       "startDate": "2026-12-11",
       "endDate": "2026-12-13",
-      "hours": "",
+      "hours": "10:00 ~ 18:00 (입장 마감 17:30)",
       "venue": "수원메쎄",
       "address": "경기 수원시 권선구 세화로134번길 37",
       "lat": 37.2652,
       "lng": 126.9997,
       "region": "경기",
-      "price": "",
+      "price": "10,000원 (사전등록 후 12/10까지 결제하면 5,000원) / 중고생 현장 5,000원 / 미취학·초등학생·장애인·국가유공자 무료",
       "description": "일러스트·디자인·아트 작가와 브랜드의 작품·굿즈를 보고 사는 일러스트 전시 행사.\n홈페이지에서 사전 등록할 수 있어요.",
       "image": "",
-      "source": "https://illustrationkorea.co.kr/suwon/",
+      "source": "https://illustrationkorea.co.kr/suwon/visitors/guide/",
       "links": {
         "homepage": "https://illustrationkorea.co.kr/suwon/",
         "instagram": "https://www.instagram.com/illustrationkorea/",
         "x": "",
-        "ticket": ""
+        "ticket": "https://illustrationkorea.co.kr/suwon/registration/#/pre-reg/903"
       }
     },
     {
@@ -8686,7 +8702,7 @@
       ],
       "startDate": "2027-01-28",
       "endDate": "2027-01-31",
-      "hours": "",
+      "hours": "11:00 ~ 18:00",
       "venue": "코엑스(COEX) D홀",
       "address": "서울 강남구 영동대로 513",
       "lat": 37.5118,
@@ -8698,6 +8714,108 @@
       "source": "https://www.dt.co.kr/article/12085667",
       "links": {
         "homepage": "https://www.k-illustrationfair.com/",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      }
+    },
+    {
+      "id": "endfield-1st-festival-2027",
+      "name": "명일방주: 엔드필드 1주년 페스티벌",
+      "categories": [
+        "게임",
+        "동인·코스프레"
+      ],
+      "startDate": "2027-01-09",
+      "endDate": "2027-01-10",
+      "hours": "",
+      "venue": "킨텍스(KINTEX)",
+      "address": "경기 고양시 일산서구 킨텍스로 217-60",
+      "lat": 37.6688,
+      "lng": 126.7453,
+      "region": "경기",
+      "price": "",
+      "description": "게임 '명일방주: 엔드필드'의 1주년 오프라인 페스티벌. 2차 창작 판매 부스도 모집했어요. 시간·가격은 아직 발표 전이에요.\n(지도 위치는 대략적인 위치예요)",
+      "image": "",
+      "source": "https://www.invenglobal.com/articles/26865/rhodes-island-teased-in-arknights-endfield-version-16-special-broadcast",
+      "links": {
+        "homepage": "https://sites.google.com/view/endfield-1st-festival2027",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      }
+    },
+    {
+      "id": "illustkorea-daegu-2027",
+      "name": "2027 대구 일러스트코리아",
+      "categories": [
+        "일러스트"
+      ],
+      "startDate": "2027-02-26",
+      "endDate": "2027-02-28",
+      "hours": "10:00 ~ 18:00 (입장 마감 17:30)",
+      "venue": "대구 엑스코(EXCO)",
+      "address": "대구 북구 엑스코로 10",
+      "lat": 35.9068,
+      "lng": 128.6133,
+      "region": "대구",
+      "price": "10,000원 (사전등록 후 2/25까지 결제하면 5,000원) / 청소년 5,000원 / 미취학 아동·장애인·국가유공자 무료",
+      "description": "일러스트·디자인·아트 작가와 브랜드의 작품·굿즈를 보고 사는 일러스트 전시 행사.\n홈페이지에서 사전 등록할 수 있어요.",
+      "image": "",
+      "source": "https://illustrationkorea.co.kr/exco/visitors/guide/",
+      "links": {
+        "homepage": "https://illustrationkorea.co.kr/exco/",
+        "instagram": "https://www.instagram.com/illustrationkorea/",
+        "x": "",
+        "ticket": "https://illustrationkorea.co.kr/exco/registration/#/pre-reg"
+      }
+    },
+    {
+      "id": "handmadefesta-goyang-illust-2027",
+      "name": "핸드메이드 페스타 2027 × 고양일러스트레이션페어 V.1",
+      "categories": [
+        "일러스트",
+        "캐릭터·굿즈"
+      ],
+      "startDate": "2027-03-12",
+      "endDate": "2027-03-14",
+      "hours": "",
+      "venue": "킨텍스 제2전시장 10홀",
+      "address": "경기 고양시 일산서구 킨텍스로 217-60",
+      "lat": 37.6688,
+      "lng": 126.7453,
+      "region": "경기",
+      "price": "",
+      "description": "핸드메이드 페스타와 처음 열리는 고양일러스트레이션페어가 함께 열려요. 시간·가격은 아직 발표 전이에요.\n(지도 위치는 대략적인 위치예요)",
+      "image": "",
+      "source": "https://handmadefesta.com/",
+      "links": {
+        "homepage": "https://handmadefesta.com/",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      }
+    },
+    {
+      "id": "ff14-fanfest-seoul-2027",
+      "name": "2027 파이널판타지14 팬페스티벌 서울",
+      "categories": [
+        "게임"
+      ],
+      "startDate": "2027-03-13",
+      "endDate": "2027-03-14",
+      "hours": "",
+      "venue": "킨텍스 9홀",
+      "address": "경기 고양시 일산서구 킨텍스로 217-60",
+      "lat": 37.6688,
+      "lng": 126.7453,
+      "region": "경기",
+      "price": "",
+      "description": "온라인 게임 파이널판타지14의 한국 팬 페스티벌. 세부 프로그램과 티켓 일정은 아직 발표 전이에요.\n(지도 위치는 대략적인 위치예요)",
+      "image": "",
+      "source": "https://www.gamevu.co.kr/news/articleView.html?idxno=58292",
+      "links": {
+        "homepage": "",
         "instagram": "",
         "x": "",
         "ticket": ""
