@@ -1,6 +1,6 @@
 {
   "_안내": "행사 정보는 공식 사이트·보도자료·행사 캘린더에서 모은 것입니다. 시간·가격이 비어 있는 행사는 아직 발표되지 않은 것이에요. 방문 전에 꼭 공식 공지를 확인하세요.",
-  "updatedAt": "2026-11-15",
+  "updatedAt": "2026-11-17",
   "events": [
     {
       "id": "hoyoland-2026",
@@ -8483,19 +8483,19 @@
       "startDate": "2026-11-22",
       "endDate": "2026-11-22",
       "hours": "",
-      "venue": "광주디자인진흥원",
+      "venue": "광주디자인진흥원 (1층 이벤트홀·로비, 4층 세미나실·중회의실, 야외)",
       "address": "광주광역시 북구 (광주디자인진흥원)",
       "lat": 35.2276,
       "lng": 126.8466,
       "region": "광주",
       "price": "",
-      "description": "부스, 코스프레, 무대가 함께하는 광주 지역 동인 행사.\n(지도 위치는 대략적인 위치예요)",
+      "description": "부스, 코스프레, 무대가 함께하는 광주 지역 동인 행사.\n대관 사정으로 장소가 광주디자인진흥원으로 바뀌었어요. 코스어 사전입장권은 따로 팔아요.\n(지도 위치는 대략적인 위치예요)",
       "image": "",
-      "source": "https://comicw.net/c/415",
+      "source": "https://cosly.link/evt/cmwbmnevz004701pjz05v6qwu",
       "links": {
         "homepage": "",
         "instagram": "",
-        "x": "",
+        "x": "https://x.com/SKYCHORD_160111",
         "ticket": ""
       }
     },
@@ -8523,6 +8523,57 @@
         "instagram": "https://www.instagram.com/finecharacter.official/",
         "x": "",
         "ticket": "https://www.finecharacter.kr/visit"
+      }
+    },
+    {
+      "id": "platoon-38",
+      "name": "제38회 플래툰 컨벤션",
+      "categories": [
+        "동인·코스프레",
+        "애니·만화"
+      ],
+      "startDate": "2026-11-28",
+      "endDate": "2026-11-29",
+      "hours": "",
+      "venue": "SETEC(세텍) 제3전시장",
+      "address": "서울 강남구 남부순환로 3104",
+      "lat": 37.4963,
+      "lng": 127.0717,
+      "region": "서울",
+      "price": "",
+      "description": "회지·굿즈 부스와 코스프레를 즐길 수 있는 서울 동인 행사.\n(지도 위치는 대략적인 위치예요)",
+      "image": "",
+      "source": "https://cosly.link/evt/cmwbmxs9b005f01pjzbr3tvx7",
+      "links": {
+        "homepage": "https://platoon.co.kr",
+        "instagram": "",
+        "x": "",
+        "ticket": ""
+      }
+    },
+    {
+      "id": "cosncomic-96",
+      "name": "제96회 코스앤코믹 페스티벌",
+      "categories": [
+        "동인·코스프레"
+      ],
+      "startDate": "2026-11-28",
+      "endDate": "2026-11-29",
+      "hours": "",
+      "venue": "서울랜드",
+      "address": "경기 과천시 광명로 181",
+      "lat": 37.4342,
+      "lng": 127.0206,
+      "region": "경기",
+      "price": "",
+      "description": "서울랜드에서 열리는 코스프레·동인 행사. 행사 포스터를 서울랜드 매표소에 보여주면 놀이공원 입장권 할인을 받을 수 있어요.\n일정은 바뀔 수 있으니 공식 카페를 확인하세요.\n(지도 위치는 대략적인 위치예요)",
+      "image": "",
+      "source": "https://cosly.link/evt/cmwbmo91g004b01pjzn47p5p1",
+      "links": {
+        "homepage": "https://cafe.naver.com/coscomic",
+        "instagram": "",
+        "x": "https://x.com/cos_comic",
+        "ticket": ""
       }
     },
     {
@@ -8562,6 +8613,31 @@
         }
       ],
       "guideSource": "https://www.gamemeca.com/view.php?gid=1782509"
+    },
+    {
+      "id": "cocofestival-busan-7",
+      "name": "제7회 코코페스티벌 in 부산",
+      "categories": [
+        "동인·코스프레"
+      ],
+      "startDate": "2026-12-05",
+      "endDate": "2026-12-06",
+      "hours": "",
+      "venue": "롯데월드 어드벤처 부산",
+      "address": "부산 기장군 기장읍 동부산관광로 42",
+      "lat": 35.1962,
+      "lng": 129.2135,
+      "region": "부산",
+      "price": "",
+      "description": "롯데월드 어드벤처 부산에서 열리는 코스프레 축제.\n(지도 위치는 대략적인 위치예요)",
+      "image": "",
+      "source": "https://cosly.link/evt/cmwbmub2l005401pjfcwkm2ol",
+      "links": {
+        "homepage": "",
+        "instagram": "",
+        "x": "https://x.com/Busan_cocoparty",
+        "ticket": ""
+      }
     },
     {
       "id": "illustkorea-suwon-2026",
@@ -8668,6 +8744,31 @@
       }
     },
     {
+      "id": "skycode-34",
+      "name": "스카이코드 페스티벌 (제34회)",
+      "categories": [
+        "동인·코스프레"
+      ],
+      "startDate": "2026-12-19",
+      "endDate": "2026-12-20",
+      "hours": "",
+      "venue": "광주 (장소는 공식 공지 확인)",
+      "address": "광주광역시",
+      "lat": 35.1595,
+      "lng": 126.8526,
+      "region": "광주",
+      "price": "",
+      "description": "부스, 코스프레, 무대가 함께하는 광주 지역 동인 행사. 자세한 장소는 아직 확인하지 못했어요.\n(지도 위치는 대략적인 위치예요)",
+      "image": "",
+      "source": "https://cosly.link/evt/cmwbmoesc004e01pj8j059f7q",
+      "links": {
+        "homepage": "",
+        "instagram": "",
+        "x": "https://x.com/SKYCHORD_160111",
+        "ticket": ""
+      }
+    },
+    {
       "id": "sif-v22",
       "name": "서울일러스트레이션페어 V.22",
       "categories": [
@@ -8742,6 +8843,33 @@
         "homepage": "https://sites.google.com/view/endfield-1st-festival2027",
         "instagram": "",
         "x": "",
+        "ticket": ""
+      }
+    },
+    {
+      "id": "illustar-fes-15",
+      "name": "일러스타 페스 15",
+      "categories": [
+        "일러스트",
+        "게임",
+        "동인·코스프레"
+      ],
+      "startDate": "2027-02-13",
+      "endDate": "2027-02-14",
+      "hours": "",
+      "venue": "킨텍스(KINTEX)",
+      "address": "경기 고양시 일산서구 킨텍스로 217-60",
+      "lat": 37.6688,
+      "lng": 126.7453,
+      "region": "경기",
+      "price": "",
+      "description": "일러스트, 게임, 코스프레, 버추얼 크리에이터까지 즐기는 종합 서브컬처 축제.\n(지도 위치는 대략적인 위치예요)",
+      "image": "",
+      "source": "https://cosly.link/evt/cmwbmye41005j01pj0tj8y4ub",
+      "links": {
+        "homepage": "https://illustar.net/",
+        "instagram": "",
+        "x": "https://x.com/illustar_fes",
         "ticket": ""
       }
     },
