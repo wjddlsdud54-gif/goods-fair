@@ -1,6 +1,6 @@
 {
   "_안내": "행사 정보는 공식 사이트·보도자료·행사 캘린더에서 모은 것입니다. 시간·가격이 비어 있는 행사는 아직 발표되지 않은 것이에요. 방문 전에 꼭 공식 공지를 확인하세요.",
-  "updatedAt": "2026-11-17",
+  "updatedAt": "2026-11-19",
   "events": [
     {
       "id": "hoyoland-2026",
@@ -8612,7 +8612,12 @@
           "body": "12월 5~6일 5B홀에서 애니·게임 무대가 열려요. AGF 입장권이 있으면 무료지만 좌석 예약이 필요해요.\n11월 20일 오후 6시부터 멜론티켓에서 선착순으로, 계정당 날짜별 3장까지 예약할 수 있어요(지정석). 자세한 시간은 공식 시간표를 확인하세요."
         }
       ],
-      "guideSource": "https://www.gamemeca.com/view.php?gid=1782509"
+      "guideSource": "https://www.gamemeca.com/view.php?gid=1782509",
+      "boothMap": {
+        "link": "https://www.ebn.co.kr/news/articleView.html?idxno=1731929",
+        "note": "11월 16일 AGF 공식 생방송(SOOP)에서 전체 부스 배치도가 처음 공개됐어요. 자세한 배치도는 공식 홈페이지·공식 X에서 확인해 주세요. 배치도는 변경될 수 있어요.",
+        "source": "https://www.ebn.co.kr/news/articleView.html?idxno=1731929"
+      }
     },
     {
       "id": "cocofestival-busan-7",
