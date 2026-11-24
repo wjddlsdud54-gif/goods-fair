@@ -8529,7 +8529,341 @@
         "link": "https://www.finecharacter.kr/floorplan",
         "note": "배치도는 변경될 수 있어요.",
         "source": "https://www.finecharacter.kr/floorplan",
-        "image": "maps/finecharacter-2026.png"
+        "image": "maps/finecharacter-2026.png",
+        "groups": [
+          {
+            "name": "POP ICON 시대의 얼굴",
+            "color": "#F5C518",
+            "booths": [
+              {
+                "code": "A1",
+                "name": "소소하니"
+              },
+              {
+                "code": "A2",
+                "name": "툰쿡"
+              },
+              {
+                "code": "A3",
+                "name": "디지행성"
+              },
+              {
+                "code": "A4",
+                "name": "애니모션"
+              },
+              {
+                "code": "A5",
+                "name": "토리양"
+              },
+              {
+                "code": "A6",
+                "name": "이즈레드"
+              },
+              {
+                "code": "A7",
+                "name": "황수영"
+              },
+              {
+                "code": "A8",
+                "name": "뚱(갤러리설)"
+              },
+              {
+                "code": "A9",
+                "name": "슈가레인"
+              },
+              {
+                "code": "A10",
+                "name": "클락하우스"
+              },
+              {
+                "code": "A11",
+                "name": "박북"
+              },
+              {
+                "code": "A12",
+                "name": "두리두"
+              }
+            ]
+          },
+          {
+            "name": "DREAM OBJECT 상상의 형태",
+            "color": "#A8C83A",
+            "booths": [
+              {
+                "code": "B1",
+                "name": "오요"
+              },
+              {
+                "code": "B2",
+                "name": "주식회사 케이비젼"
+              },
+              {
+                "code": "B3",
+                "name": "해녀가되고픈고양이"
+              },
+              {
+                "code": "B4",
+                "name": "덩스"
+              },
+              {
+                "code": "B5",
+                "name": "냥킥"
+              },
+              {
+                "code": "B6",
+                "name": "91"
+              },
+              {
+                "code": "B7",
+                "name": "프롬문"
+              },
+              {
+                "code": "B8",
+                "name": "박롬"
+              },
+              {
+                "code": "B9",
+                "name": "미스터 에티크"
+              },
+              {
+                "code": "B10",
+                "name": "리코"
+              },
+              {
+                "code": "B11",
+                "name": "티오슬"
+              }
+            ]
+          },
+          {
+            "name": "NEW SPECIES 존재의 변주",
+            "color": "#1AA7E0",
+            "booths": [
+              {
+                "code": "C1",
+                "name": "오마이달링"
+              },
+              {
+                "code": "C2",
+                "name": "남궁혜빈 / 아크릴릭 플루이드"
+              },
+              {
+                "code": "C3",
+                "name": "몰랑이&모모이"
+              },
+              {
+                "code": "C4",
+                "name": "아트앤토이"
+              },
+              {
+                "code": "C5",
+                "name": "기역양니은군"
+              },
+              {
+                "code": "C6",
+                "name": "아키미의 겨울방학"
+              },
+              {
+                "code": "C7",
+                "name": "아웃사이더즈"
+              },
+              {
+                "code": "C8",
+                "name": "세미버스"
+              },
+              {
+                "code": "C9",
+                "name": "윙윙"
+              },
+              {
+                "code": "C10",
+                "name": "몽몽이랑 놀~자!"
+              },
+              {
+                "code": "C11",
+                "name": "민돈(김민우)"
+              }
+            ]
+          },
+          {
+            "name": "COLLECTIVE UNIVERSE 공존하는 세계",
+            "color": "#F2A33A",
+            "booths": [
+              {
+                "code": "D1",
+                "name": "라헨(김희숙)"
+              },
+              {
+                "code": "D2",
+                "name": "중앙대학교 앵커사업단 AI 특화 전시관"
+              },
+              {
+                "code": "D3",
+                "name": "중앙대학교 앵커사업단 기업 파트너관"
+              },
+              {
+                "code": "D4",
+                "name": "단단보리"
+              },
+              {
+                "code": "D5",
+                "name": "버티 × 버디"
+              },
+              {
+                "code": "D6",
+                "name": "솔 게이트 스튜디오 코리아"
+              },
+              {
+                "code": "D7",
+                "name": "델로스"
+              },
+              {
+                "code": "D8",
+                "name": "알라스카 북극이야기"
+              }
+            ]
+          },
+          {
+            "name": "ARTIST SPOTLIGHT",
+            "color": "#A99BD3",
+            "booths": [
+              {
+                "code": "S1",
+                "name": "김청기 감독"
+              },
+              {
+                "code": "S2",
+                "name": "가람 민들레"
+              },
+              {
+                "code": "S3",
+                "name": "미로소년"
+              },
+              {
+                "code": "S4",
+                "name": "김태식"
+              },
+              {
+                "code": "S5",
+                "name": "NOBO x 60c"
+              },
+              {
+                "code": "S6",
+                "name": "라바"
+              },
+              {
+                "code": "E1",
+                "name": "(주)크릭스"
+              },
+              {
+                "code": "E2",
+                "name": "아트 럭키드로우"
+              }
+            ]
+          },
+          {
+            "name": "CREATORS STREET",
+            "color": "#F0A0B8",
+            "booths": [
+              {
+                "code": "T1",
+                "name": "경기콘텐츠진흥원"
+              },
+              {
+                "code": "T2",
+                "name": "랄랄라타운"
+              },
+              {
+                "code": "T3",
+                "name": "미야오타운"
+              },
+              {
+                "code": "T4",
+                "name": "따리몽땅"
+              },
+              {
+                "code": "T5",
+                "name": "효샤"
+              },
+              {
+                "code": "T6",
+                "name": "라모루"
+              },
+              {
+                "code": "T7",
+                "name": "꼬야캐릭터푸드아트"
+              },
+              {
+                "code": "T8",
+                "name": "슬로우프렌즈 / 스튜디오젠박스"
+              },
+              {
+                "code": "T9",
+                "name": "브로콜리 프렌즈"
+              },
+              {
+                "code": "T10",
+                "name": "별사세"
+              },
+              {
+                "code": "T11",
+                "name": "아르냥"
+              },
+              {
+                "code": "T12",
+                "name": "김은정-joy (디저트 피크닉 푸룻츄릅촵촵)"
+              },
+              {
+                "code": "T13",
+                "name": "유연"
+              },
+              {
+                "code": "T14",
+                "name": "미니콘"
+              },
+              {
+                "code": "T15",
+                "name": "조현숙(비니 앤 핑크)"
+              },
+              {
+                "code": "T16",
+                "name": "백소연"
+              },
+              {
+                "code": "T17",
+                "name": "소낙"
+              },
+              {
+                "code": "T18",
+                "name": "이우상"
+              },
+              {
+                "code": "T19",
+                "name": "그리즐과 친구들"
+              },
+              {
+                "code": "T20",
+                "name": "하디"
+              },
+              {
+                "code": "T21",
+                "name": "온화"
+              },
+              {
+                "code": "T22",
+                "name": "목원대학교 입체캐릭터전공"
+              },
+              {
+                "code": "T23",
+                "name": "배단단"
+              },
+              {
+                "code": "T24",
+                "name": "메종뿌아"
+              }
+            ]
+          }
+        ]
       },
       "guide": [
         {
