@@ -1,6 +1,6 @@
 {
   "_안내": "행사 정보는 공식 사이트·보도자료·행사 캘린더에서 모은 것입니다. 시간·가격이 비어 있는 행사는 아직 발표되지 않은 것이에요. 방문 전에 꼭 공식 공지를 확인하세요.",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-25",
   "events": [
     {
       "id": "hoyoland-2026",
@@ -8523,7 +8523,24 @@
         "instagram": "https://www.instagram.com/finecharacter.official/",
         "x": "",
         "ticket": "https://www.finecharacter.kr/visit"
-      }
+      },
+      "boothMap": {
+        "imageUrl": "https://www.finecharacter.kr/_next/image?url=%2Fimages%2Fbooth-layout.png&w=3840&q=75&dpl=dpl_9eMiiK7GHuVeX1FL5NsS9nzyW7XX",
+        "link": "https://www.finecharacter.kr/floorplan",
+        "note": "배치도는 변경될 수 있어요.",
+        "source": "https://www.finecharacter.kr/floorplan"
+      },
+      "guide": [
+        {
+          "title": "입장 방법",
+          "body": "관람은 무료예요. 홈페이지에서 미리 등록하면 줄을 서지 않고 QR로 먼저 들어갈 수 있어요(FAST TRACK).\n만 14세 이하는 보호자의 사전등록 QR로 함께 들어가요."
+        },
+        {
+          "title": "운영 시간",
+          "body": "11월 27일(금)~29일(일) 매일 10:00~19:00, DDP 1층 쇼룸이에요."
+        }
+      ],
+      "guideSource": "https://www.finecharacter.kr/visit"
     },
     {
       "id": "platoon-38",
@@ -8534,16 +8551,16 @@
       ],
       "startDate": "2026-11-28",
       "endDate": "2026-11-29",
-      "hours": "",
+      "hours": "11/28(토) 10:00 ~ 18:00 / 11/29(일) 10:00 ~ 17:00",
       "venue": "SETEC(세텍) 제3전시장",
       "address": "서울 강남구 남부순환로 3104",
       "lat": 37.4963,
       "lng": 127.0717,
       "region": "서울",
-      "price": "",
+      "price": "8,000원 (미취학·초등학생, 국가유공자 무료)",
       "description": "회지·굿즈 부스와 코스프레를 즐길 수 있는 서울 동인 행사.\n(지도 위치는 대략적인 위치예요)",
       "image": "",
-      "source": "https://cosly.link/evt/cmwbmxs9b005f01pjzbr3tvx7",
+      "source": "https://www.setec.or.kr/front/schedule/view.do?sIdx=2305",
       "links": {
         "homepage": "https://platoon.co.kr",
         "instagram": "",
@@ -8667,7 +8684,22 @@
         "instagram": "https://www.instagram.com/illustrationkorea/",
         "x": "",
         "ticket": "https://illustrationkorea.co.kr/suwon/registration/#/pre-reg/903"
-      }
+      },
+      "guide": [
+        {
+          "title": "입장권",
+          "body": "정가 10,000원이에요. 사전등록하고 12월 10일까지 결제하면 5,000원이에요.\n중고생은 현장에서 5,000원(나이 확인 서류 필요), 초등학생·미취학·장애인·국가유공자는 무료예요(증명서 필요).\n1인 1일 1매이고, 다른 날 다시 들어갈 수 없어요."
+        },
+        {
+          "title": "입장 방법",
+          "body": "사전등록한 사람은 12월 10일 오후 6시 이후 문자나 카카오톡으로 바코드를 받아요. 현장에서 바코드를 찍고 출입증을 받아요.\n결제를 취소하면 바코드가 무효가 되어 현장에서 정가를 내야 해요."
+        },
+        {
+          "title": "부스 배치도",
+          "body": "주최 측 공지에 따르면 부스 배치도는 11월 30일(월) 오후 6시에 공개될 예정이에요."
+        }
+      ],
+      "guideSource": "https://illustrationkorea.co.kr/suwon/visitors/guide/"
     },
     {
       "id": "comicworld-winter-2026",
@@ -8678,13 +8710,13 @@
       ],
       "startDate": "2026-12-12",
       "endDate": "2026-12-13",
-      "hours": "",
+      "hours": "11:00 ~ 17:30 (얼리 입장 10:30, 서클 09:30)",
       "venue": "킨텍스 제1전시장",
       "address": "경기 고양시 일산서구 킨텍스로 217-60",
       "lat": 37.6688,
       "lng": 126.7453,
       "region": "경기",
-      "price": "",
+      "price": "입장권 7,000원 (100% 사전 예매) / 사진사존 20,000원, 라운지 8,000원 별도",
       "description": "코믹월드 겨울 행사. 회지·굿즈 부스와 코스프레를 즐길 수 있어요.",
       "image": "",
       "source": "https://comicw.net/c/421",
@@ -8695,6 +8727,10 @@
         "ticket": "https://comicw.net/shop/"
       },
       "guide": [
+        {
+          "title": "운영 시간",
+          "body": "서클 입장 09:30, 얼리 입장 10:30, 일반·코스프레 입장과 행사 시작 11:00, 코스프레 무대 13:00, 종료 17:30이에요(당일 바뀔 수 있어요).\n얼리·패키지 티켓이라도 10:20 넘어서 오면 일반 줄에 서야 해요."
+        },
         {
           "title": "입장권",
           "body": "모바일 E-티켓이에요. 행사 당일에도 온라인으로 살 수 있지만, 현장 판매는 사전 예매 상황에 따라 어려울 수 있어 미리 예매하는 게 좋아요.\n현장 판매 여부는 공식 X(@comicw)나 안내데스크에서 확인할 수 있어요.\n양도·재판매·구매대행은 금지예요."
@@ -8718,9 +8754,18 @@
         {
           "title": "반려동물·환불",
           "body": "반려동물은 이동 가방에 넣어도 들어갈 수 없어요.\n환불은 마이페이지 주문내역의 [환불 요청]으로 해요. 행사 2일 전부터는 취소가 안 되고, 시기에 따라 수수료가 있어요."
+        },
+        {
+          "title": "금지 물품",
+          "body": "라이터·성냥 같은 불, 킥보드·인라인 같은 탈것, 반려동물은 가져올 수 없어요.\n음식은 정해진 휴게 구역에서만 먹고, 공용 공간에 돗자리나 짐을 놓아두면 안 돼요."
         }
       ],
-      "guideSource": "https://comicw.net/faq"
+      "guideSource": "https://comicw.net/e/340/8",
+      "boothMap": {
+        "link": "https://comicw.net/map/340/",
+        "note": "코믹월드 공식 배치도 페이지예요. 지도를 확대하면 부스 번호가 보여요. 배치도는 변경될 수 있어요.",
+        "source": "https://comicw.net/map/"
+      }
     },
     {
       "id": "moongu-2026-winter",
@@ -8737,7 +8782,7 @@
       "lat": 37.6688,
       "lng": 126.7453,
       "region": "경기",
-      "price": "",
+      "price": "입장권 3,000원 (코믹월드 쇼핑몰 판매)",
       "description": "스티커, 메모지, 엽서 등 창작 문구와 일러스트 굿즈를 만나는 행사. 전시홀·시간·가격은 아직 발표 전이에요. (지도 위치는 대략적인 위치예요)",
       "image": "",
       "source": "https://comicw.net/moongu/",
@@ -8745,7 +8790,7 @@
         "homepage": "https://comicw.net/moongu/",
         "instagram": "",
         "x": "https://x.com/moongu_fair",
-        "ticket": ""
+        "ticket": "https://comicw.net/shop/"
       }
     },
     {
@@ -8814,10 +8859,10 @@
       "lat": 37.5118,
       "lng": 127.0592,
       "region": "서울",
-      "price": "",
+      "price": "현장 성인 12,000원 / 청소년 8,000원 / 사전 구매 9,000원",
       "description": "일러스트 작가·브랜드의 창작물을 소개하는 일러스트레이션 페어. 화방 특별전 '케일페 화방'이 새로 열려요.",
       "image": "",
-      "source": "https://www.dt.co.kr/article/12085667",
+      "source": "https://www.coex.co.kr/?p=62849",
       "links": {
         "homepage": "https://www.k-illustrationfair.com/",
         "instagram": "",
