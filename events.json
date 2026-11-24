@@ -8528,7 +8528,8 @@
         "imageUrl": "https://www.finecharacter.kr/_next/image?url=%2Fimages%2Fbooth-layout.png&w=3840&q=75&dpl=dpl_9eMiiK7GHuVeX1FL5NsS9nzyW7XX",
         "link": "https://www.finecharacter.kr/floorplan",
         "note": "배치도는 변경될 수 있어요.",
-        "source": "https://www.finecharacter.kr/floorplan"
+        "source": "https://www.finecharacter.kr/floorplan",
+        "image": "maps/finecharacter-2026.png"
       },
       "guide": [
         {
